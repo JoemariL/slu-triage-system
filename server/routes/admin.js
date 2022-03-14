@@ -1,0 +1,112 @@
+// LIBRARY IMPORT
+const express = require('express')
+const router = express.Router()
+const bcrypt = require('bcrypt')
+const mongoose = require("mongoose")
+
+// MODEL IMPORT
+const ADMIN = require('../models/admin')
+const USERS = require('../models/users')
+const SCHOOL = require('../models/school')
+
+
+// UTILS IMPORT
+const auth = require('../middleware/auth')
+const { objectIDValidator, changePasswordInputValidator } = require('../utils/validator')
+
+// GET ALL ADMIN INFO.
+router.get("/all", async (req, res) => {
+    const adminData = await ADMIN.find().select('-password')
+    if(adminData) return res.status(200).json(adminData)
+    return res.status(404).json({ errors:{ message: 'no data found' }})
+})
+
+// GET SPECIFIC ADMIN.
+router.get("/:adminID", async (req, res) => {
+    const adminUid = req.params.adminID
+    const idCheck = objectIDValidator(adminUid)
+    if (!idCheck) return res.status(400).json({ errors:{ message:'invalid admin id' }})
+
+    const admin = await ADMIN.findById(adminUid)
+
+    if(admin) return res.status(200).json(admin)
+    return res.status(404).json({ errors:{ message:'admin not found' }})
+})
+
+// CHANGE PASSWORD FOR ADMIN.
+router.patch("/update/password/:adminID", async(req, res) => {
+    const adminUid = req.params.adminID
+    const idCheck = objectIDValidator(adminUid)
+    if (!idCheck) return res.status(400).json({ errors:{ message:'invalid admin id '}})
+
+    const inputUsername = (req.body.username === undefined) ? null : req.body.username
+    const inputOldPassword = (req.body.oldPassword === undefined) ? null : req.body.idNumber 
+    const inputNewPassword = (req.body.newPassword === undefined) ? null : req.body.newPassword
+    const inputConfirmNewPassword = (req.body.confirmNewPassword === undefined) ? null : req.body.password
+
+    const { errors, valid } = changePasswordInputValidator(inputUsername, inputOldPassword, inputNewPassword, inputConfirmNewPassword) 
+    if(!valid) return res.status(400).json({errors})
+    
+    const admin = await ADMIN.findOne({ username: inputUsername })
+    if(!admin) return res.status(404).json({ errors:{ message:'admin not found' }})
+    if(admin._id != adminUid) return res.status(400).json({ errors:{ message:'admin info mismatch' }})
+
+    const isMatch = await bcrypt.compare(inputOldPassword, admin.password)
+    if(!isMatch) return res.status(200).json({ errors:{ message:'password not match' }})
+
+    const samePassword = await bcrypt.compare(inputNewPassword, admin.password)
+    if(samePassword) return res.status(200).json({ errors:{ message:'new password can\'t be the same password' }})
+
+    const hashedPassword = await bcrypt.hash(inputNewPassword, 12)
+    const password = await bcrypt.compare(inputConfirmNewPassword, hashedPassword)
+    if(!password) return res.status(200).json({ errors:{ message:'password and confirm password not match' }})
+
+    const updatedAdmin = await ADMIN.findOneAndUpdate({ _id: admin._id }, { password: hashedPassword }, { new: true })
+    if(updatedAdmin) return res.status(200).json({ success:{ message:'change password success!'}})
+    return res.status(200).json({ errors:{ message:'change password error!'}})
+    
+})
+
+// UPDATES ADMIN INFO.
+router.patch("/update/:adminID", async(req, res) => {
+    const adminUid = req.params.adminID 
+    const idCheck = objectIDValidator(adminUid)
+    if (!idCheck) return res.status(200).json({ errors:{ message:'invalid admin id' }})
+
+    const admin = await ADMIN.findById(adminUid)
+    if(!admin) return res.status(404).json({ errors:{ message:'admin not found' }})
+    
+})
+
+// DELETES ADMIN.
+router.delete("/delete/:adminID", async(req, res) => {
+    const adminUid = req.params.adminID
+    const idCheck = objectIDValidator(adminUid)
+    if (!idCheck) return res.status(400).json({ errors: { message:'invalid admin id' }})
+
+    const admin = await ADMIN.findById(adminUid)
+    if(!admin) return res.status(404).json({ errors:{ message:'admin not found' }})
+
+    const deleteAdmin = await ADMIN.deleteOne({ _id: admin._id })
+    if(deleteAdmin) return res.status(200).json({ success:{ message:'admin deleted' }})
+    return res.status(200).json({ errors:{ message:'admin deletion error'}})
+})
+
+// DELETES USER.
+router.delete("/deleteUser/:userID", async (req, res) => {
+    const userUid = req.params.userID
+    const idCheck = objectIDValidator(userUid)
+    if (!idCheck) return res.status(400).json({ errors:{ message:'invalid user ID' }})
+
+    const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
+
+    const user = await USERS.findById(userUid)
+    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
+    if(user.id_number != inputUser || user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
+
+    const deleteUser = await USERS.deleteOne({ _id: user._id })
+    if(deleteUser) return res.status(200).json({ success:{ message:'user deleted' }})
+    return res.status(400).json({ errors:{ message:'user deletion error' }})
+})
+
+module.exports = router
