@@ -46,9 +46,9 @@ router.patch("/password/:userID", async (req, res) => {
     const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
     if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
 
-    const inputOldPassword = (req.body.oldPassword === undefined) ? null : req.body.idNumber 
+    const inputOldPassword = (req.body.oldPassword === undefined) ? null : req.body.oldPassword 
     const inputNewPassword = (req.body.newPassword === undefined) ? null : req.body.newPassword
-    const inputConfirmNewPassword = (req.body.confirmNewPassword === undefined) ? null : req.body.password 
+    const inputConfirmNewPassword = (req.body.confirmNewPassword === undefined) ? null : req.body.confirmNewPassword 
 
     const { errors, valid } = changePasswordInputValidator(inputUser, inputOldPassword, inputNewPassword, inputConfirmNewPassword) 
     if(!valid) return res.status(400).json({errors})
