@@ -1,0 +1,391 @@
+/* ----------------------------- */
+/* Font family.                  */
+/* ----------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+/* ----------------------------- */
+/* Reset                         */
+/* ----------------------------- */
+
+/* Box sizing. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Resets margins. */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+picture,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed. */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults. */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Sets up the body of the HTML. */
+body {
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  min-height: 100vh;
+}
+
+/* A elements that don't have a class get default styles. */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with. */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons. */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them. */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ----------------------------- */
+/* Variables                     */
+/* ----------------------------- */
+:root {
+  /* Color. */
+  --clr-primary: hsl(246, 92%, 21%);
+  --clr-secondary: hsl(239, 95%, 64%);
+  --clr-secondary-hover: hsl(239, 96%, 68%);
+  --clr-grey: hsl(0, 0%, 49%);
+  --clr-positive: hsl(126, 100%, 35%);
+  --clr-negative: hsl(0, 100%, 35%);
+
+  --txt-black: hsl(0, 0%, 0%);
+  --txt-white: hsl(0, 0%, 100%);
+
+  /* Font Size. */
+  --fs-900: 9.375rem;
+  --fs-800: 6.25rem;
+  --fs-700: 3.5rem;
+  --fs-600: 2rem;
+  --fs-500: 1.75rem;
+  --fs-400: 1.125rem;
+  --fs-300: 1rem;
+  --fs-200: 0.875rem;
+
+  /* Screen Size. */
+  --sm: 40em;
+  --md: 48em;
+  --lg: 64em;
+  --xl: 80em;
+  --xxl: 96em;
+}
+
+/* ----------------------------- */
+/* Utility Classes               */
+/* ----------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ----------------------------- */
+/* Container                     */
+/* ----------------------------- */
+.container {
+  padding-inline: 2em;
+  margin-inline: auto;
+}
+
+/* ----------------------------- */
+/* Screen Sizes                  */
+/* ----------------------------- */
+.sm {
+  max-width: var(--sm);
+}
+
+.md {
+  max-width: var(--md);
+}
+
+.lg {
+  max-width: var(--lg);
+}
+
+.xl {
+  max-width: var(--xl);
+}
+
+.xxl {
+  max-width: var(--xxl);
+}
+
+/* ----------------------------- */
+/* Height / Width                */
+/* ----------------------------- */
+.h-40 {
+  height: 2.5rem;
+}
+
+/* ----------------------------- */
+/* Positions                     */
+/* ----------------------------- */
+.static {
+  position: static;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+/* ----------------------------- */
+/* Top/Right/Bottom/Left         */
+/* ----------------------------- */
+.top-0 {
+  top: 0px;
+}
+
+.right {
+  right: 0px;
+}
+
+.bottom {
+  bottom: 0px;
+}
+
+.left {
+  left: 0px;
+}
+
+/* ----------------------------- */
+/* Margin                        */
+/* ----------------------------- */
+.m-auto {
+  margin: auto;
+}
+
+.mx-auto {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.mx-10 {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
+/* ----------------------------- */
+/* Padding                       */
+/* ----------------------------- */
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* ----------------------------- */
+/* Flex                          */
+/* ----------------------------- */
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+/* ----------------------------- */
+/* Grid                          */
+/* ----------------------------- */
+.grid {
+  display: -ms-grid;
+  display: grid;
+}
+
+/* Columns. */
+
+/* ----------------------------- */
+/* Flex & Grid Utilities         */
+/* ----------------------------- */
+.justify-center {
+  justify-content: center;
+}
+
+.gap-16 {
+  gap: 1rem;
+}
+
+/* ----------------------------- */
+/* Border                        */
+/* ----------------------------- */
+.border-none {
+  border: none;
+}
+
+/* Border width. */
+.border-0 {
+  border-width: 0px;
+}
+
+.border-1 {
+  border-width: 1px;
+}
+
+/* Border radius. */
+.border-rounded {
+  border-radius: 0.25rem;
+}
+
+/* Border color. */
+.border-grey {
+  border-color: var(--clr-grey);
+}
+
+/* ----------------------------- */
+/* Outline                       */
+/* ----------------------------- */
+.outline-none {
+  outline: none;
+}
+
+/* Outline width. */
+.outline-0 {
+  outline-width: 0px;
+}
+
+.outline-1 {
+  outline-width: 1px;
+}
+
+/* ----------------------------- */
+/* Background.                   */
+/* ----------------------------- */
+
+/* Background color. */
+.bg-secondary {
+  background-color: var(--clr-secondary);
+}
+
+/* ----------------------------- */
+/* Typography                     */
+/* ----------------------------- */
+
+/* Text Decoration. */
+.no-underline {
+  text-decoration: none;
+}
+
+/* Font size. */
+.text-base {
+  font-size: var(--fs-300);
+  line-height: 1.5rem;
+}
+
+/* Text color. */
+.text-black {
+  color: var(--txt-black);
+}
+
+.text-white {
+  color: var(--txt-white);
+}
+
+/* ----------------------------- */
+/* Cursor                        */
+/* ----------------------------- */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* ----------------------------- */
+/* Pseudo-Classes                */
+/* ----------------------------- */
+
+/* Focus. */
+.remove-focus:focus {
+  outline: none;
+}
+
+.focus:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+}
+
+/* Hover. */
+.hover-secondary:hover {
+  background-color: var(--clr-secondary-hover);
+}
