@@ -92,18 +92,20 @@ select {
 /* Variables                     */
 /* ----------------------------- */
 :root {
-  /* Color. */
-  --clr-primary: hsl(246, 92%, 21%);
-  --clr-secondary: hsl(239, 95%, 64%);
-  --clr-secondary-hover: hsl(239, 96%, 68%);
-  --clr-grey: hsl(0, 0%, 49%);
+  /* Colors. */
+  --clr-blue-900: hsl(246, 92%, 21%);
+
+  --clr-primary: hsl(239, 95%, 64%);
+  --clr-primary-hover: hsl(239, 96%, 68%);
+  --clr-secondary: hsl(0, 0%, 49%);
+  
   --clr-positive: hsl(126, 100%, 35%);
   --clr-negative: hsl(0, 100%, 35%);
 
   --txt-black: hsl(0, 0%, 0%);
   --txt-white: hsl(0, 0%, 100%);
 
-  /* Font Size. */
+  /* Font sizes. */
   --fs-900: 9.375rem;
   --fs-800: 6.25rem;
   --fs-700: 3.5rem;
@@ -113,7 +115,7 @@ select {
   --fs-300: 1rem;
   --fs-200: 0.875rem;
 
-  /* Screen Size. */
+  /* Screen sizes. */
   --sm: 40em;
   --md: 48em;
   --lg: 64em;
@@ -165,13 +167,6 @@ select {
 
 .xxl {
   max-width: var(--xxl);
-}
-
-/* ----------------------------- */
-/* Height / Width                */
-/* ----------------------------- */
-.h-40 {
-  height: 2.5rem;
 }
 
 /* ----------------------------- */
@@ -237,14 +232,6 @@ select {
 .mx-10 {
   margin-left: 2.5rem;
   margin-right: 2.5rem;
-}
-
-/* ----------------------------- */
-/* Padding                       */
-/* ----------------------------- */
-.px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 
 /* ----------------------------- */
@@ -347,7 +334,7 @@ select {
 /* Text Decoration. */
 .no-underline {
   text-decoration: none;
-}
+}  
 
 /* Font size. */
 .text-base {
@@ -376,16 +363,39 @@ select {
 /* ----------------------------- */
 
 /* Focus. */
-.remove-focus:focus {
-  outline: none;
-}
-
 .focus:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
 }
 
-/* Hover. */
-.hover-secondary:hover {
-  background-color: var(--clr-secondary-hover);
+.remove-focus:focus {
+  outline: none;
+}
+
+/* ----------------------------- */
+/* Components                    */
+/* ----------------------------- */
+
+/* Input. */
+.component-input {
+  height: 2.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-width: 2px;
+  border-radius: 0.25rem;
+  border-color: var(--clr-grey);
+}
+
+/* Button. */
+.component-button-primary {
+  height: 2.5rem;
+  background-color: var(--clr-primary);
+  color: var(--txt-white);
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.component-button-primary:hover {
+  background-color: var(--clr-primary-hover);
 }

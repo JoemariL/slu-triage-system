@@ -5,7 +5,7 @@ const LoginForm = () => {
         <div className="flex-col">
           <label htmlFor="username">Username or ID Number</label>
           <input
-            className="h-40 px-2 border-rounded border-1 border-grey focus"
+            className="component-input focus"
             type="text"
             id="username"
             name="username"
@@ -19,7 +19,7 @@ const LoginForm = () => {
         <div className="flex-col">
           <label htmlFor="password">Password</label>
           <input
-            className="h-40 px-2 border-rounded border-1 border-grey focus"
+            className="component-input focus"
             type="password"
             id="password"
             name="password"
@@ -32,7 +32,7 @@ const LoginForm = () => {
 
         <div className="flex-col">
           <button
-            className="h-40 bg-secondary text-white border-rounded border-0 cursor-pointer hover-secondary focus"
+            className="component-button-primary focus"
             type="button"
           >
             Log In
