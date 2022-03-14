@@ -40,9 +40,9 @@ router.patch("/update/password/:adminID", async(req, res) => {
     if (!idCheck) return res.status(400).json({ errors:{ message:'invalid admin id '}})
 
     const inputUsername = (req.body.username === undefined) ? null : req.body.username
-    const inputOldPassword = (req.body.oldPassword === undefined) ? null : req.body.idNumber 
+    const inputOldPassword = (req.body.oldPassword === undefined) ? null : req.body.oldPassword 
     const inputNewPassword = (req.body.newPassword === undefined) ? null : req.body.newPassword
-    const inputConfirmNewPassword = (req.body.confirmNewPassword === undefined) ? null : req.body.password
+    const inputConfirmNewPassword = (req.body.confirmNewPassword === undefined) ? null : req.body.confirmNewPassword
 
     const { errors, valid } = changePasswordInputValidator(inputUsername, inputOldPassword, inputNewPassword, inputConfirmNewPassword) 
     if(!valid) return res.status(400).json({errors})
@@ -75,7 +75,7 @@ router.patch("/update/:adminID", async(req, res) => {
 
     const admin = await ADMIN.findById(adminUid)
     if(!admin) return res.status(404).json({ errors:{ message:'admin not found' }})
-    
+    return res.status(200).json(admin)
 })
 
 // DELETES ADMIN.
