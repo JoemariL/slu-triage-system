@@ -1,11 +1,12 @@
 import './App.css';
-import { Login, Registration } from "./routes/index"
+import { Dashboard, Login, Registration } from "./routes/index"
 
 function App() {
   return (
     <div className="App">
-      <Login />
+      {/* <Login /> */}
       {/* <Registration /> */}
+      <Dashboard />
     </div>
   );
 }
