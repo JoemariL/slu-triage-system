@@ -502,3 +502,11 @@ select {
 .component-button-return:hover {
   background-color: var(--clr-primary-hover);
 }
+
+/* Divider. */
+.hr-solid {
+  border: 0;
+  width: 8.5rem;
+  height: 0.125rem;
+  border-top: 2px dashed hsl(0, 0%, 80%);
+}

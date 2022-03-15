@@ -18,7 +18,9 @@ const RegistrationForm = () => {
           </select>
         </div>
 
-        <br />
+        <div>
+          <hr className="hr-solid" />
+        </div>
 
         <div className="flex-col">
           <input
@@ -45,7 +47,7 @@ const RegistrationForm = () => {
             required
           />
         </div>
-
+        
         <div className="flex-col">
           <input
             className="component-input focus"
