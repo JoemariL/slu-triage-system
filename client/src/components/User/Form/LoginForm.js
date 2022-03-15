@@ -1,7 +1,7 @@
 const LoginForm = () => {
   return (
     <div>
-      <form className="grid gap-16 text-base" method="post">
+      <form className="grid gap-32 text-base" method="post">
         <div className="flex-col">
           <input
             className="component-input focus"

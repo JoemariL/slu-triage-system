@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IoReturnUpBack } from "react-icons/io5";
-import { RegistrationForm } from "../components";
+import { RegistrationForm } from "../../components";
 
 function Registration() {
   return (
