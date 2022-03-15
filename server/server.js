@@ -9,8 +9,9 @@ const connectDB = require('./config/database')
 const clusterServer = require('./utils/cluster')
 
 const app = express()
-app.use(cors())
 app.use(bodyParser.json())
+app.use(cors())
+
 app.use(compression({
     level: 6,
     threshold: 10 * 1000,
@@ -23,8 +24,7 @@ app.use(compression({
 })) 
 
 app.get("/", (req, res) => {
-    const payload = 'This is the back-end Server....!'
-    res.send(payload.repeat(10000))
+    res.send('This is the back-end Server....!')
 })
 
 // ROUTERS.

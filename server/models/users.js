@@ -50,7 +50,10 @@ const hdfData = mongoose.Schema({
     others: {
         type: String
     },
-}, { timestamps: true })
+    createdAt: {
+        type: Date
+    }
+}, { timestamps: false })
 
 const vaccinationSchema = mongoose.Schema({
     vaccine_status: {

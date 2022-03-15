@@ -1,5 +1,6 @@
 // LIBRARY IMPORTS
 const mongoose = require("mongoose")
+const moment = require('moment')
 
 // MODEL IMPORTS
 const USERS = require('../models/users')
@@ -97,7 +98,7 @@ module.exports.getUserHdf = async(userID) => {
     ])
 }
 
-module.exports.getHdfToday = async() => {
+module.exports.getHdfToday = async(fromDate, toDate) => {
     return await USERS.aggregate([
         {
             $unwind: {
@@ -112,9 +113,66 @@ module.exports.getHdfToday = async() => {
         {
             $match: {
                 'createdAt': {
-                    $gt:new Date(Date.now() / 1000 - 24*60*60)
+                    $gt: fromDate, $lt: toDate
+                }
+            }
+        }
+    ]).sort({ createdAt: -1 })
+}
+
+module.exports.hdfIfExistDay = async(userID, fromDate, toDate) => {
+    const hdf =  await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $replaceRoot: {
+                newRoot: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                'createdAt': {
+                    $gt: fromDate, $lt: toDate
                 }
             }
         }
     ])
+    if(hdf === undefined || hdf.length === 0 || hdf === null) return true
+    return false
+}
+
+module.exports.hdfIfOver = async(userID, hdfID, dateFrom) => {
+    const hdf = await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                "hdf_data._id": mongoose.Types.ObjectId(hdfID)
+            }
+        },
+        {
+            $replaceRoot: {
+                newRoot: "$hdf_data"
+            }
+        }
+    ])
+    const beforeTime = moment(hdf[0].createdAt)
+    if(beforeTime.isBefore(dateFrom)) return true
+    return false
 }

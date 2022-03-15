@@ -17,8 +17,8 @@ router.get("/all", async (req, res) => {
     const userData = await USERS.find().select('-password')
     // return res.json(userData.filter(data => data.id === req.user.id))
 
-    if(userData) return res.status(200).json(userData)
-    return res.status(404).json({ errors:{ message: 'no data found'}})
+    if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
+    return res.status(200).json(userData)
 })
 
 // GET SPECIFIC USER.
@@ -33,7 +33,6 @@ router.get("/get/:userID", async (req, res) => {
     const user = await USERS.findById(userUid).select('-password')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
-
     return res.status(200).json(user)
 })
 

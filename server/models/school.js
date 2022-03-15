@@ -7,7 +7,7 @@ const schoolSchema = mongoose.Schema({
     gate: {
         type: String
     },
-    qr_data_code: {
+    generated_code: {
         type: String
     }
 })

@@ -9,7 +9,6 @@ const ADMIN = require('../models/admin')
 const USERS = require('../models/users')
 const SCHOOL = require('../models/school')
 
-
 // UTILS IMPORT
 const auth = require('../middleware/auth')
 const { objectIDValidator, changePasswordInputValidator } = require('../utils/validator')
@@ -17,8 +16,8 @@ const { objectIDValidator, changePasswordInputValidator } = require('../utils/va
 // GET ALL ADMIN INFO.
 router.get("/all", async (req, res) => {
     const adminData = await ADMIN.find().select('-password')
-    if(adminData) return res.status(200).json(adminData)
-    return res.status(404).json({ errors:{ message: 'no data found' }})
+    if(!adminData) return res.status(404).json({ errors:{ message: 'no data found' }})
+    return res.status(200).json(adminData)
 })
 
 // GET SPECIFIC ADMIN.
@@ -28,9 +27,8 @@ router.get("/:adminID", async (req, res) => {
     if (!idCheck) return res.status(400).json({ errors:{ message:'invalid admin id' }})
 
     const admin = await ADMIN.findById(adminUid)
-
-    if(admin) return res.status(200).json(admin)
-    return res.status(404).json({ errors:{ message:'admin not found' }})
+    if(!admin) return res.status(404).json({ errors:{ message:'admin not found' }})
+    return res.status(200).json(admin)
 })
 
 // CHANGE PASSWORD FOR ADMIN.
@@ -108,5 +106,40 @@ router.delete("/deleteUser/:userID", async (req, res) => {
     if(deleteUser) return res.status(200).json({ success:{ message:'user deleted' }})
     return res.status(400).json({ errors:{ message:'user deletion error' }})
 })
+
+// GET LIST OF QR CODES.
+router.get("/get/qr", async (req, res) => {
+    const qrData = await SCHOOL.find()
+    if(!qrData) return res.status(404).json({ errors:{ message: 'no data found' }})
+    return res.status(200).json(qrData)
+})
+
+// ADD LIST FOR QR CODE GENERATION.
+router.post("/generate/", async (req, res) => {
+    const inputSchoolDetails = (req.body.school === undefined) ? null : req.body.school
+    const inputGateDetails = (req.body.gate === undefined) ? null : req.body.gate
+
+    if(inputSchoolDetails === null) return res.status(400).json({ errors:{ message:'school information must be defined' }})
+    if(inputGateDetails === null) return res.status(400).json({ errors:{ message:'gate information must be defined' }})
+
+    let concat = `${inputSchoolDetails} ${inputGateDetails}`
+    let matches = concat.match(/\b(\w)/g)
+    let qrData = matches.join('')
+
+    const newData = new SCHOOL({
+        school: inputSchoolDetails,
+        gate: inputGateDetails,
+        generated_code: qrData
+    })
+
+    await newData.save()
+    .then(() => {
+        return res.status(201).json({ success:{ message:'school details updated' }})
+    })
+    .catch(() => {
+        return res.status(400).json({ errors:{ message:'school details failed to update' }})
+    })
+})
+
 
 module.exports = router

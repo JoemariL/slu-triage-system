@@ -71,7 +71,7 @@ router.post("/admin/register", async (req, res) => {
         return res.status(201).json({ success:{ message:'user registered' }})
     })
     .catch(() => {
-        return res.status(400).json({ success:{ message:'user registration failed' }})
+        return res.status(400).json({ errors:{ message:'user registration failed' }})
     })
 })
 

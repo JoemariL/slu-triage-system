@@ -2,6 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require("mongoose")
+const moment = require('moment')
 
 // MODEL IMPORT 
 const USERS = require('../models/users')
@@ -10,12 +11,15 @@ const USERS = require('../models/users')
 // UTILS IMPORT 
 const auth = require('../middleware/auth')
 const { objectIDValidator, hdfInputValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, getUserHdf, getHdfToday } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday } = require('../utils/pipelines')
 
-let date = new Date(Date.now() - 24*60*60 * 1000)
+
 // GET HDF DATA FOR THE DAY.
 router.get("/day", async (req, res) => {
-    const data = await getHdfToday()
+    let dateToday = moment().startOf('day').toDate()
+    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+
+    const data = await getHdfToday(dateToday, dateTomorrow)
     if(!data) return res.status(404).json({ errors:{ message:'not found' }})
     return res.status(200).json(data)
 })
@@ -49,7 +53,10 @@ router.post("/generate/:userID", async (req, res) => {
     const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
     if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
 
-    // TODO: Input data not final and it might change
+    let dateNow = moment().toDate()
+    let dateToday = moment().startOf('day').toDate()
+    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+
     const inputEntryDate = (req.body.entryDate === undefined) ? null : req.body.entryDate
     const inputEntryCampus = (req.body.entryCampus === undefined) ? null : req.body.entryCampus
     const inputGateInfo = (req.body.gateInfo === undefined) ? null : req.body.gateInfo
@@ -71,6 +78,9 @@ router.post("/generate/:userID", async (req, res) => {
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
+    const entryCheck = await hdfIfExistDay(user._id, dateToday, dateTomorrow)
+    if(!entryCheck) return res.status(404).json({ errors:{ message:'user already has registered hdf this day' }})
+
     const hdfData = {
         entry_date: inputEntryDate,
         entry_campus: inputEntryCampus,
@@ -87,7 +97,8 @@ router.post("/generate/:userID", async (req, res) => {
         sore_throat: inputSoreThroat,
         diff_breathing: inputDiffBreathing,
         diarrhea: inputDiarrhea,
-        others: inputOthers
+        others: inputOthers,
+        createdAt: dateNow
     }
 
     const uid = user._id
@@ -104,6 +115,11 @@ router.post("/generate/:userID", async (req, res) => {
 // HDF QR SCAN
 router.patch("/scan/:qrData", async (req, res) => {
     const qrUid = req.params.qrData
+
+    let dateNow = moment().toDate()
+    let dateToday = moment().startOf('day').toDate()
+    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+
 })
 
 // EDIT HDF DATA FOR SPECIFIC USER
@@ -129,6 +145,8 @@ router.patch("/update/:userID/:hdfID", async (req, res) => {
     const inputDiffBreathing = (req.body.diffBreathing === undefined) ? null : req.body.diffBreathing
     const inputDiarrhea = (req.body.diarrhea === undefined) ? null : req.body.diarrhea
     const inputOthers = (req.body.others === undefined) ? null : req.body.others
+
+    let dateYesterday = moment().startOf('day').add(-1, 'days').toDate()
     
     const { errors, valid } = hdfInputValidator(inputExposure, inputPositive, inputFever, inputCough, inputCold, inputSoreThroat, inputDiffBreathing, inputDiarrhea)
     if(!valid) return res.status(400).json({ errors })
@@ -143,6 +161,8 @@ router.patch("/update/:userID/:hdfID", async (req, res) => {
     const ifExpired = await hdfIfExpired(userUid, hdfUid)
     if(ifExpired) return res.status(400).json({ errors:{ message:'hdf already expired and cannot be changed'}})
 
+    const ifPassed = await hdfIfOver(userUid, hdfUid, dateYesterday)
+    if(ifPassed) return res.status(400).json({ errors:{ message:'hdf that are created in the past can no longer be updated'}})
 
     const uid = user._id
     const newHdfData = await USERS.findByIdAndUpdate(
