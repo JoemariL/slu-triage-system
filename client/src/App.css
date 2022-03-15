@@ -2,6 +2,7 @@
 /* Font family.                  */
 /* ----------------------------- */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
 * {
   font-family: "Open Sans", sans-serif;
 }
@@ -98,7 +99,8 @@ select {
   --clr-primary: hsl(239, 95%, 64%);
   --clr-primary-hover: hsl(239, 96%, 68%);
   --clr-secondary: hsl(0, 0%, 49%);
-  
+  --clr-secondary-hover: hsl(210, 14%, 83%);
+
   --clr-positive: hsl(126, 100%, 35%);
   --clr-negative: hsl(0, 100%, 35%);
 
@@ -213,6 +215,11 @@ select {
 }
 
 /* ----------------------------- */
+/* Height / Width                */
+/* ----------------------------- */
+
+
+/* ----------------------------- */
 /* Margin                        */
 /* ----------------------------- */
 .m-auto {
@@ -229,9 +236,24 @@ select {
   margin-bottom: auto;
 }
 
-.mx-10 {
+.mx-40 {
   margin-left: 2.5rem;
   margin-right: 2.5rem;
+}
+
+/* ----------------------------- */
+/* Padding                       */
+/* ----------------------------- */
+.p-16 {
+  padding: 1rem;
+}
+
+.pt-16 {
+  padding-top: 1rem;
+}
+
+.pb-16 {
+  padding-bottom: 1rem;
 }
 
 /* ----------------------------- */
@@ -272,6 +294,14 @@ select {
   justify-content: center;
 }
 
+.items-center {
+  align-items: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
 .gap-16 {
   gap: 1rem;
 }
@@ -295,6 +325,10 @@ select {
 /* Border radius. */
 .border-rounded {
   border-radius: 0.25rem;
+}
+
+.border-rounded-full {
+  border-radius: 9999px;
 }
 
 /* Border color. */
@@ -331,15 +365,25 @@ select {
 /* Typography                     */
 /* ----------------------------- */
 
+/* Text Alignment. */
+.text-center {
+  text-align: center;
+}
+
 /* Text Decoration. */
 .no-underline {
   text-decoration: none;
-}  
+}
 
 /* Font size. */
 .text-base {
   font-size: var(--fs-300);
   line-height: 1.5rem;
+}
+
+.text-xxxl {
+  font-size: var(--fs-500);
+  line-height: 2.25rem;
 }
 
 /* Text color. */
@@ -381,9 +425,19 @@ select {
   height: 2.5rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  border-width: 2px;
+  border-width: 1px;
   border-radius: 0.25rem;
-  border-color: var(--clr-grey);
+  outline-color: var(--clr-grey);
+}
+
+/* Select. */
+.component-select {
+  height: 2.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-width: 1px;
+  border-radius: 0.25rem;
+  outline-color: var(--clr-grey);
 }
 
 /* Button. */
@@ -398,4 +452,38 @@ select {
 
 .component-button-primary:hover {
   background-color: var(--clr-primary-hover);
+}
+
+.component-button-secondary {
+  height: 2.5rem;
+  background-color: var(--clr-secondary);
+  color: var(--txt-white);
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.component-button-secondary:hover {
+  background-color: var(--clr-secondary-hover);
+}
+
+.component-button-return {
+  height: 3.5rem;
+  width: 3.5rem;
+  font-size: var(--fs-600);
+  line-height: 1.5rem;
+  background-color: var(--clr-primary);
+  color: var(--txt-white);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.component-button-return:hover {
+  background-color: var(--clr-primary-hover);
+}
+
+/* Divider. */
+.dashed {
+  border-top: 2px dashed var(--clr-secondary);
 }
