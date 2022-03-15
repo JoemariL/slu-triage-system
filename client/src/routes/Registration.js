@@ -5,7 +5,7 @@ import { RegistrationForm } from "../components";
 function Registration() {
   return (
     <div className="grid gap-16">
-      <div className="flex-row items-center p-16 gap-16">
+      <div className="mb-32 flex-row items-center p-16 gap-16">
         <div>
             <button className="component-button-return focus" type="button">
             <IoReturnUpBack />
@@ -23,9 +23,9 @@ function Registration() {
         <RegistrationForm />
       </div>
 
-      <div className="mx-40">
+      <div className="mx-40 mt-32">
         <div className="flex-col">
-          <button className="component-button-primary focus" type="button">
+          <button className="component-button-primary" type="button">
             Next
           </button>
         </div>

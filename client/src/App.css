@@ -148,6 +148,10 @@ select {
   margin-inline: auto;
 }
 
+.wrapper {
+  width: 100%
+}
+
 /* ----------------------------- */
 /* Screen Sizes                  */
 /* ----------------------------- */
@@ -241,6 +245,19 @@ select {
   margin-right: 2.5rem;
 }
 
+.my-20 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.mt-32 {
+  margin-top: 2rem;
+}
+
+.mb-32 {
+  margin-bottom: 2rem;
+}
+
 /* ----------------------------- */
 /* Padding                       */
 /* ----------------------------- */
@@ -304,6 +321,10 @@ select {
 
 .gap-16 {
   gap: 1rem;
+}
+
+.gap-32 {
+  gap: 2rem;
 }
 
 /* ----------------------------- */
@@ -409,7 +430,8 @@ select {
 /* Focus. */
 .focus:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+  border-bottom-width: 2px;
+  border-bottom-color: var(--clr-primary);
 }
 
 .remove-focus:focus {
@@ -423,20 +445,18 @@ select {
 /* Input. */
 .component-input {
   height: 2.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  border-width: 1px;
-  border-radius: 0.25rem;
+  border-top-width: 0;
+  border-bottom-width: 1px;
+  border-inline-width: 0;
   outline-color: var(--clr-grey);
 }
 
 /* Select. */
 .component-select {
   height: 2.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  border-width: 1px;
-  border-radius: 0.25rem;
+  border-top-width: 0;
+  border-bottom-width: 1px;
+  border-inline-width: 0;
   outline-color: var(--clr-grey);
 }
 
@@ -468,10 +488,10 @@ select {
 }
 
 .component-button-return {
-  height: 3.5rem;
-  width: 3.5rem;
-  font-size: var(--fs-600);
-  line-height: 1.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: var(--fs-500);
+  line-height: 1rem;
   background-color: var(--clr-primary);
   color: var(--txt-white);
   border: none;
@@ -484,6 +504,6 @@ select {
 }
 
 /* Divider. */
-.dashed {
-  border-top: 2px dashed var(--clr-secondary);
+.solid {
+  border-top: 1px solid var(--clr-secondary);
 }

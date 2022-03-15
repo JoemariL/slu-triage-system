@@ -3,7 +3,6 @@ const LoginForm = () => {
     <div>
       <form className="grid gap-16 text-base" method="post">
         <div className="flex-col">
-          <label htmlFor="username">Username or ID Number</label>
           <input
             className="component-input focus"
             type="text"
@@ -17,7 +16,6 @@ const LoginForm = () => {
         </div>
 
         <div className="flex-col">
-          <label htmlFor="password">Password</label>
           <input
             className="component-input focus"
             type="password"
@@ -32,7 +30,7 @@ const LoginForm = () => {
 
         <div className="flex-col">
           <button
-            className="component-button-primary focus"
+            className="component-button-primary"
             type="button"
           >
             Log In

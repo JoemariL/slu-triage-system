@@ -1,9 +1,9 @@
 const RegistrationForm = () => {
   return (
     <div>
-      <form className="grid gap-16 text-base" method="post">
+      <form className="grid gap-32 text-base" method="post">
         <div className="flex-col">
-          <label htmlFor="type">What are you?</label>
+          <label htmlFor="type"><strong>What are you?</strong></label>
           <select
             className="component-select focus"
             name="type"
@@ -16,12 +16,7 @@ const RegistrationForm = () => {
           </select>
         </div>
 
-        <div>
-          <hr className="dashed" />
-        </div>
-
         <div className="flex-col">
-          <label htmlFor="username">Username or ID Number</label>
           <input
             className="component-input focus"
             type="text"
@@ -35,7 +30,6 @@ const RegistrationForm = () => {
         </div>
 
         <div className="flex-col">
-          <label htmlFor="password">Password</label>
           <input
             className="component-input focus"
             type="password"
@@ -49,7 +43,6 @@ const RegistrationForm = () => {
         </div>
 
         <div className="flex-col">
-          <label htmlFor="confpassword">Confirm Password</label>
           <input
             className="component-input focus"
             type="password"
