@@ -1,10 +1,10 @@
 /* ----------------------------- */
 /* Font family.                  */
 /* ----------------------------- */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 * {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 /* ----------------------------- */
@@ -221,7 +221,9 @@ select {
 /* ----------------------------- */
 /* Height / Width                */
 /* ----------------------------- */
-
+.h-160 {
+  height: 10rem;
+}
 
 /* ----------------------------- */
 /* Margin                        */
@@ -263,6 +265,10 @@ select {
 /* ----------------------------- */
 .p-16 {
   padding: 1rem;
+}
+
+.p-36 {
+  padding: 2.25rem;
 }
 
 .pt-16 {
@@ -378,6 +384,10 @@ select {
 /* ----------------------------- */
 
 /* Background color. */
+.bg-blue-900 {
+  background-color: var(--clr-blue-900);
+}
+
 .bg-secondary {
   background-color: var(--clr-secondary);
 }
@@ -509,4 +519,9 @@ select {
   width: 8.5rem;
   height: 0.125rem;
   border-top: 2px dashed hsl(0, 0%, 80%);
+}
+
+/* Header. */
+.component-header {
+  clip-path: ellipse(120% 100% at 50% 0%);
 }
