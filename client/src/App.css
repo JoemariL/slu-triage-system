@@ -430,7 +430,7 @@ select {
 /* Focus. */
 .focus:focus {
   outline: none;
-  border-bottom-width: 2px;
+  border-bottom-width: 3px;
   border-bottom-color: var(--clr-primary);
 }
 
@@ -501,9 +501,4 @@ select {
 
 .component-button-return:hover {
   background-color: var(--clr-primary-hover);
-}
-
-/* Divider. */
-.solid {
-  border-top: 1px solid var(--clr-secondary);
 }

@@ -3,7 +3,9 @@ const RegistrationForm = () => {
     <div>
       <form className="grid gap-32 text-base" method="post">
         <div className="flex-col">
-          <label htmlFor="type"><strong>What are you?</strong></label>
+          <label htmlFor="type">
+            <strong>What are you?</strong>
+          </label>
           <select
             className="component-select focus"
             name="type"
@@ -15,6 +17,8 @@ const RegistrationForm = () => {
             <option value="vistor">Visitor</option>
           </select>
         </div>
+
+        <br />
 
         <div className="flex-col">
           <input
@@ -53,6 +57,12 @@ const RegistrationForm = () => {
             placeholder="Confirm Password"
             required
           />
+        </div>
+
+        <div className="flex-col">
+          <button className="component-button-primary" type="button">
+            Register
+          </button>
         </div>
       </form>
     </div>
