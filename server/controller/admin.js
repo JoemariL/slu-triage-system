@@ -57,7 +57,7 @@ router.post("/admin/register", async (req, res) => {
     let regex = new RegExp(["^", username, "$"].join(""), "i")
 
     const ifExists = await ADMIN.find({ username: regex })
-    if(ifExists.length !== 0) return res.status(200).json({ errors: { message:'user already exists' }})
+    if(ifExists.length !== 0) return res.status(400).json({ errors: { message:'user already exists' }})
 
     let password = await bcrypt.hash(inputPassword, 12)
 

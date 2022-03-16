@@ -14,9 +14,6 @@ const hdfData = mongoose.Schema({
     allowed: {
         type: Boolean
     },
-    is_entered: {
-        type: Boolean
-    },
     is_expired: {
         type: Boolean
     },
@@ -48,6 +45,9 @@ const hdfData = mongoose.Schema({
         type: Boolean
     },
     others: {
+        type: String
+    },
+    pregnant: {
         type: String
     },
     createdAt: {

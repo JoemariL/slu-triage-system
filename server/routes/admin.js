@@ -12,6 +12,7 @@ const SCHOOL = require('../models/school')
 // UTILS IMPORT
 const auth = require('../middleware/auth')
 const { objectIDValidator, changePasswordInputValidator } = require('../utils/validator')
+const { encryptJSON } = require('../utils/functions')
 
 // GET ALL ADMIN INFO.
 router.get("/all", async (req, res) => {
@@ -126,10 +127,17 @@ router.post("/generate/", async (req, res) => {
     let matches = concat.match(/\b(\w)/g)
     let qrData = matches.join('')
 
+    let payload = {school: inputSchoolDetails, gate: inputGateDetails, raw_code: qrData}
+    let encrypt = encryptJSON(payload)
+
+    const check = await SCHOOL.find({ raw_code: qrData })
+    if(check.length !== 0) return res.status(400).json({ errors: { message:'gate details already exist' }})
+
     const newData = new SCHOOL({
         school: inputSchoolDetails,
         gate: inputGateDetails,
-        generated_code: qrData
+        raw_code: qrData,
+        generated_code: encrypt
     })
 
     await newData.save()
@@ -140,6 +148,5 @@ router.post("/generate/", async (req, res) => {
         return res.status(400).json({ errors:{ message:'school details failed to update' }})
     })
 })
-
 
 module.exports = router

@@ -7,6 +7,9 @@ const schoolSchema = mongoose.Schema({
     gate: {
         type: String
     },
+    raw_code: {
+        type: String
+    },
     generated_code: {
         type: String
     }

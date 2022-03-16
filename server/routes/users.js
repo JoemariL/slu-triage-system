@@ -10,11 +10,11 @@ const USERS = require('../models/users')
 // UTILS IMPORT
 const auth = require('../middleware/auth')
 const { objectIDValidator, userEditValidator, changePasswordInputValidator, emailValidator } = require('../utils/validator')
-const { vaccineIfExist } = require('../utils/pipelines')
+const { vaccineIfExist, getUserDetails } = require('../utils/pipelines')
 
 // GET ALL USER INFO.
 router.get("/all", async (req, res) => {
-    const userData = await USERS.find().select('-password')
+    const userData = await USERS.find().select('-password -__v -createdAt -updatedAt').sort({ "hdf_data.createdAt": -1 })
     // return res.json(userData.filter(data => data.id === req.user.id))
 
     if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
@@ -30,9 +30,9 @@ router.get("/get/:userID", async (req, res) => {
     const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
     if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
 
-    const user = await USERS.findById(userUid).select('-password')
-    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
+    const user = await getUserDetails(userUid)
+    if(!user[0]) return res.status(404).json({ errors:{ message:'user not found' }})
+    if(user[0].id_number != inputUser && user[0].username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
     return res.status(200).json(user)
 })
 
@@ -100,7 +100,7 @@ router.patch("/update/:userID", async (req, res) => {
     )
     if(!valid) return res.status(400).json({errors})
 
-    const user = await USERS.findById(userUid).select('-password')
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
     
@@ -137,7 +137,7 @@ router.post("/vaccination/:userID", async (req, res) => {
     const inputVaccineName = (req.body.vaccineName === undefined) ? null : req.body.vaccineName
     const inputVaccineSerial = (req.body.vaccineSerial === undefined) ? null : req.body.vaccineSerial
 
-    const user = await USERS.findById(userUid).select('-password')
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
@@ -174,7 +174,7 @@ router.patch("/vaccination/:userID/:vaccineID", async (req, res) => {
     const inputVaccineName = (req.body.vaccineName === undefined) ? null : req.body.vaccineName
     const inputVaccineSerial = (req.body.vaccineSerial === undefined) ? null : req.body.vaccineSerial
 
-    const user = await USERS.findById(userUid).select('-password')
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
     

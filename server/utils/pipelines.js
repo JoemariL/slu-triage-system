@@ -98,6 +98,29 @@ module.exports.getUserHdf = async(userID) => {
     ])
 }
 
+module.exports.getUserDetails = async(userID) => {
+    return await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $sort: {
+                "hdf_data.createdAt": -1
+            }
+        },
+        {
+            $unset: ["password", "createdAt", "updatedAt", "__v"]
+        }
+    ])
+}
+
 module.exports.getHdfToday = async(fromDate, toDate) => {
     return await USERS.aggregate([
         {
@@ -106,16 +129,14 @@ module.exports.getHdfToday = async(fromDate, toDate) => {
             }
         },
         {
-            $replaceRoot: {
-                newRoot: "$hdf_data"
-            }
-        },
-        {
             $match: {
-                'createdAt': {
+                'hdf_data.createdAt': {
                     $gt: fromDate, $lt: toDate
                 }
             }
+        },
+        {
+            $unset: ["password", "createdAt", "updatedAt", "__v"]
         }
     ]).sort({ createdAt: -1 })
 }

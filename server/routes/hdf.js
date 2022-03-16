@@ -6,12 +6,14 @@ const moment = require('moment')
 
 // MODEL IMPORT 
 const USERS = require('../models/users')
+const SCHOOL = require('../models/school')
 
 
 // UTILS IMPORT 
 const auth = require('../middleware/auth')
 const { objectIDValidator, hdfInputValidator } = require('../utils/validator')
 const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday } = require('../utils/pipelines')
+const { decryptJSON } = require('../utils/functions')
 
 
 // GET HDF DATA FOR THE DAY.
@@ -33,11 +35,10 @@ router.get("/get/:userID", async (req, res) => {
     const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
     if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
 
-    const user = await USERS.findById(userUid).select('-password')
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
-    console.log(date)
     const userHdf = await getUserHdf(user._id)
     if(!userHdf) return res.status(404).json({ errors:{ message:'not found' }})
     return res.status(200).json(userHdf)
@@ -57,9 +58,6 @@ router.post("/generate/:userID", async (req, res) => {
     let dateToday = moment().startOf('day').toDate()
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
 
-    const inputEntryDate = (req.body.entryDate === undefined) ? null : req.body.entryDate
-    const inputEntryCampus = (req.body.entryCampus === undefined) ? null : req.body.entryCampus
-    const inputGateInfo = (req.body.gateInfo === undefined) ? null : req.body.gateInfo
     const inputDeptDestination = (req.body.deptDestination === undefined) ? null : req.body.deptDestination 
     const inputExposure = (req.body.covidExposure === undefined) ? null : req.body.covidExposure
     const inputPositive = (req.body.covidPositive === undefined) ? null : req.body.covidPositive
@@ -70,23 +68,31 @@ router.post("/generate/:userID", async (req, res) => {
     const inputDiffBreathing = (req.body.DiffBreathing === undefined) ? null : req.body.DiffBreathing
     const inputDiarrhea = (req.body.diarrhea === undefined) ? null : req.body.diarrhea
     const inputOthers = (req.body.others === undefined) ? null : req.body.others
+    const inputIfPregnant = (req.body.ifPregnant === undefined) ? null : req.body.ifPregnant
 
     const { errors, valid } = hdfInputValidator(inputExposure, inputPositive, inputFever, inputCough, inputCold, inputSoreThroat, inputDiffBreathing, inputDiarrhea)
     if(!valid) return res.status(400).json({ errors })
 
-    const user = await USERS.findById(userUid).select('-password')
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
     const entryCheck = await hdfIfExistDay(user._id, dateToday, dateTomorrow)
     if(!entryCheck) return res.status(404).json({ errors:{ message:'user already has registered hdf this day' }})
 
+    let allowed = null
+    if(inputExposure || inputPositive || inputFever || inputCough || inputCold || inputSoreThroat || inputDiffBreathing || inputDiarrhea) {
+        allowed = false
+    } else {
+        allowed = true
+    }
+
     const hdfData = {
-        entry_date: inputEntryDate,
-        entry_campus: inputEntryCampus,
-        gate_info: inputGateInfo,
-        allowed: null,
-        is_entered: false,
+        entry_date: null,
+        entry_campus: null,
+        gate_info: null,
+        code: null,
+        allowed,
         is_expired: false,
         dept_destination: inputDeptDestination,
         covid_exposure: inputExposure,
@@ -98,6 +104,7 @@ router.post("/generate/:userID", async (req, res) => {
         diff_breathing: inputDiffBreathing,
         diarrhea: inputDiarrhea,
         others: inputOthers,
+        pregnant: inputIfPregnant,
         createdAt: dateNow
     }
 
@@ -113,13 +120,63 @@ router.post("/generate/:userID", async (req, res) => {
 })
 
 // HDF QR SCAN
-router.patch("/scan/:qrData", async (req, res) => {
-    const qrUid = req.params.qrData
+router.patch("/scan/:userID/:hdfID", async (req, res) => {
+    const userUid = req.params.userID
+    const idCheck = objectIDValidator(userUid)
+    if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
+    const hdfUid = req.params.hdfID
+    const hdfCheck = objectIDValidator(hdfUid)
+    if (!hdfCheck) return res.status(400).json({ errors:{ message:'invalid hdf ID'}})
+
+    const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
+    if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
+    const inputQrData = (req.body.qrCode === undefined) ? null : req.body.qrCode
+    if(inputQrData === null) return res.status(400).json({ errors:{ message:'provide the qr code data' }})
+
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
+    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
+    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
+
+    const ifExist = await hdfIfExist(userUid, hdfUid)
+    if(!ifExist) return res.status(404).json({ errors:{ message:'user hdf info not found' }})
+
+    const ifExpired = await hdfIfExpired(userUid, hdfUid)
+    if(ifExpired) return res.status(400).json({ errors:{ message:'hdf info already entered today'}})
+
+    let decrypted, school, gate, code = null
+
+    try{
+        decrypted = decryptJSON(inputQrData)
+        if(decrypted.hasOwnProperty('raw_code')) school = decrypted.school, gate = decrypted.gate, code = decrypted.raw_code
+        let check = await SCHOOL.findOne({ raw_code: code})
+        if(!check) return res.status(404).json({ errors:{ message:'qr code information not found' }})
+    } catch (err) {
+        return res.status(400).json({ errors:{ message:'no signature found or invalid qr code' }})
+    }
     let dateNow = moment().toDate()
-    let dateToday = moment().startOf('day').toDate()
-    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
 
+    const uid = user._id
+    const newHdfData = await USERS.findByIdAndUpdate(
+        uid,
+        {
+            $set: {
+                "hdf_data.$[element].entry_date": dateNow,
+                "hdf_data.$[element].entry_campus": school,
+                "hdf_data.$[element].gate_info": gate,
+                "hdf_data.$[element].is_expired": true
+            }
+        },
+        {
+            arrayFilters: [
+                {
+                    "element._id": mongoose.Types.ObjectId(hdfUid)
+                }
+            ]  
+        }
+    )
+    if(newHdfData) return res.status(201).json({ success: { message:'user hdf details updated' }})
+    return res.status(400).json({ errors:{ message:'user hdf details failed to update' }})  
 })
 
 // EDIT HDF DATA FOR SPECIFIC USER
@@ -151,7 +208,7 @@ router.patch("/update/:userID/:hdfID", async (req, res) => {
     const { errors, valid } = hdfInputValidator(inputExposure, inputPositive, inputFever, inputCough, inputCold, inputSoreThroat, inputDiffBreathing, inputDiarrhea)
     if(!valid) return res.status(400).json({ errors })
 
-    const user = await USERS.findById(userUid).select('-password')
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
@@ -208,7 +265,7 @@ router.delete("/delete/:userID/:hdfID", async (req, res) => {
     const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
     if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
 
-    const user = await USERS.findById(userUid).select('-password')
+    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
     if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
