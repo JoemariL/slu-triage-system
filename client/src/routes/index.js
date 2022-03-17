@@ -1,4 +1,3 @@
-export { default as Login } from "./User/Login"
-export { default as Registration } from "./User/Registration"
-
-export { default as Dashboard } from "./User/Dashboard"
+// Mobile Routes.
+export { default as Login } from "./Mobile/Login"
+export { default as Register } from "./Mobile/Registration"

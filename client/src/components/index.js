@@ -1,6 +1,3 @@
-// Forms.
-export { default as LoginForm } from "./User/Form/LoginForm"
-export { default as RegistrationForm } from "./User/Form/RegistrationForm"
-
-// Profile.
-export { default as Header } from "./User/Header/Header"
+// Mobile Components.
+export { default as LoginForm } from "./Mobile/Forms/LoginForm"
+export { default as RegisterForm } from "./Mobile/Forms/RegisterForm"
