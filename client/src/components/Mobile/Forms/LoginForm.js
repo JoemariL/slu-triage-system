@@ -4,7 +4,7 @@ const LoginForm = () => {
       <form className="grid grid-rows-auto gap-6 text-center text-base">
         <div>
           <input
-            className="w-full h-9 px-2 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
+            className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
             type="text"
             id="username"
             name="username"
@@ -17,7 +17,7 @@ const LoginForm = () => {
 
         <div>
           <input
-            className="w-full h-9 px-2 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
+            className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
             type="text"
             id="username"
             name="username"
