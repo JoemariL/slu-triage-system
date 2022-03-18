@@ -1,26 +1,10 @@
 const RegisterForm = () => {
   return (
     <div className="text-base">
-      <div className="mb-14">
-        <label htmlFor="type">
-          <strong>What are you?</strong>
-        </label>
-        <select
-          className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
-          name="type"
-          id="type"
-          required
-        >
-          <option value="student">Student</option>
-          <option value="employee">Employee</option>
-          <option value="visitor">Visitor</option>
-        </select>
-      </div>
-
       <div className="grid grid-rows-auto gap-6">
         <div>
           <input
-            className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
+            className="w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
             type="text"
             id="username"
             name="username"
@@ -32,7 +16,7 @@ const RegisterForm = () => {
         </div>
         <div>
           <input
-            className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
+            className="w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
             type="text"
             id="username"
             name="username"
@@ -44,7 +28,7 @@ const RegisterForm = () => {
         </div>
         <div>
           <input
-            className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
+            className="w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
             type="text"
             id="username"
             name="username"
@@ -56,7 +40,7 @@ const RegisterForm = () => {
         </div>
         <div>
           <button
-            className="mb-0 mt-4 w-full h-9 rounded bg-blue-800 text-white focus:outline-none hover:bg-blue-700"
+            className="mb-0 mt-4 w-full h-10 rounded bg-blue-800 text-white focus:outline-none hover:bg-blue-700"
             type="button"
           >
             Register

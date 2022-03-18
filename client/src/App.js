@@ -4,8 +4,8 @@ import { Login, Register } from "./routes/index"
 function App() {
   return (
     <div className="App">
-      {/* <Login /> */}
-      <Register />
+      <Login />
+      {/* <Register /> */}
     </div>
   );
 }

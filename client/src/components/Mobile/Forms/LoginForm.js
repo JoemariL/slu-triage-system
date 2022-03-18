@@ -4,11 +4,11 @@ const LoginForm = () => {
       <form className="grid grid-rows-auto gap-6 text-center text-base">
         <div>
           <input
-            className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
+            className="w-full px-2 h-10 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
             type="text"
             id="username"
             name="username"
-            placeholder="Username"
+            placeholder="Enter ID/username"
             minLength="6"
             maxLength="16"
             required
@@ -17,11 +17,11 @@ const LoginForm = () => {
 
         <div>
           <input
-            className="w-full h-9 border-b-2 border-gray-300 focus:outline-none focus:border-blue-800"
+            className="w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
             type="text"
             id="username"
             name="username"
-            placeholder="Password"
+            placeholder="Enter password"
             minLength="6"
             maxLength="16"
             required
@@ -30,7 +30,7 @@ const LoginForm = () => {
 
         <div>
           <button
-            className="mb-0 mt-4 w-full h-9 rounded bg-blue-800 text-white focus:outline-none hover:bg-blue-700"
+            className="mb-0 mt-4 w-full h-10 rounded bg-blue-800 text-white focus:outline-none hover:bg-blue-700"
             type="button"
           >
             Log In

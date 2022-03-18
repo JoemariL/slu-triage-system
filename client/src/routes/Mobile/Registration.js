@@ -5,7 +5,9 @@ import { RegisterForm } from "../../components/index";
 function Registration() {
   return (
     <div className="grid grid-rows-auto gap-24">
-      <div className="p-5 flex flex-row items-center gap-4">
+      <br />
+
+      <div className="p-5 flex flex-row items-center">
         <div>
           <button
             className="flex flex-row justify-center items-center h-9 w-9 rounded-full text-xl text-center bg-blue-800 text-white focus:outline-none hover:bg-blue-700"
@@ -15,8 +17,10 @@ function Registration() {
           </button>
         </div>
 
-        <div className="text-xl">
-            <p><strong>Create your account</strong></p>
+        <div className="mx-4 text-xl">
+          <p>
+            <strong>Create your account</strong>
+          </p>
         </div>
       </div>
 
