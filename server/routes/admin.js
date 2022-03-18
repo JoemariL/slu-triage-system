@@ -101,7 +101,7 @@ router.delete("/deleteUser/:userID", async (req, res) => {
 
     const user = await USERS.findById(userUid)
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    if(user.id_number != inputUser || user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
+    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
     const deleteUser = await USERS.deleteOne({ _id: user._id })
     if(deleteUser) return res.status(200).json({ success:{ message:'user deleted' }})

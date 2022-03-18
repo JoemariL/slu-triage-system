@@ -84,7 +84,8 @@ router.post("/user/register", async (req, res) => {
     if(emailCheck) return res.status(400).json({ errors:{ message:'email input must be a valid email address' }})
     const idNoIfExists = await USERS.find({ id_number: { $regex: regex }})
     const userIfExists = await USERS.find({ username: { $regex: regex }})
-    if(idNoIfExists.length !== 0 || userIfExists.length !== 0) return res.status(400).json({ errors:{ message:'user already exists'}})
+    const emailIfExists = await USERS.find({ email: { inputEmailAddress }})
+    if(idNoIfExists.length !== 0 || userIfExists.length !== 0 || emailIfExists.length !== 0) return res.status(400).json({ errors:{ message:'user already exists'}})
 
     let password = await bcrypt.hash(inputPassword, 12)
     
