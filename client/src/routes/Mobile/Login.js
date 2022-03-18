@@ -11,14 +11,6 @@ function Login() {
         <div>
           <img src={Logo} alt="Saint Louis University Triage App Logo" />
         </div>
-
-        <div>
-          <p className="text-center">
-            <span className="text-xl">
-              <strong>Saint Louis University Triage App</strong>
-            </span>
-          </p>
-        </div>
       </div>
 
       <div className="my-10">

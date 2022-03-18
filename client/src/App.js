@@ -1,5 +1,5 @@
 import "./App.css";
-import { Login, Register } from "./routes/index"
+import { Login, Register } from "./routes/index";
 
 function App() {
   return (
