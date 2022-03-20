@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { Logo } from "../../assets";
-import { LoginForm } from "../../Components/index";
+import { LoginForm } from "../../Component/index";
 
 function Login() {
   const { setAuth } = useAuth();

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthProvider";
-import { Layout } from "./Components/index";
+import { Layout } from "./Component/index";
 import { Home, Login } from "./Pages/index";
 import "./App.css";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { RiErrorWarningFill } from "react-icons/ri"
 import { QRButton } from "../../assets";
-import { Dashboard, Header } from "../../Components";
+import { Dashboard, Header } from "../../Component";
 
 function Home() {
   return (
