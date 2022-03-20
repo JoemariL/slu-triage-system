@@ -1,12 +1,10 @@
 import React from "react";
 import { IoReturnUpBack } from "react-icons/io5";
-import { RegisterForm } from "../../components/index";
+import { RegisterForm } from "../../Components/index";
 
 function Registration() {
   return (
     <div className="grid grid-rows-auto gap-24">
-      <br />
-
       <div className="p-5 flex flex-row items-center">
         <div>
           <button

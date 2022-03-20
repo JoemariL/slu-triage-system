@@ -1,0 +1,11 @@
+{success ? (
+<p>Logged in!</p>
+) : (
+<LoginForm
+userOnChange={(e) => setUser(e.target.value)}
+username={user}
+pwdOnChange={(e) => setPwd(e.target.value)}
+password={pwd}
+handleSubmit={handleSubmit}
+/>
+)}

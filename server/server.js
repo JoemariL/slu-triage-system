@@ -24,7 +24,7 @@ app.use(compression({
 })) 
 
 app.get("/", (req, res) => {
-    res.send('This is the back-end Server....!')
+    res.send('This is the Back End Server.')
 })
 
 // ROUTERS.
