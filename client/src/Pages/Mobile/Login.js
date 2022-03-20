@@ -5,7 +5,7 @@ import { Logo } from "../../assets";
 import { LoginForm } from "../../Component/index";
 
 function Login() {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,24 +20,24 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.get(
-        "localhost:5000/user/login",
+      const response = await axios.post(
+        "http://localhost:5000/controller/user/login",
         JSON.stringify({ username, password }),
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(JSON.stringify(response.data));
-      setAuth({ username, password });
-      setUsername("");
-      setPassword("");
+      const accessToken = response?.data?.accessToken
+      const id = response?.data?.id
+      setAuth({ id, accessToken });
+      console.log(id)
       setSuccess(true);
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response.");
-      } else if (err.response.status === 401) {
+      } else if (err.response.status === 404) {
         setErrMsg("Missing Username or Password.");
-      } else if (err.response.status === 403) { 
+      } else if (err.response.status === 403) {
         setErrMsg("Unauthorized.");
       } else {
         setErrMsg("The email or mobile number you entered is incorrect.");
@@ -48,7 +48,6 @@ function Login() {
   return (
     <div className="mx-12 grid grid-rows-auto sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
       <br />
-
       <div className="flex flex-col items-center">
         <div>
           <img

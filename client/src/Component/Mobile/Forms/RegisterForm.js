@@ -1,10 +1,15 @@
-const RegisterForm = () => {
+import classnames from "classnames";
+
+const RegisterForm = (err) => {
   return (
     <div className="text-base">
-      <div className="grid grid-rows-auto gap-6">
+      <form className="grid grid-rows-auto gap-5 text-center">
         <div>
           <input
-            className="w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
+            className={classnames(
+              "component-input",
+              err ? "border-red-600" : "border-gray-300"
+            )}
             type="text"
             id="username"
             name="username"
@@ -16,10 +21,13 @@ const RegisterForm = () => {
         </div>
         <div>
           <input
-            className="w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
-            type="text"
-            id="username"
-            name="username"
+            className={classnames(
+              "component-input",
+              err ? "border-red-600" : "border-gray-300"
+            )}
+            type="password"
+            id="password"
+            name="password"
             placeholder="Enter your password"
             minLength="6"
             maxLength="16"
@@ -28,10 +36,13 @@ const RegisterForm = () => {
         </div>
         <div>
           <input
-            className="w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700"
-            type="text"
-            id="username"
-            name="username"
+            className={classnames(
+              "component-input",
+              err ? "border-red-600" : "border-gray-300"
+            )}
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
             placeholder="Confirm your password"
             minLength="6"
             maxLength="16"
@@ -39,14 +50,11 @@ const RegisterForm = () => {
           />
         </div>
         <div>
-          <button
-            className="mb-0 mt-4 w-full h-10 rounded bg-blue-800 text-white focus:outline-none hover:bg-blue-700"
-            type="button"
-          >
+          <button className="component-button" type="button">
             Register
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

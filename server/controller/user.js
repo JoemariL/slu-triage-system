@@ -19,7 +19,7 @@ async function generateAccessToken(payload) {
 router.post("/user/login", async (req, res) => {
     let inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
     let inputPassword = (req.body.password === undefined) ? null : req.body.password
-    
+
     const { errors, valid } = loginInputValidator(inputUser, inputPassword)
     if(!valid) return res.status(400).json({ errors })
 

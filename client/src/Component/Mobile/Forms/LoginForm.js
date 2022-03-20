@@ -10,15 +10,15 @@ const LoginForm = ({
   handleSubmit,
 }) => {
   return (
-    <div>
+    <div className="text-base">
       <form
-        className="grid grid-rows-auto gap-6 text-center text-base"
+        className="grid grid-rows-auto gap-5 text-center"
         onSubmit={handleSubmit}
       >
         <div>
           <input
             className={classnames(
-              "w-full px-2 h-10 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700",
+              "component-input",
               err ? "border-red-600" : "border-gray-300"
             )}
             type="text"
@@ -36,7 +36,7 @@ const LoginForm = ({
         <div>
           <input
             className={classnames(
-              "w-full px-2 h-10 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700",
+              "component-input",
               err ? "border-red-600" : "border-gray-300"
             )}
             type="password"
@@ -52,19 +52,14 @@ const LoginForm = ({
         </div>
 
         <div>
-          <button
-            className={
-              "mb-0 mt-4 w-full h-10 rounded bg-blue-800 text-white focus:outline-none hover:bg-blue-700"
-            }
-            type="submit"
-          >
+          <button className="component-button" type="submit">
             Log In
           </button>
         </div>
 
         <div>
           <p>
-            <a className="p-2 rounded-lg hover:bg-gray-100" href="#">
+            <a className="component-anchor" href="#">
               Forgot password?
             </a>
           </p>

@@ -1,6 +1,6 @@
 const Header = ({ children }) => {
   return (
-    <div className="bg-indigo-900 h-40 rounded-b-3xl">
+    <div className="h-40 rounded-b-xl bg-indigo-800">
       {children}
     </div>
   );
