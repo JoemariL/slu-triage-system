@@ -10,7 +10,9 @@ const clusterServer = require('./utils/cluster')
 
 const app = express()
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+    origin: "*",
+}))
 
 app.use(compression({
     level: 6,
