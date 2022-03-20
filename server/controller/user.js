@@ -16,7 +16,7 @@ async function generateAccessToken(payload) {
 }
 
 // LOGIN USER.
-router.get("/user/login", async (req, res) => {
+router.post("/user/login", async (req, res) => {
     let inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
     let inputPassword = (req.body.password === undefined) ? null : req.body.password
     

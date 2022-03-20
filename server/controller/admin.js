@@ -16,7 +16,7 @@ async function generateAccessToken(payload) {
 }
 
 // LOGIN AN ADMIN.
-router.get("/admin/login", async (req, res) => {
+router.post("/admin/login", async (req, res) => {
     let inputUsername = (req.body.username === undefined) ? null : req.body.username
     let inputPassword = (req.body.password === undefined) ? null : req.body.password
     
