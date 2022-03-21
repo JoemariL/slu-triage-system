@@ -1,14 +1,14 @@
-import React from "react";
-import { RiErrorWarningFill } from "react-icons/ri";
+import React, { useRef, useState } from "react";
+import { connect } from "react-redux";
+import { Dashboard, Header } from "../../Components";
 import { QRButton } from "../../assets";
-import { Dashboard, Header } from "../../Component";
 
-function Home() {
+function Home({ auth }) {
   return (
     <div className="grid grid-rows-auto gap-28">
       <div>
         <Header>
-          <div className="pt-5 pl-8 pb-5 grid grid-rows-auto text-base text-white">
+          <div className="pt-5 px-8 pb-5 grid grid-rows-auto text-base text-white">
             <div>
               <span>
                 <strong>NAME</strong>
@@ -32,9 +32,9 @@ function Home() {
       </div>
 
       <div className="grid grid-rows-auto">
-        <div className="p-5 flex flex-col items-center text-center space-y-4 rounded-md bg-slate-100 cursor-pointer hover:scale-105 focus:outline-none ease-in-out duration-300">
+        <div className="mx-5 p-4 flex flex-col items-center text-center space-y-4 rounded-lg bg-slate-100 cursor-pointer hover:scale-105 focus:outline-none ease-in-out duration-300">
           <img
-            className="object-contain rounded-md w-48 h-auto"
+            className="object-contain rounded-full w-48 h-auto"
             src={QRButton}
             alt="QR Button"
           />
@@ -45,4 +45,8 @@ function Home() {
   );
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, null)(Home);

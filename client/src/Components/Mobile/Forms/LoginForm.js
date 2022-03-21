@@ -18,7 +18,7 @@ const LoginForm = ({
         <div>
           <input
             className={classnames(
-              "component-input",
+              "w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700",
               err ? "border-red-600" : "border-gray-300"
             )}
             type="text"
@@ -36,7 +36,7 @@ const LoginForm = ({
         <div>
           <input
             className={classnames(
-              "component-input",
+              "w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700",
               err ? "border-red-600" : "border-gray-300"
             )}
             type="password"
@@ -52,14 +52,17 @@ const LoginForm = ({
         </div>
 
         <div>
-          <button className="component-button" type="submit">
+          <button
+            className="w-full h-10 mb-0 mt-4 rounded bg-blue-800 text-white focus: outline-none hover:bg-blue-700"
+            type="submit"
+          >
             Log In
           </button>
         </div>
 
         <div>
           <p>
-            <a className="component-anchor" href="#">
+            <a className="p-2 rounded-lg hover:bg-gray-100" href="#">
               Forgot password?
             </a>
           </p>

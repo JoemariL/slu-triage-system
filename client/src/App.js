@@ -1,29 +1,33 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import { AuthProvider } from "./context/AuthProvider";
-import { Layout } from "./Component/index";
-import { Home, Login, Register } from "./Pages/index";
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Provider } from "react-redux";
+import { Home, Login, WebHDF, Register } from "./Pages/index";
+import { Layout } from "./Components/index";
+import store from "./store";
 import "./App.css";
 
+import { loadUser } from "./actions/authActions";
+
 function App() {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
-    <div className="App">
-      <BrowserRouter>
-        <AuthProvider>
+    <Provider store={store}>
+      <div className="App">
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
-              {/* Public. */}
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Home />} />
-
-              {/* Unauthorized. */}
-              {/* Missing. */}
+              <Route path="/web/hdf" element={<WebHDF />} />
             </Route>
           </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </div>
+        </BrowserRouter>
+      </div>
+    </Provider>
   );
 }
 

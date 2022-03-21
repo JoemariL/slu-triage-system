@@ -4,7 +4,7 @@ import { AiOutlineForm } from "react-icons/ai";
 const Dashboard = () => {
   return (
     <div className="text-base">
-      <div className="component-card">
+      <div className="h-24 grid grid-cols-2 bg-white drop-shadow">
         <div className="flex flex-col justify-center items-center text-blue-800 focus:outline-none hover:text-blue-700 hover:bg-gray-100 cursor-pointer">
           <div>
             <button
