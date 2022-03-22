@@ -6,14 +6,12 @@ const jwt = require('jsonwebtoken')
 
 // MODEL IMPORT
 const USERS = require('../models/users')
+const TOKEN = require('../models/token')
 
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
+const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../middleware/jwt-helper')
 const { emailValidator, userRegistrationValidator, loginInputValidator} = require('../utils/validator')
-
-async function generateAccessToken(payload) {
-    return jwt.sign(payload, process.env.ACCESS_KEY, { expiresIn: '150h' })
-}
 
 // LOGIN USER.
 router.post("/user/login", async (req, res) => {
@@ -40,13 +38,18 @@ router.post("/user/login", async (req, res) => {
             userType: user.user_type
         }
         const accessToken = await generateAccessToken(payload)
+        const refreshToken = await generateRefreshToken(payload)
+
+        const saveToken = new TOKEN ({
+            token: refreshToken
+        })
+        await saveToken.save()
 
         return res.status(200).json({
-            id: user._id,
-            accessToken
+            accessToken,
+            refreshToken
         })
     } catch (error) {
-        console.log(error)
         return res.status(400).json({ errors: { message:'error occurred' }})
     }
 })
@@ -142,6 +145,36 @@ router.post("/user/register", async (req, res) => {
         return res.status(400).json({ errors:{ message:'user registration failed' }})
     })
     
+})
+
+router.post('/token', async (req, res) => {
+    try {
+        const token = req.body.token
+        if (token == null) return res.sendStatus(401)
+
+        // checks if the refresh token exists in the database
+        const refreshToken = await TOKEN.find({ token })
+        if(refreshToken.length === 0) return res.sendStatus(401)
+        
+        const tokenInfo = await verifyRefreshToken(refreshToken[0].token, token)
+        if(!tokenInfo) return res.sendStatus(403)
+        const accessToken = await generateAccessToken(tokenInfo)
+        return res.status(200).json({ accessToken })
+    } catch (error) {
+        return res.sendStatus(404)
+    }
+})
+
+router.delete('/logout', async (req, res) => {
+    try {
+        const token = req.body.token
+        if (token == null) return res.sendStatus(401)
+        await TOKEN.deleteOne({ token }).then(() => {
+            return res.sendStatus(204)
+        })
+    } catch (error) {
+        return res.sendStatus(400)
+    }
 })
 
 

@@ -2,18 +2,14 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 
 // MODEL IMPORT
 const ADMIN = require('../models/admin')
 
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
+const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt-helper')
 const { loginInputValidator } = require('../utils/validator')
-
-async function generateAccessToken(payload) {
-    return jwt.sign(payload, process.env.ACCESS_KEY, { expiresIn: '24h' })
-}
 
 // LOGIN AN ADMIN.
 router.post("/admin/login", async (req, res) => {
@@ -37,10 +33,11 @@ router.post("/admin/login", async (req, res) => {
             username: admin.username
         }
         const accessToken = await generateAccessToken(payload)
+        const refreshToken = await generateRefreshToken(payload)
 
         return res.status(200).json({
-            username: admin.username,
-            accessToken
+            accessToken,
+            refreshToken
         })
     } catch (error) {
         return res.status(200).json({ errors: { message:'error occurred'}})

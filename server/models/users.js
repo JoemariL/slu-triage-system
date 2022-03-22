@@ -3,7 +3,7 @@ const Float = require('mongoose-float').loadType(mongoose)
 
 const hdfData = mongoose.Schema({
     entry_date: {
-        type: Date, default: Date.now
+        type: Date
     },
     entry_campus: {
         type: String
@@ -51,7 +51,8 @@ const hdfData = mongoose.Schema({
         type: String
     },
     createdAt: {
-        type: Date
+        type: Date,
+        default: Date.now
     }
 }, { timestamps: false })
 
@@ -93,7 +94,8 @@ const userSchema = mongoose.Schema({
         type: String
     },
     email_address: {
-        type: String
+        type: String,
+        unique: true
     },
     user_type: {
         type: String

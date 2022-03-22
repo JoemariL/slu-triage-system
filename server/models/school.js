@@ -8,7 +8,8 @@ const schoolSchema = mongoose.Schema({
         type: String
     },
     raw_code: {
-        type: String
+        type: String,
+        unique: true
     },
     generated_code: {
         type: String
