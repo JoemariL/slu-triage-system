@@ -8,22 +8,23 @@ const moment = require('moment')
 const USERS = require('../models/users')
 const SCHOOL = require('../models/school')
 
-
 // UTILS IMPORT 
-const auth = require('../middleware/auth')
-const { objectIDValidator, hdfInputValidator } = require('../utils/validator')
+const { objectIDValidator } = require('../utils/validator')
 const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
-
 
 // GET HDF DATA FOR THE DAY.
 router.get("/day", async (req, res) => {
     let dateToday = moment().startOf('day').toDate()
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
 
-    const data = await getHdfToday(dateToday, dateTomorrow)
-    if(!data) return res.status(404).json({ errors:{ message:'not found' }})
-    return res.status(200).json(data)
+    try {
+        const data = await getHdfToday(dateToday, dateTomorrow)
+        if(!data) return res.status(404).json({ errors:{ message:'not found' }})
+        return res.status(200).json(data)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
 })
 
 // GET HDF DATA FOR SPECIFIC USER
@@ -32,17 +33,16 @@ router.get("/get/:userID", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
-    if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
+    try {
+        const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
+        if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
-    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
-    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
-
-    const userHdf = await getUserHdf(user._id)
-    if(!userHdf) return res.status(404).json({ errors:{ message:'not found' }})
-    return res.status(200).json(userHdf)
-
+        const userHdf = await getUserHdf(user._id)
+        if(!userHdf) return res.status(404).json({ errors:{ message:'not found' }})
+        return res.status(200).json(userHdf)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
 })
 
 // GENERATE HDF DATA FOR SPECIFIC USER
@@ -51,72 +51,48 @@ router.post("/generate/:userID", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
-    if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
-
-    let dateNow = moment().toDate()
     let dateToday = moment().startOf('day').toDate()
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
 
-    const inputDeptDestination = (req.body.deptDestination === undefined) ? null : req.body.deptDestination 
-    const inputExposure = (req.body.covidExposure === undefined) ? null : req.body.covidExposure
-    const inputPositive = (req.body.covidPositive === undefined) ? null : req.body.covidPositive
-    const inputFever = (req.body.fever === undefined) ? null : req.body.fever
-    const inputCough = (req.body.cough === undefined) ? null : req.body.cough
-    const inputCold = (req.body.cold === undefined) ? null : req.body.cold
-    const inputSoreThroat = (req.body.soreThroat === undefined ) ? null : req.body.soreThroat
-    const inputDiffBreathing = (req.body.DiffBreathing === undefined) ? null : req.body.DiffBreathing
-    const inputDiarrhea = (req.body.diarrhea === undefined) ? null : req.body.diarrhea
-    const inputOthers = (req.body.others === undefined) ? null : req.body.others
-    const inputIfPregnant = (req.body.ifPregnant === undefined) ? null : req.body.ifPregnant
-
-    const { errors, valid } = hdfInputValidator(inputExposure, inputPositive, inputFever, inputCough, inputCold, inputSoreThroat, inputDiffBreathing, inputDiarrhea)
-    if(!valid) return res.status(400).json({ errors })
+    const { deptDestination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, ifPregnant } = req.body
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
     const entryCheck = await hdfIfExistDay(user._id, dateToday, dateTomorrow)
     if(!entryCheck) return res.status(404).json({ errors:{ message:'user already has registered hdf this day' }})
 
-    let allowed = null
-    if(inputExposure || inputPositive || inputFever || inputCough || inputCold || inputSoreThroat || inputDiffBreathing || inputDiarrhea) {
-        allowed = false
-    } else {
-        allowed = true
-    }
-
+    let allowed = true
+    if(covidExposure || covidPositive || fever || cough || cold || soreThroat || diffBreathing || diarrhea) allowed = false
+  
     const hdfData = {
-        entry_date: null,
-        entry_campus: null,
-        gate_info: null,
-        code: null,
         allowed,
-        is_expired: false,
-        dept_destination: inputDeptDestination,
-        covid_exposure: inputExposure,
-        covid_positive: inputPositive,
-        fever: inputFever,
-        cough: inputCough,
-        cold: inputCold,
-        sore_throat: inputSoreThroat,
-        diff_breathing: inputDiffBreathing,
-        diarrhea: inputDiarrhea,
-        others: inputOthers,
-        pregnant: inputIfPregnant,
-        createdAt: dateNow
+        dept_destination: deptDestination,
+        covid_exposure: covidExposure,
+        covid_positive: covidPositive,
+        fever,
+        cough,
+        cold,
+        sore_throat: soreThroat,
+        diff_breathing: diffBreathing,
+        diarrhea,
+        others,
+        pregnant: ifPregnant,
     }
 
     const uid = user._id
-    const newHdfData = await USERS.findByIdAndUpdate(
-        uid,
-        { $push: { "hdf_data": hdfData }},
-        { new: true}
-    )
-
-    if(newHdfData) return res.status(201).json({ success: { message:'user hdf form added'}})
-    return res.status(400).json({ errors:{ message:'user hdf form add failed' }})
+    try {
+        const newHdfData = await USERS.findByIdAndUpdate(
+            uid,
+            { $push: { "hdf_data": hdfData }},
+            { new: true}
+        )
+    
+        if(newHdfData) return res.status(201).json({ success: { message:'user hdf form added'}})
+        return res.status(400).json({ errors:{ message:'user hdf form add failed' }})
+    } catch (error) {
+        return res.sendStatus(500)
+    }
 })
 
 // HDF QR SCAN
@@ -129,14 +105,11 @@ router.patch("/scan/:userID/:hdfID", async (req, res) => {
     const hdfCheck = objectIDValidator(hdfUid)
     if (!hdfCheck) return res.status(400).json({ errors:{ message:'invalid hdf ID'}})
 
-    const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
-    if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
-    const inputQrData = (req.body.qrCode === undefined) ? null : req.body.qrCode
-    if(inputQrData === null) return res.status(400).json({ errors:{ message:'provide the qr code data' }})
+    const qrData = req.body.qrCode
+    if(qrData === null) return res.status(400).json({ errors:{ message:'provide the qr code data' }})
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
     const ifExist = await hdfIfExist(userUid, hdfUid)
     if(!ifExist) return res.status(404).json({ errors:{ message:'user hdf info not found' }})
@@ -147,36 +120,41 @@ router.patch("/scan/:userID/:hdfID", async (req, res) => {
     let decrypted, school, gate, code = null
 
     try{
-        decrypted = decryptJSON(inputQrData)
+        decrypted = decryptJSON(qrData)
         if(decrypted.hasOwnProperty('raw_code')) school = decrypted.school, gate = decrypted.gate, code = decrypted.raw_code
         let check = await SCHOOL.findOne({ raw_code: code})
         if(!check) return res.status(404).json({ errors:{ message:'qr code information not found' }})
-    } catch (err) {
+    } catch (error) {
         return res.status(400).json({ errors:{ message:'no signature found or invalid qr code' }})
     }
-    let dateNow = moment().toDate()
 
+    let dateNow = moment().toDate()
     const uid = user._id
-    const newHdfData = await USERS.findByIdAndUpdate(
-        uid,
-        {
-            $set: {
-                "hdf_data.$[element].entry_date": dateNow,
-                "hdf_data.$[element].entry_campus": school,
-                "hdf_data.$[element].gate_info": gate,
-                "hdf_data.$[element].is_expired": true
-            }
-        },
-        {
-            arrayFilters: [
-                {
-                    "element._id": mongoose.Types.ObjectId(hdfUid)
+    
+    try {
+        const newHdfData = await USERS.findByIdAndUpdate(
+            uid,
+            {
+                $set: {
+                    "hdf_data.$[element].entry_date": dateNow,
+                    "hdf_data.$[element].entry_campus": school,
+                    "hdf_data.$[element].gate_info": gate,
+                    "hdf_data.$[element].is_expired": true
                 }
-            ]  
-        }
-    )
-    if(newHdfData) return res.status(201).json({ success: { message:'user hdf details updated' }})
-    return res.status(400).json({ errors:{ message:'user hdf details failed to update' }})  
+            },
+            {
+                arrayFilters: [
+                    {
+                        "element._id": mongoose.Types.ObjectId(hdfUid)
+                    }
+                ]  
+            }
+        )
+        if(newHdfData) return res.status(201).json({ success: { message:'user hdf details updated' }})
+        return res.status(400).json({ errors:{ message:'user hdf details failed to update' }}) 
+    } catch (error) {
+        return res.sendStatus(500)
+    } 
 })
 
 // EDIT HDF DATA FOR SPECIFIC USER
@@ -189,28 +167,12 @@ router.patch("/update/:userID/:hdfID", async (req, res) => {
     const hdfCheck = objectIDValidator(hdfUid)
     if (!hdfCheck) return res.status(400).json({ errors:{ message:'invalid hdf ID'}})
 
-    const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
-    if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
-
-    const inputDeptDestination = (req.body.deptDestination === undefined) ? null : req.body.deptDestination 
-    const inputExposure = (req.body.covidExposure === undefined) ? null : req.body.covidExposure
-    const inputPositive = (req.body.covidPositive === undefined) ? null : req.body.covidPositive
-    const inputFever = (req.body.fever === undefined) ? null : req.body.fever
-    const inputCough = (req.body.cough === undefined) ? null : req.body.cough
-    const inputCold = (req.body.cold === undefined) ? null : req.body.cold
-    const inputSoreThroat = (req.body.soreThroat === undefined ) ? null : req.body.soreThroat
-    const inputDiffBreathing = (req.body.diffBreathing === undefined) ? null : req.body.diffBreathing
-    const inputDiarrhea = (req.body.diarrhea === undefined) ? null : req.body.diarrhea
-    const inputOthers = (req.body.others === undefined) ? null : req.body.others
+    const { deptDestination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, ifPregnant } = req.body
 
     let dateYesterday = moment().startOf('day').add(-1, 'days').toDate()
     
-    const { errors, valid } = hdfInputValidator(inputExposure, inputPositive, inputFever, inputCough, inputCold, inputSoreThroat, inputDiffBreathing, inputDiarrhea)
-    if(!valid) return res.status(400).json({ errors })
-
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
     const ifExist = await hdfIfExist(userUid, hdfUid)
     if(!ifExist) return res.status(404).json({ errors:{ message:'user hdf info not found' }})
@@ -222,34 +184,39 @@ router.patch("/update/:userID/:hdfID", async (req, res) => {
     if(ifPassed) return res.status(400).json({ errors:{ message:'hdf that are created in the past can no longer be updated'}})
 
     const uid = user._id
-    const newHdfData = await USERS.findByIdAndUpdate(
-        uid,
-        {
-            $set: {
-                "hdf_data.$[element].dept_destination": inputDeptDestination,
-                "hdf_data.$[element].covid_exposure": inputExposure,
-                "hdf_data.$[element].covid_positive": inputPositive,
-                "hdf_data.$[element].fever": inputFever,
-                "hdf_data.$[element].cough": inputCough,
-                "hdf_data.$[element].cold": inputCold,
-                "hdf_data.$[element].sore_throat": inputSoreThroat,
-                "hdf_data.$[element].diff_breathing": inputDiffBreathing,
-                "hdf_data.$[element].diarrhea": inputDiarrhea,
-                "hdf_data.$[element].others": inputOthers
-            }
-        },
-        {
-            arrayFilters: [
-                {
-                    "element._id": mongoose.Types.ObjectId(hdfUid)
+    try {
+        const newHdfData = await USERS.findByIdAndUpdate(
+            uid,
+            {
+                $set: {
+                    "hdf_data.$[element].dept_destination": deptDestination,
+                    "hdf_data.$[element].covid_exposure": covidExposure,
+                    "hdf_data.$[element].covid_positive": covidPositive,
+                    "hdf_data.$[element].fever": fever,
+                    "hdf_data.$[element].cough": cough,
+                    "hdf_data.$[element].cold": cold,
+                    "hdf_data.$[element].sore_throat": soreThroat,
+                    "hdf_data.$[element].diff_breathing": diffBreathing,
+                    "hdf_data.$[element].diarrhea": diarrhea,
+                    "hdf_data.$[element].others": others,
+                    "hdf_data.$[element].pregnant": ifPregnant
                 }
-            ]
-        }
-    )
-
-    if(newHdfData) return res.status(201).json({ success: { message:'user hdf details updated' }})
-    return res.status(400).json({ errors:{ message:'user hdf details failed to update' }})    
-
+            },
+            {
+                arrayFilters: [
+                    {
+                        "element._id": mongoose.Types.ObjectId(hdfUid)
+                    }
+                ]
+            }
+        )
+    
+        if(newHdfData) return res.status(201).json({ success: { message:'user hdf details updated' }})
+        return res.status(400).json({ errors:{ message:'user hdf details failed to update' }})    
+    
+    } catch (error) {
+        return res.sendStatus(500)
+    }
 })
 
 // DELETE HDF DATA IN A USER
@@ -262,29 +229,28 @@ router.delete("/delete/:userID/:hdfID", async (req, res) => {
     const hdfCheck = objectIDValidator(hdfUid)
     if (!hdfCheck) return res.status(400).json({ errors:{ message:'invalid hdf ID'}})
 
-    const inputUser = (req.body.idNumber === undefined) ? req.body.username : req.body.idNumber
-    if(inputUser === null || inputUser === undefined) return res.status(400).json({ errors:{ message:'provide the user details' }})
-
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    if(user.id_number != inputUser && user.username != inputUser) return res.status(400).json({ errors:{ message:'user info mismatch' }})
 
     const ifExist = await hdfIfExist(userUid, hdfUid)
     if(!ifExist) return res.status(404).json({ errors:{ message:'user hdf info not found' }})
 
     const uid = user._id
-    const removedHdfData = await USERS.findByIdAndUpdate(
-        uid,
-        {
-            $pull : {
-                hdf_data: { _id: mongoose.Types.ObjectId(hdfUid) }
+    try {
+        const removedHdfData = await USERS.findByIdAndUpdate(
+            uid,
+            {
+                $pull : {
+                    hdf_data: { _id: mongoose.Types.ObjectId(hdfUid) }
+                }
             }
-        }
-    )
-
-    if(removedHdfData) return res.status(201).json({ success: { message:'user hdf detail deleted' }})
-    return res.status(400).json({ errors:{ message:'user hdf detail failed to delete' }}) 
-
+        )
+    
+        if(removedHdfData) return res.status(201).json({ success: { message:'user hdf detail deleted' }})
+        return res.status(400).json({ errors:{ message:'user hdf detail failed to delete' }}) 
+    } catch (error) {
+        return res.sendStatus(500)
+    }
 })
 
 module.exports = router

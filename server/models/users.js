@@ -3,19 +3,23 @@ const Float = require('mongoose-float').loadType(mongoose)
 
 const hdfData = mongoose.Schema({
     entry_date: {
-        type: Date
+        type: Date,
+        default: null
     },
     entry_campus: {
-        type: String
+        type: String,
+        default: null
     },
     gate_info: {
-        type: String
+        type: String,
+        default: null
     },
     allowed: {
         type: Boolean
     },
     is_expired: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     dept_destination: {
         type: String
@@ -45,10 +49,12 @@ const hdfData = mongoose.Schema({
         type: Boolean
     },
     others: {
-        type: String
+        type: String,
+        default: null
     },
     pregnant: {
-        type: String
+        type: String,
+        default: null
     },
     createdAt: {
         type: Date,
@@ -75,11 +81,9 @@ const userSchema = mongoose.Schema({
     last_name: {
         type: String
     },
-    id_number: {
-        type: String
-    },
     username: {
-        type: String
+        type: String,
+        unique: true
     },
     password: {
         type: String

@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 
 // MODEL IMPORT
 const ADMIN = require('../models/admin')
+const TOKEN = require('../models/token')
 
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
@@ -13,17 +14,13 @@ const { loginInputValidator } = require('../utils/validator')
 
 // LOGIN AN ADMIN.
 router.post("/admin/login", async (req, res) => {
-    let inputUsername = (req.body.username === undefined) ? null : req.body.username
-    let inputPassword = (req.body.password === undefined) ? null : req.body.password
+    const { username, password } = req.body
     
-    const { errors, valid } = loginInputValidator(inputUsername, inputPassword)
-    if(!valid) return res.status(400).json({ errors })
-    
-    const admin = await ADMIN.findOne({ username: inputUsername })
+    const admin = await ADMIN.findOne({ username })
     if(!admin) return res.status(404).json({ errors: { message:'user not found' }})
     if(admin.isDeactivated) return res.status(401).json({ errors: { message:'account is disabled' }})
 
-    const isMatch = await bcrypt.compare(inputPassword, admin.password)
+    const isMatch = await bcrypt.compare(password, admin.password)
     if(!isMatch) return res.status(400).json({ errors: { message:'invalid login credentials'}})
     
     try {
@@ -34,6 +31,11 @@ router.post("/admin/login", async (req, res) => {
         }
         const accessToken = await generateAccessToken(payload)
         const refreshToken = await generateRefreshToken(payload)
+
+        const saveToken = new TOKEN ({
+            token: refreshToken
+        })
+        await saveToken.save()
 
         return res.status(200).json({
             accessToken,
@@ -47,20 +49,19 @@ router.post("/admin/login", async (req, res) => {
 
 // REGISTER AN ADMIN.
 router.post("/admin/register", async (req, res) => {
-    let inputUsername = (req.body.username === undefined) ? null : req.body.username
-    let inputPassword = (req.body.password === undefined) ? null : req.body.password
+    const { username, password } = req.body
     
-    let username = inputUsername.replace(/\s+/g, '')
-    let regex = new RegExp(["^", username, "$"].join(""), "i")
+    let user = username.replace(/\s+/g, '')
+    let regex = new RegExp(["^", user, "$"].join(""), "i")
 
     const ifExists = await ADMIN.find({ username: regex })
     if(ifExists.length !== 0) return res.status(400).json({ errors: { message:'user already exists' }})
 
-    let password = await bcrypt.hash(inputPassword, 12)
+    let hashedPassword = await bcrypt.hash(password, 12)
 
     const newAdmin = new ADMIN({
-        username,
-        password
+        username: user,
+        password: hashedPassword
     })
 
     await newAdmin.save()
