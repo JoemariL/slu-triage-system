@@ -9,12 +9,13 @@ const Menu = (props) => {
       {/* Main background. */}
       <div className="fixed w-full h-full z-50 bg-white">
         {/* Top part. */}
-        <div className="px-8 py-8 flex flex-row justify-between bg-gradient-to-r from-blue-100 to-blue-200">
+        <div className="px-8 py-8 flex flex-row justify-between bg-gradient-to-br from-indigo-200">
           {/* Account and Name. */}
           <div className="grid grid-flow-row auto-rows- space-y-5">
-            <div>
+            <div className="grid grid-flow-row auto-rows-auto">
+              <span className="text-sm text-gray-800">PROFILE</span>
               <span className="text-xl">
-                <strong>NAME</strong>
+                <strong>Name</strong>
               </span>
             </div>
 
