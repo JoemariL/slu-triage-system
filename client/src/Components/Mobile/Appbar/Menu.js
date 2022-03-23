@@ -13,7 +13,7 @@ const Menu = (props) => {
           {/* Account and Name. */}
           <div className="grid grid-flow-row auto-rows- space-y-5">
             <div className="grid grid-flow-row auto-rows-auto">
-              <span className="text-sm text-gray-800">PROFILE</span>
+              <span className="text-sm text-gray-800">ACCOUNT PROFILE</span>
               <span className="text-xl">
                 <strong>Name</strong>
               </span>
