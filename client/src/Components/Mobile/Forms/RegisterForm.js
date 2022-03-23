@@ -72,7 +72,7 @@ const RegisterForm = (err) => {
         <span className="text-gray-500">
           <strong>User Information</strong>
         </span>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-rows-3 gap-5">
           <div>
             <input
               className={classnames(
