@@ -1,52 +1,71 @@
-import React, { useRef, useState } from "react";
-import { connect } from "react-redux";
-import { Dashboard, Header } from "../../Components";
+import React, { useState } from "react";
+import { RiMenuUnfoldLine, RiMenuFoldLine } from "react-icons/ri";
+import { Dashboard, Header, Menu } from "../../Components";
 import { QRButton } from "../../assets";
 
-function Home({ auth }) {
+function Home() {
+  const [menuOpened, setMenuOpened] = useState(false);
+
   return (
-    <div className="grid grid-rows-auto gap-28">
+    <div className="grid grid-rows-auto space-y-20">
+      {menuOpened && (
+        <Menu
+          closeMenu={
+            <button
+              className="component-button-icon bg-blue-900 focus:outline-none hover:scale-110 hover:bg-blue-800 ease-in-out duration-300"
+              type="button"
+              onClick={() => setMenuOpened(false)}
+            >
+              <RiMenuFoldLine className="text-white" />
+            </button>
+          }
+        />
+      )}
+
       <div>
         <Header>
-          <div className="pt-5 px-8 pb-5 grid grid-rows-auto text-base text-white">
-            <div>
+          <div className="px-10 py-5 flex flex-row justify-between">
+            <div className="grid grid-flow-row auto-rows-auto text-white">
               <span>
+                WELCOME,&nbsp;
                 <strong>NAME</strong>
               </span>
-            </div>
-            <div>
+
               <span>TYPE</span>
             </div>
 
             <div>
-              <p>
-                <span>U/ID:&nbsp;</span>
-              </p>
+              <button
+                className="component-button-icon bg-white focus:outline-none hover:scale-110 ease-in-out duration-300"
+                type="button"
+                onClick={() => setMenuOpened(!menuOpened)}
+              >
+                <RiMenuUnfoldLine className="text-blue-800" />
+              </button>
             </div>
           </div>
 
-          <div className="mx-5">
+          <div className="mx-5 grid grid-rows-auto sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
             <Dashboard />
           </div>
         </Header>
       </div>
 
-      <div className="grid grid-rows-auto">
-        <div className="mx-5 p-4 flex flex-col items-center text-center space-y-4 rounded-lg bg-slate-100 cursor-pointer hover:scale-105 focus:outline-none ease-in-out duration-300">
+      <div className="grid grid-rows-auto sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
+        <div className="component-button-picture bg-gradient-to-tl from-yellow-100 to-yellow-500">
           <img
             className="object-contain rounded-full w-48 h-auto"
             src={QRButton}
             alt="QR Button"
           />
-          <span>Scan QR Code</span>
+          <div className="px-4 py-1 rounded-full bg-white">
+            <span className="text-sm">Scan QR Code</span>
+          </div>
         </div>
       </div>
+      <br />
     </div>
   );
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps, null)(Home);
+export default Home;

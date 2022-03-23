@@ -1,41 +1,30 @@
-import { GiLoveInjection } from "react-icons/gi";
-import { AiOutlineForm } from "react-icons/ai";
+import { GiLoveInjection, GiFiles } from "react-icons/gi";
 
 const Dashboard = () => {
   return (
     <div className="text-base">
-      <div className="h-24 grid grid-cols-2 bg-white drop-shadow">
-        <div className="flex flex-col justify-center items-center text-blue-800 focus:outline-none hover:text-blue-700 hover:bg-gray-100 cursor-pointer">
+      <div className="h-24 rounded-xl grid grid-cols-2 bg-white drop-shadow">
+        <div className="flex flex-col justify-center items-center rounded-xl text-blue-800 focus:outline-none hover:text-blue-700 hover:bg-gray-100 cursor-pointer">
           <div>
-            <button
-              className="h-auto w-9 flex flex-col justify-center items-center rounded text-3xl text-center bg-none"
-              type="button"
-            >
+            <button className="component-button-icon" type="button">
               <GiLoveInjection />
             </button>
           </div>
 
           <div className="text-sm text-center">
-            <p>
-              <span>Vaccine Profile</span>
-            </p>
+            <span>Vaccine Profile</span>
           </div>
         </div>
 
-        <div className="flex flex-col justify-center items-center text-blue-800 focus:outline-none hover:text-blue-700 hover:bg-gray-100 cursor-pointer">
+        <div className="flex flex-col justify-center items-center rounded-xl text-blue-800 focus:outline-none hover:text-blue-700 hover:bg-gray-100 cursor-pointer">
           <div>
-            <button
-              className="h-auto w-9 flex flex-col justify-center items-center rounded text-3xl text-center bg-none"
-              type="button"
-            >
-              <AiOutlineForm />
+            <button className="component-button-icon" type="button">
+              <GiFiles />
             </button>
           </div>
 
           <div className="text-sm text-center">
-            <p>
-              <span>View HDF</span>
-            </p>
+            <span>View HDF</span>
           </div>
         </div>
       </div>
