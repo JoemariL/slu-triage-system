@@ -116,6 +116,9 @@ const VaccineForm = ({ err }) => {
             placeholder="Enter your vaccination card serial no."
             required
           />
+          <span className="px-2 text-sm text-gray-500">
+            Vaccination Card Serial No.
+          </span>
         </div>
 
         <div>

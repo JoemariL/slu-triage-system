@@ -22,8 +22,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/web/hdf" element={<WebHDF />} />
-            {/* <Route path="/web/hdf/results" element={<PositivePage />} /> */}
-            <Route path="/web/hdf/results" element={<NegativePage />} />
+            <Route path="/web/hdf/results" element={<PositivePage />} />
+            {/* <Route path="/web/hdf/results" element={<NegativePage />} /> */}
             <Route path="/web/vaccine-profile" element={<WebVaccine />} />
           </Route>
         </Routes>
