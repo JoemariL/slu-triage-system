@@ -1,11 +1,12 @@
 import { useLocation, Navigate, Outlet } from 'react-router-dom'
+import useAuth from '../hooks/useAuth';
 
 const NoAuth = () => {
-    const token = localStorage.getItem('refreshToken')
+    const { auth } = useAuth()
     const location = useLocation();
 
     return (
-        !token 
+        !auth?.user
             ? <Outlet /> 
             : <Navigate to='/home' state={{ from: location }} replace />
             
