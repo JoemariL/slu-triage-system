@@ -1,4 +1,5 @@
 import API from "../modules/api"
+import jwtDecode from "jwt-decode";
 
 const config = {
     headers: {
@@ -15,7 +16,7 @@ export const login = async (email, password) => {
         .then((res) => {
             localStorage.setItem('accessToken', res.data.accessToken)
             localStorage.setItem('refreshToken', res.data.refreshToken)
-            return { success: true }
+            return jwtDecode(localStorage.getItem('refreshToken')).id
         })
         .catch((err) => {
             return err.response?.data?.errors

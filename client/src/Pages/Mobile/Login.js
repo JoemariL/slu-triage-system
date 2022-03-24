@@ -4,8 +4,10 @@ import { LoginForm } from "../../Components/index";
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../../actions/authActions';
+import useAuth from "../../hooks/useAuth";
 
 function Login() {
+  const { setAuth } = useAuth()
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -15,7 +17,10 @@ function Login() {
     e.preventDefault();
     const response = await login(email, password)
     if(response.hasOwnProperty("message")) alert(response.message)
-    if(response.hasOwnProperty("success")) navigate('/home', { replace: true })
+    if(response) {
+      setAuth({ user: response })
+      navigate('/home', { replace: true })
+    }
   };
   
   return (
