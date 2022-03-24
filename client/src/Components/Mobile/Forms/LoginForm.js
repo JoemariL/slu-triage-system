@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import classnames from "classnames";
 
 const LoginForm = ({
@@ -9,25 +10,25 @@ const LoginForm = ({
   err,
   handleSubmit,
 }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckChange = () => {
+    setIsChecked(!isChecked);
+  };
   return (
     <div className="text-base">
-      <form
-        className="grid grid-rows-auto gap-5 text-center"
-        onSubmit={handleSubmit}
-      >
+      <form className="component-form" onSubmit={handleSubmit}>
         <div>
           <input
             className={classnames(
-              "w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700",
+              "component-input",
               err ? "border-red-600" : "border-gray-300"
             )}
             type="text"
             id="username"
             name="username"
             value={username}
-            placeholder="Enter ID/username"
-            minLength="6"
-            maxLength="16"
+            placeholder="Enter your email address"
             onChange={userOnChange}
             required
           />
@@ -36,32 +37,41 @@ const LoginForm = ({
         <div>
           <input
             className={classnames(
-              "w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700",
+              "component-input",
               err ? "border-red-600" : "border-gray-300"
             )}
-            type="password"
+            type={isChecked ? "text" : "password"}
             id="password"
             name="password"
             value={password}
-            placeholder="Enter password"
+            placeholder="Enter your password"
             minLength="6"
-            maxLength="16"
             onChange={pwdOnChange}
             required
           />
         </div>
 
+        <div className="flex flex-row items-center">
+          <input
+            className="component-checkbox"
+            type="checkbox"
+            id="showPassword"
+            name="showPassword"
+            value="Show Password"
+            checked={isChecked}
+            onChange={handleCheckChange}
+          />
+          <span>Show Password</span>
+        </div>
+
         <div>
-          <button
-            className="w-full h-10 mb-0 mt-4 rounded bg-blue-800 text-white focus: outline-none hover:bg-blue-700"
-            type="submit"
-          >
+          <button className="component-button-blue" type="submit">
             Log In
           </button>
         </div>
 
         <div>
-          <p>
+          <p className="text-center">
             <a className="p-2 rounded-lg hover:bg-gray-100" href="#">
               Forgot password?
             </a>
