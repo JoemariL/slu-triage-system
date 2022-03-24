@@ -49,10 +49,13 @@ const Menu = (props) => {
         </div>
 
         {/* Bottom Part. */}
-        <div className="grid grid-flow-row auto-rows-auto space-y-2">
-          <div className="h-16 px-8 flex flex-row justify-between items-center text-lg cursor-pointer hover:bg-gray-100">
+        <div className="m-2 grid grid-flow-row auto-rows-auto space-y-2 rounded-2xl bg-slate-100">
+          <div className="h-16 px-5 flex flex-row space-x-5 items-center text-lg rounded-2xl cursor-pointer hover:bg-blue-100">
+            <div className="component-icon bg-gray-500">
+              <MdOutlineLogout className="text-gray-100" />
+            </div>
+
             <span>Log out</span>
-            <MdOutlineLogout />
           </div>
         </div>
       </div>

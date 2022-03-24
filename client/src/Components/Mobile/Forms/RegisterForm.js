@@ -213,7 +213,7 @@ const RegisterForm = (err) => {
             </span>
           </div>
 
-          <div className="px-2 flex flex-row items-center space-x-3">
+          <div className="flex flex-row items-center">
             <input
               className="component-checkbox"
               type="checkbox"

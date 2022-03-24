@@ -3,151 +3,201 @@ import classnames from "classnames";
 const HDF = (err) => {
   return (
     <div className="text-base">
-      <form className="grid grid-rows-auto gap-5">
+      <form className="component-form">
+        <p>
+          <span className="text-xl">
+            <strong>INSTRUCTIONS</strong> <br />
+          </span>
+          Answer the following questions truthfully.
+        </p>
+
         <hr />
-        <div>
-          <p>
+
+        <div className="grid grid-rows-2">
+          <span>
             In the past weeks, have you had any known exposure to confirmed
             COVID-19 patient?
-          </p>
-          <div>
-            <input
-              className="m-3"
-              type="radio"
-              id="exposure"
-              name="exposure"
-              value="true"
-            />
-            <label for="yes">Yes</label>
-          </div>
+          </span>
 
-          <div>
+          <div className="flex flex-row items-center">
             <input
-              className="m-3"
+              className="component-radiobtn"
               type="radio"
-              id="exposure"
-              name="exposure"
-              value="false"
+              value={true}
+              name="covidExposure"
             />
-            <label for="no">No</label>
+            <span>Yes</span>
+            <input
+              className="component-radiobtn"
+              type="radio"
+              value={false}
+              name="covidExposure"
+            />
+            <span>No</span>
           </div>
         </div>
 
-        <div>
-          <p>
-            Have you tested <u>POSITIVE for COVID-19</u> in the last 30 days?
-          </p>
-          <div>
-            <input
-              className="m-3"
-              type="radio"
-              id="testedPositive"
-              name="testedPositive"
-              value="true"
-            />
-            <label for="yes">Yes</label>
-          </div>
+        <div className="grid grid-rows-2">
+          <span>
+            Have you tested POSITIVE for COVID-19 in the last 30 days?
+          </span>
 
-          <div>
+          <div className="flex flex-row items-center">
             <input
-              className="m-3"
+              className="component-radiobtn"
               type="radio"
-              id="testedPositive"
-              name="testedPositive"
-              value="false"
+              value={true}
+              name="covidPositive"
             />
-            <label for="testedPositive">No</label>
+            <span>Yes</span>
+            <input
+              className="component-radiobtn"
+              type="radio"
+              value={false}
+              name="covidPositive"
+            />
+            <span>No</span>
           </div>
         </div>
 
         <hr />
 
-        {/* Medical history. */}
         <div>
           <p>
-            <span>
+            <span className="text-xl">
               <strong>MEDICAL HISTORY</strong> <br />
             </span>
             Have you been sicked or experienced any of the following in the last
             14 days?
           </p>
+        </div>
 
-          <div>
-            <input className="m-3" type="checkbox" id="fever" name="fever" />
-            <label for="fever">FEVER (LAGNAT)</label>
-          </div>
-
-          <div>
-            <input className="m-3" type="checkbox" id="cough" name="cough" />
-            <label for="cough">COUGH (UBO)</label>
-          </div>
-          <div>
-            <input className="m-3" type="checkbox" id="cold" name="cold" />
-            <label for="cold">COLD (SIPON)</label>
-          </div>
-
-          <div>
+        <div className="grid grid-flow-row auto-rows-auto space-y-2">
+          <div className="flex flex-row items-center">
             <input
-              className="m-3"
+              className="component-checkbox"
+              type="checkbox"
+              id="fever"
+              name="fever"
+              value="Fever"
+            />
+            <span>Fever</span>
+          </div>
+
+          <div className="flex flex-row items-center">
+            <input
+              className="component-checkbox"
+              type="checkbox"
+              id="cough"
+              name="cough"
+              value="Cough"
+            />
+            <span>Cough</span>
+          </div>
+
+          <div className="flex flex-row items-center">
+            <input
+              className="component-checkbox"
+              type="checkbox"
+              id="cold"
+              name="cold"
+              value="Cold"
+            />
+            <span>Cold</span>
+          </div>
+
+          <div className="flex flex-row items-center">
+            <input
+              className="component-checkbox"
               type="checkbox"
               id="soreThroat"
               name="soreThroat"
+              value="Sore Throat"
             />
-            <label for="soreThroat">SORE THROAT (PANANAKIT NG LALAMUNAN)</label>
+            <span>Sore Throat</span>
           </div>
 
-          <div>
+          <div className="flex flex-row items-center">
             <input
-              className="m-3"
+              className="component-checkbox"
               type="checkbox"
               id="diffBreathing"
               name="diffBreathing"
+              value="Difficulty Breathing"
             />
-            <label for="diffBreathing">
-              DIFFICULTY IN BREATHING (HIRAP SA PAGHINGA)
-            </label>
+            <span>Difficulty Breathing</span>
           </div>
 
-          <div>
+          <div className="flex flex-row items-center">
             <input
-              className="m-3"
+              className="component-checkbox"
               type="checkbox"
               id="diarrhea"
               name="diarrhea"
+              value="Diarrhea"
             />
-            <label for="diarrhea">DIARRHEA (MADALAS NA PAGDUMI)</label>
-          </div>
-
-          <div>
-            <input className="m-3" type="checkbox" id="others" name="others" />
-            <label for="others">OTHERS (...)</label>
+            <span>Diarrhea</span>
           </div>
         </div>
 
         <hr />
 
         <div>
-          <label for="destination">Enter your destination</label>
+          <div className="grid grid-rows-2">
+            <span>Are you pregnant?</span>
+
+            <div className="p-1 flex flex-row items-center space-x-5">
+              <div>
+                <input
+                  className="component-radiobtn"
+                  type="radio"
+                  value={true}
+                  name="pregnant"
+                />
+                <span>Yes</span>
+              </div>
+
+              <div>
+                <input
+                  className="component-radiobtn"
+                  type="radio"
+                  value={false}
+                  name="pregnant"
+                />
+                <span>No</span>
+              </div>
+
+              <div>
+                <input
+                  className="component-radiobtn"
+                  type="radio"
+                  name="pregnant"
+                />
+                <span>Not applicable</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="grid grid-row-2 space-y-2">
           <input
             className={classnames(
-              "w-full h-10 px-2 border-2 rounded border-gray-300 focus:outline-none focus:border-blue-700",
+              "component-input",
               err ? "border-red-600" : "border-gray-300"
             )}
-            type="text"
-            id="destination"
-            name="destination"
-            placeholder="Dept' / Destination"
-            minLength="6"
-            maxLength="16"
+            type="input"
+            id="deptDestination"
+            name="deptDestination"
+            placeholder="Enter your department or destination"
             required
           />
+          <span className="px-2 text-sm text-gray-500">SAMCIS, SEA, etc.</span>
         </div>
 
         <div>
-          <button
-            className="w-full h-10 mb-0 mt-4 rounded bg-blue-800 text-white focus: outline-none hover:bg-blue-700"
-            type="button"
-          >
+          <button className="component-button-blue" type="submit">
             Submit
           </button>
         </div>

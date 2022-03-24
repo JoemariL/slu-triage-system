@@ -7,7 +7,7 @@ function Home() {
   const [menuOpened, setMenuOpened] = useState(false);
 
   return (
-    <div className="grid grid-rows-auto space-y-20">
+    <div className="grid grid-rows-auto space-y-24">
       {menuOpened && (
         <Menu
           closeMenu={
@@ -24,14 +24,12 @@ function Home() {
 
       <div>
         <Header>
-          <div className="px-10 py-5 flex flex-row justify-between">
-            <div className="grid grid-flow-row auto-rows-auto text-white">
+          <div className="px-5 py-5 flex flex-row justify-between">
+            <div className="grid grid-flow-row auto-rows-auto items-center text-white">
               <span>
                 WELCOME,&nbsp;
                 <strong>NAME</strong>
               </span>
-
-              <span>TYPE</span>
             </div>
 
             <div>
@@ -51,7 +49,7 @@ function Home() {
         </Header>
       </div>
 
-      <div className="grid grid-rows-auto sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
+      <div className="grid grid-flow-row auto-rows-auto space-y-4 sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
         <div className="component-button-picture bg-gradient-to-tl from-yellow-100 to-yellow-500">
           <img
             className="object-contain rounded-full w-48 h-auto"

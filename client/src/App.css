@@ -124,6 +124,10 @@ select {
   @apply w-full h-10 mb-0 mt-4 rounded bg-blue-800 text-white focus:outline-none hover:bg-blue-700;
 }
 
+.component-button-gray {
+  @apply w-full h-10 mb-0 mt-4 rounded bg-gray-500 text-white focus:outline-none hover:bg-gray-400;
+}
+
 .component-button-icon {
   @apply flex flex-row justify-center items-center h-8 w-8 rounded-full text-xl text-center;
 }
@@ -133,9 +137,13 @@ select {
 }
 
 .component-checkbox {
-  @apply h-4 w-4;
+  @apply mx-2 h-4 w-4;
+}
+
+.component-radiobtn {
+  @apply mx-2 h-4 w-4;
 }
 
 .component-icon {
-  @apply p-1 flex flex-row justify-center items-center rounded-full;
+  @apply p-2 flex flex-row justify-center items-center rounded-full;
 }
