@@ -26,8 +26,6 @@ router.post("/admin/login", async (req, res) => {
     try {
         const payload = {
             id: admin._id,
-            role: admin.role,
-            username: admin.username
         }
         const accessToken = await generateAccessToken(payload)
         const refreshToken = await generateRefreshToken(payload)
@@ -36,7 +34,6 @@ router.post("/admin/login", async (req, res) => {
             token: refreshToken
         })
         await saveToken.save()
-
         return res.status(200).json({
             accessToken,
             refreshToken
@@ -51,26 +48,25 @@ router.post("/admin/login", async (req, res) => {
 router.post("/admin/register", async (req, res) => {
     const { username, password } = req.body
     
-    let user = username.replace(/\s+/g, '')
-    let regex = new RegExp(["^", user, "$"].join(""), "i")
-
-    const ifExists = await ADMIN.find({ username: regex })
-    if(ifExists.length !== 0) return res.status(400).json({ errors: { message:'user already exists' }})
-
     let hashedPassword = await bcrypt.hash(password, 12)
-
     const newAdmin = new ADMIN({
-        username: user,
+        username,
         password: hashedPassword
     })
 
-    await newAdmin.save()
-    .then(() => {
-        return res.status(201).json({ success:{ message:'user registered' }})
-    })
-    .catch(() => {
-        return res.status(400).json({ errors:{ message:'user registration failed' }})
-    })
+    try {
+        await newAdmin.save()
+        .then(() => {
+            return res.status(201).json({ success:{ message:'user registered' }})
+        })
+    } catch (error) {
+        switch(error.code) {
+            case 11000: 
+                return res.status(400).json({ errors:{ message:'username already taken'}})
+            default:  
+                return res.sendStatus(500)
+        }
+    }
 })
 
 module.exports = router

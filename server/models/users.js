@@ -81,10 +81,6 @@ const userSchema = mongoose.Schema({
     last_name: {
         type: String
     },
-    username: {
-        type: String,
-        unique: true
-    },
     password: {
         type: String
     },

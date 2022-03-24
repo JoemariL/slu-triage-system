@@ -64,7 +64,7 @@ router.post("/generate/:userID", async (req, res) => {
 
     let allowed = true
     if(covidExposure || covidPositive || fever || cough || cold || soreThroat || diffBreathing || diarrhea) allowed = false
-  
+
     const hdfData = {
         allowed,
         dept_destination: deptDestination,

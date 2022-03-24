@@ -73,11 +73,7 @@ router.patch("/update/:userID", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const { firstName, lastName, age, contactNumber, homeAddress, emailAddress } = req.body
-
-    const emailCheck = emailValidator(emailAddress)
-    if(emailCheck) return res.status(400).json({ errors:{ message:'email input must be a valid email address' }})
-
+    const { firstName, lastName, age, contactNumber, homeAddress } = req.body
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
@@ -87,7 +83,6 @@ router.patch("/update/:userID", async (req, res) => {
         age: age,
         contact_number: contactNumber,
         home_address: homeAddress,
-        email_address: emailAddress
     }
     const uid = user._id
     try {
@@ -99,12 +94,7 @@ router.patch("/update/:userID", async (req, res) => {
         if(updatedUser) return res.status(201).json({ success: { message:'user profile update success'}})
         return res.status(400).json({ errors:{ message:'user profile update failed' }})
     } catch (error) {
-        switch(error.codeName){
-            case 'DuplicateKey': 
-                return res.status(400).json({ errors:{ message:'email already taken'}})
-            default:  
-                return res.sendStatus(500)  
-        }
+        return res.sendStatus(500)
     }
 })
 
