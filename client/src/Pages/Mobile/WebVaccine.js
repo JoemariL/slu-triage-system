@@ -1,7 +1,7 @@
 import React from "react";
 import { Appbar, VaccineForm } from "../../Components/index";
 
-function WebVaccine() {
+function WebVaccine( props ) {
   return (
     <div className="grid auto-rows-auto space-y-5">
       <div>

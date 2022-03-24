@@ -52,18 +52,18 @@ router.post("/user/register", async (req, res) => {
 
     let hashedPassword = await bcrypt.hash(password, 12)
 
-    let newUser = new USERS({
-        first_name: firstName.toUpperCase(),
-        last_name: lastName.toUpperCase(),
-        password: hashedPassword,
-        age,
-        contact_number: contactNumber,
-        home_address: homeAddress,
-        email_address: email,
-        user_type: userType.toUpperCase()
-    })
-    
     try {
+        let newUser = new USERS({
+            first_name: firstName.toUpperCase(),
+            last_name: lastName.toUpperCase(),
+            password: hashedPassword,
+            age,
+            contact_number: contactNumber,
+            home_address: homeAddress,
+            email_address: email,
+            user_type: userType.toUpperCase()
+        })
+
         await newUser.save()
         .then(() => {
             return res.status(201).json({ success:{ message:'user registered' }})

@@ -4,6 +4,8 @@ import { HiMail, HiPhone } from "react-icons/hi";
 import { MdOutlineLogout } from "react-icons/md";
 
 const Menu = (props) => {
+  const user = props.user;
+  const logout = props.logout;
   return (
     <div className="text-base">
       {/* Main background. */}
@@ -15,7 +17,7 @@ const Menu = (props) => {
             <div className="grid grid-flow-row auto-rows-auto">
               <span className="text-sm text-gray-800">ACCOUNT PROFILE</span>
               <span className="text-xl">
-                <strong>Name</strong>
+                <strong>{user.first_name} {user.last_name}</strong>
               </span>
             </div>
 
@@ -25,21 +27,21 @@ const Menu = (props) => {
                 <div className="component-icon bg-blue-500">
                   <BsPersonCircle className="text-white" />
                 </div>
-                <span className="text-gray-800">STUDENT</span>
+                <span className="text-gray-800">{user.user_type}</span>
               </div>
 
               <div className="flex flex-row items-center space-x-2">
                 <div className="component-icon bg-blue-500">
                   <HiMail className="text-white" />
                 </div>
-                <span className="text-gray-800">Email Address</span>
+                <span className="text-gray-800">{user.email_address}</span>
               </div>
 
               <div className="flex flex-row items-center space-x-2">
                 <div className="component-icon bg-blue-500">
                   <HiPhone className="text-white" />
                 </div>
-                <span className="text-gray-800">Contact Number</span>
+                <span className="text-gray-800">{user.contact_number}</span>
               </div>
             </div>
           </div>
@@ -49,7 +51,7 @@ const Menu = (props) => {
         </div>
 
         {/* Bottom Part. */}
-        <div className="m-2 grid grid-flow-row auto-rows-auto space-y-2 rounded-2xl bg-slate-100">
+        <div onClick={logout} className="m-2 grid grid-flow-row auto-rows-auto space-y-2 rounded-2xl bg-slate-100">
           <div className="h-16 px-5 flex flex-row space-x-5 items-center text-lg rounded-2xl cursor-pointer hover:bg-blue-100">
             <div className="component-icon bg-gray-500">
               <MdOutlineLogout className="text-gray-100" />

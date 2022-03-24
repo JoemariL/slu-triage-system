@@ -1,15 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiMenuUnfoldLine, RiMenuFoldLine } from "react-icons/ri";
 import { Dashboard, Header, Menu } from "../../Components";
 import { QRButton } from "../../assets";
 
+import useAuth from '../../hooks/useAuth';
+import { logout } from '../../actions/authActions'
+import { getUserData } from '../../actions/userActions';
+import { useNavigate } from 'react-router-dom';
+
 function Home() {
+  const { auth } = useAuth();
+  const [user, setUser] = useState({})
+  const navigate = useNavigate();
+
   const [menuOpened, setMenuOpened] = useState(false);
+  
+  useEffect(() => {
+    (async function(){
+      const user = await getUserData(auth.user)
+      setUser(user)
+    })()
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const refreshToken = localStorage.getItem('refreshToken')
+    const response = await logout(refreshToken)
+    if(response) navigate('/login', { replace: true })
+  }
 
   return (
     <div className="grid grid-rows-auto space-y-24">
       {menuOpened && (
         <Menu
+          user={user}
+          logout={handleSubmit}
           closeMenu={
             <button
               className="component-button-icon bg-blue-900 focus:outline-none hover:scale-110 hover:bg-blue-800 ease-in-out duration-300"
@@ -27,8 +52,8 @@ function Home() {
           <div className="px-5 py-5 flex flex-row justify-between">
             <div className="grid grid-flow-row auto-rows-auto items-center text-white">
               <span>
-                WELCOME,&nbsp;
-                <strong>NAME</strong>
+                WELCOME, &nbsp;
+                <strong>{user.first_name} {user.last_name}</strong>
               </span>
             </div>
 

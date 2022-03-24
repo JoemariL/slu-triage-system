@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import classnames from "classnames";
 
 const LoginForm = ({
-  username = "",
+  email = "",
   password = "",
   loading = false,
-  userOnChange = () => {},
+  emailOnChange = () => {},
   pwdOnChange = () => {},
   err,
   handleSubmit,
@@ -24,12 +24,12 @@ const LoginForm = ({
               "component-input",
               err ? "border-red-600" : "border-gray-300"
             )}
-            type="text"
-            id="username"
-            name="username"
-            value={username}
+            type="email"
+            id="email"
+            name="email"
+            value={email}
             placeholder="Enter your email address"
-            onChange={userOnChange}
+            onChange={emailOnChange}
             required
           />
         </div>
