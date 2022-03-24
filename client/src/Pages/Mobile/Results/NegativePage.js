@@ -50,7 +50,9 @@ function NegativePage() {
 
           <p className="text-center">
             <span className="text-xl">
-              You are not allowed to enter the Saint Louis University Campus.
+              You are not allowed to enter the
+              <br />
+              Saint Louis University Campus.
             </span>
           </p>
         </div>
