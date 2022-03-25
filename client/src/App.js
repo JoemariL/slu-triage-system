@@ -1,45 +1,44 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes, Link} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import {
-  Home,
   Login,
-  WebHDF,
-  WebVaccine,
-  Register,
-  PositivePage,
-  NegativePage,
-} from "./Pages/index";
+  Registration,
+  Home,
+  HDFView,
+  VaccineView,
+  Result,
+} from "./Pages/mobile";
 import { Layout } from "./Components/index";
-import "./App.css";
-
 import RequireAuth from "./context/RequireAuth";
 import NoAuth from "./context/NoAuth";
-
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={<Login />} />
-
-                <Route element={<NoAuth/>}>
-                  <Route exact path="/register" element={<Register />} />
-                  <Route exact path="/login" element={<Login />}/>
-                </Route>
-
-                <Route element={<RequireAuth/>}>
-                  <Route exact path="/home" element={<Home />} />
-                  <Route exact path="/web/hdf" element={<WebHDF />} />
-                  <Route exact path="/web/hdf/results" element={<PositivePage />} />
-                  {/* <Route path="/web/hdf/results" element={<NegativePage />} /> */}
-                  <Route exact path="/web/vaccine-profile" element={<WebVaccine />} />
-                </Route>  
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            
+            <Route element={<NoAuth />}>
+              <Route path="/" element={<Login />}/> 
+              <Route
+                exact
+                path="/web/registration"
+                element={<Registration />}
+              />
+              <Route exact path="/login" element={<Login />} />
             </Route>
-          </Routes>
-        </BrowserRouter>
 
+            <Route element={<RequireAuth />}>
+                <Route exact path="/home" element={<Home />} />
+                <Route exact path="/web/hdf" element={<HDFView />} />
+                <Route exact path="/profile/vaccine" element={<VaccineView />} />
+            </Route>
+
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

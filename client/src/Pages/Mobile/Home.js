@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { RiMenuUnfoldLine, RiMenuFoldLine } from "react-icons/ri";
-import { Dashboard, Header, Menu } from "../../Components";
-import { QRButton } from "../../assets";
+// React icon imports.
+import { RiMenuUnfoldFill, RiMenuFoldFill } from "react-icons/ri";
+import { IoAlertCircle } from "react-icons/io5";
+import { FaSyringe } from "react-icons/fa";
+import { GiHealthNormal } from "react-icons/gi";
+// Component imports.
+import { Icon } from "../../Components/commons";
+import { Menu } from "../../Components/presets/mobile";
+import { QRButton } from "../../assets/index";
 
 import useAuth from '../../hooks/useAuth';
-import { logout } from '../../actions/authActions'
+import { logout } from '../../actions/authActions';
 import { getUserData } from '../../actions/userActions';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,15 +20,16 @@ function Home() {
   const navigate = useNavigate();
 
   const [menuOpened, setMenuOpened] = useState(false);
-  
+
   useEffect(() => {
     (async function(){
       const user = await getUserData(auth.user)
       setUser(user)
     })()
   }, [])
+  
 
-  const handleSubmit = async (e) => {
+  const logoutSubmit = async (e) => {
     e.preventDefault();
     const refreshToken = localStorage.getItem('refreshToken')
     const response = await logout(refreshToken)
@@ -33,63 +40,97 @@ function Home() {
   }
 
   return (
-    <div className="grid grid-rows-auto space-y-24">
+    <div className="text-lg">
+      {/* Menu interface. */}
       {menuOpened && (
         <Menu
           user={user}
-          logout={handleSubmit}
-          closeMenu={
+          logout={logoutSubmit}
+          close={
             <button
-              className="component-button-icon bg-blue-900 focus:outline-none hover:scale-110 hover:bg-blue-800 ease-in-out duration-300"
+              className="rounded-full focus:outline-none hover:scale-110 ease-in-out duration-300"
               type="button"
               onClick={() => setMenuOpened(false)}
             >
-              <RiMenuFoldLine className="text-white" />
+              <Icon
+                className="p-3 bg-white"
+                icon={<RiMenuFoldFill className="h-6 w-6 text-blue-800" />}
+              />
             </button>
           }
         />
       )}
 
-      <div>
-        <Header>
-          <div className="px-5 py-5 flex flex-row justify-between">
-            <div className="grid grid-flow-row auto-rows-auto items-center text-white">
+      <div className="space-y-20">
+        {/* Header. */}
+        <div className="h-32 rounded-b-2xl bg-blue-700">
+          {/* Summarized user details. */}
+          <div className="flex flex-row justify-between items-center">
+            <div className="p-4 grid grid-row-2 text-white">
+              <span>WELCOME</span>
               <span>
-                WELCOME, &nbsp;
                 <strong>{user.first_name} {user.last_name}</strong>
               </span>
             </div>
 
-            <div>
+            {/* Hamburger menu. */}
+            <div className="px-5">
               <button
-                className="component-button-icon bg-white focus:outline-none hover:scale-110 ease-in-out duration-300"
+                className="rounded-full focus:outline-none hover:scale-110 ease-in-out duration-300"
                 type="button"
                 onClick={() => setMenuOpened(!menuOpened)}
               >
-                <RiMenuUnfoldLine className="text-blue-800" />
+                <Icon
+                  className="p-3 bg-white"
+                  icon={<RiMenuUnfoldFill className="h-6 w-6 text-blue-800" />}
+                />
               </button>
             </div>
           </div>
 
-          <div className="mx-5 grid grid-rows-auto sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
-            <Dashboard />
-          </div>
-        </Header>
-      </div>
+          {/* Dashboard. */}
+          <div className="mx-5 rounded-xl bg-white drop-shadow sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+            <div className="h-24 flex flex-row items-center">
+              <div onClick={() => { navigate('/profile/vaccine')}} className="container grid grid-rows-2 space-y-1 cursor-pointer text-blue-800 hover:text-blue-700">
+                <Icon
+                  icon={<FaSyringe className="border-2 rounded-full text-xl" />}
+                />
+                <span className="text-sm text-center text-blue-800">
+                  Vaccine Profile
+                </span>
+              </div>
 
-      <div className="grid grid-flow-row auto-rows-auto space-y-4 sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
-        <div className="component-button-picture bg-gradient-to-tl from-yellow-100 to-yellow-500">
-          <img
-            className="object-contain rounded-full w-48 h-auto"
-            src={QRButton}
-            alt="QR Button"
-          />
-          <div className="px-4 py-1 rounded-full bg-white">
-            <span className="text-sm">Scan QR Code</span>
+              <div className="container grid grid-rows-2 space-y-1 cursor-pointer text-blue-800 hover:text-blue-700">
+                <div className="absolute p-2 top-0 right-0 self-end">
+                  <IoAlertCircle className="h-6 w-6 text-red-600 animate-pulse" />
+                </div>
+
+                <Icon
+                  icon={
+                    <GiHealthNormal className="border-2 rounded-full text-xl" />
+                  }
+                />
+
+                <span className="text-sm text-center text-blue-800">HDF</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Contents. */}
+        <div className="mx-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+          <div className="p-4 flex flex-col items-center text-center space-y-4 rounded-lg cursor-pointer bg-gradient-to-tl from-yellow-100 to-yellow-500 hover:scale-105 hover:opacity-90 focus:outline-none ease-in-out duration-300">
+            <img
+              className="object-contain rounded-full w-48 h-auto"
+              src={QRButton}
+              alt="QR Button"
+            />
+            <div className="px-4 py-1 rounded-full bg-white">
+              <span className="text-sm">Scan QR Code</span>
+            </div>
           </div>
         </div>
       </div>
-      <br />
     </div>
   );
 }

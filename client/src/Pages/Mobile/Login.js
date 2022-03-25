@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Logo } from "../../assets";
-import { LoginForm } from "../../Components/index";
+import { LogoSLU } from "../../assets";
+import { LoginForm } from "../../Components/presets/mobile";
 
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../../actions/authActions';
 import useAuth from "../../hooks/useAuth";
 
@@ -22,39 +22,34 @@ function Login() {
       navigate('/home', { replace: true })
     }
   };
-  
-  return (
-    <div className="mx-10 grid auto-rows-auto space-y-5 sm:mx-28 md:mx-44 lg:mx-60 ease-in-out duration-300">
-      <br />
-      <div className="flex flex-col items-center">
-        <div>
-          <img
-            src={Logo}
-            className="h-auto w-48"
-            alt="Saint Louis University Triage App Logo"
-          />
-        </div>
 
-        <div className="text-center">
+  return (
+    <div className="text-lg mx-5 py-10 space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+      <div className="flex flex-col items-center">
+        <img
+          src={LogoSLU}
+          className="h-auto w-48"
+          alt="saint louis university logo"
+        />
+        <p className="text-center">
           <span className="text-xl">
             <strong>
               Saint Louis University <br />
-              Triage App
+              Triage Application
             </strong>
           </span>
-        </div>
+        </p>
       </div>
 
       <div>
         <LoginForm
           emailOnChange={(e) => setEmail(e.target.value)}
           pwdOnChange={(e) => setPassword(e.target.value)}
-          email={email}
+          emailAddress={email}
           password={password}
           handleSubmit={handleSubmit}
         />
       </div>
-      <br />
     </div>
   );
 }

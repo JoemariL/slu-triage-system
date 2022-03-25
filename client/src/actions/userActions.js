@@ -15,3 +15,16 @@ export const getUserData = async(id) => {
             return err
         })
 }
+
+export const getRefreshToken = async (token) => {
+    const body = JSON.stringify({
+        token
+    })
+    return API.post("/controller/token", body, config)
+        .then((res) => {
+            return res.data
+        })
+        .catch((err) => {
+            return err
+        })
+}
