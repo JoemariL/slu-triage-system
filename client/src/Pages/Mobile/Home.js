@@ -9,7 +9,7 @@ import { getUserData } from '../../actions/userActions';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const [user, setUser] = useState({})
   const navigate = useNavigate();
 
@@ -26,7 +26,10 @@ function Home() {
     e.preventDefault();
     const refreshToken = localStorage.getItem('refreshToken')
     const response = await logout(refreshToken)
-    if(response) navigate('/login', { replace: true })
+    if(response) {
+      setAuth({ user: null })
+      navigate('/login', { replace: true })
+    }
   }
 
   return (
