@@ -23,18 +23,16 @@ function Home() {
 
   useEffect(() => {
     (async function(){
-      const user = await getUserData(auth.user)
+      const user = await getUserData()
       setUser(user)
     })()
   }, [])
   
-
   const logoutSubmit = async (e) => {
     e.preventDefault();
-    const refreshToken = localStorage.getItem('refreshToken')
-    const response = await logout(refreshToken)
+    const response = await logout()
     if(response) {
-      setAuth({ user: null })
+      setAuth({ access: null })
       navigate('/login', { replace: true })
     }
   }

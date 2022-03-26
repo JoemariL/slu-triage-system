@@ -1,5 +1,5 @@
 import API from "../modules/api"
-import jwtDecode from "jwt-decode";
+import Cookies from 'js-cookie';
 
 const config = {
     headers: {
@@ -14,28 +14,20 @@ export const login = async (email, password) => {
     })
     return API.post("/controller/user/login", body, config)
         .then((res) => {
-            localStorage.setItem('accessToken', res.data.accessToken)
-            localStorage.setItem('refreshToken', res.data.refreshToken)
-            return jwtDecode(localStorage.getItem('refreshToken')).id
+            return Cookies.get('accessToken')
         })
         .catch((err) => {
             return err.response?.data?.errors
         })
 }
 
-export const logout = async (token) => {
+export const logout = async () => {
     return API.delete("/controller/logout", {
         headers: {
             "Content-Type": "application/json"
         },
-        data: {
-            token
-        }
     })
     .then(() => {
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
-        localStorage.removeItem('user')
         return true
     })
     .catch(() => {

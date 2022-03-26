@@ -1,21 +1,20 @@
 import { createContext, useEffect, useState } from "react";
-import jwtDecode from 'jwt-decode';
+import Cookies from 'js-cookie';
+
+import { getRefreshToken } from "../actions/userActions";
 
 const AuthContext = createContext({});
 
-let userID
+let access
 try {
-  const decode = jwtDecode(localStorage.getItem('refreshToken'))
-  userID = decode.id
+  const cookie = Cookies.get('accessToken') ? Cookies.get('accessToken') : null
+  access = cookie
 } catch (error) {
-  userID = null
+  access = null
 }
 
 export const AuthProvider = ({ children }) => {
-
-  const [auth, setAuth] = useState({
-    user: userID
-  });
+  const [auth, setAuth] = useState({ access });
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

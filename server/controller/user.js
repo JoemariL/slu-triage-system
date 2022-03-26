@@ -34,10 +34,10 @@ router.post("/user/login", async (req, res) => {
         })
         await saveToken.save()
 
-        return res.status(200).json({
-            accessToken,
-            refreshToken
-        })
+        return res.status(200)
+        .cookie("accessToken", accessToken, {sameSite:'strict', path: '/', expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
+        .cookie("refreshToken", refreshToken, {sameSite:'strict', path: '/', expires: new Date(new Date().getTime() + 518400 * 1000) , httpOnly: true, secure: true})
+        .send('Cookies registered')
     } catch (error) {
         return res.status(400).json({ errors: { message:'error occurred' }})
     }
@@ -80,17 +80,26 @@ router.post("/user/register", async (req, res) => {
 
 router.post('/token', async (req, res) => {
     try {
-        const token = req.body.token
-        if (token == null) return res.sendStatus(401)
-
+        // const token = req.body.token
+        if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) return res.sendStatus(204)
+        
+        const token = req.cookies.refreshToken
+        
         // checks if the refresh token exists in the database
         const refreshToken = await TOKEN.find({ token })
-        if(refreshToken.length === 0) return res.sendStatus(401)
+        if(refreshToken.length === 0) {
+            res.clearCookie('refreshToken').clearCookie('accessToken')
+            return res.sendStatus(401)
+        }
 
         const tokenInfo = await verifyRefreshToken(refreshToken[0].token, token)
         if(!tokenInfo) return res.sendStatus(403)
         const accessToken = await generateAccessToken(tokenInfo)
-        return res.status(200).json({ accessToken })
+
+        return res.status(200)
+        .cookie("accessToken", accessToken, {sameSite:'strict', path: '/', expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
+        .send('accessToken Generated')
+
     } catch (error) {
         return res.sendStatus(404)
     }
@@ -98,11 +107,16 @@ router.post('/token', async (req, res) => {
 
 router.delete('/logout', async (req, res) => {
     try {
-        const { token } = req.body
-        if (token == null) return res.sendStatus(401)
-        await TOKEN.deleteOne({ token }).then(() => {
+        const token = req.cookies.refreshToken
+        if (token == null) {
+            res.clearCookie('accessToken')
             return res.sendStatus(204)
-        })
+        } else { 
+            return await TOKEN.deleteOne({ token }).then(() => {
+                res.clearCookie('refreshToken').clearCookie('accessToken')
+                return res.sendStatus(204)
+            })
+        }
     } catch (error) {
         return res.sendStatus(400)
     }

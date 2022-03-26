@@ -10,6 +10,7 @@ const USERS = require('../models/users')
 // UTILS IMPORT
 const { objectIDValidator, emailValidator } = require('../utils/validator')
 const { vaccineIfExist, getUserDetails } = require('../utils/pipelines')
+const { extractID } = require('../middleware/jwt-helper')
 
 // GET ALL USER INFO.
 router.get("/all", async (req, res) => {
@@ -23,8 +24,14 @@ router.get("/all", async (req, res) => {
 })
 
 // GET SPECIFIC USER.
-router.get("/get/:userID", async (req, res) => {
-    const userUid = req.params.userID
+router.get("/get", async (req, res) => {
+    
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 

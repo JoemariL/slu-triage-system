@@ -18,7 +18,7 @@ function Login() {
     const response = await login(email, password)
     if(response.hasOwnProperty("message")) alert(response.message)
     if(response) {
-      setAuth({ user: response })
+      setAuth({ access: response })
       navigate('/home', { replace: true })
     }
   };

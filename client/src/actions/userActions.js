@@ -6,8 +6,8 @@ const config = {
     },
 };
 
-export const getUserData = async(id) => {
-    return API.get(`/user/get/${id}`, config)
+export const getUserData = async() => {
+    return API.get(`/user/get`, config)
         .then((res) => {
             return res.data
         })
@@ -16,15 +16,12 @@ export const getUserData = async(id) => {
         })
 }
 
-export const getRefreshToken = async (token) => {
-    const body = JSON.stringify({
-        token
-    })
-    return API.post("/controller/token", body, config)
-        .then((res) => {
-            return res.data
+export const getRefreshToken = async () => {
+    return API.post("/controller/token", config)
+        .then(() => {
+            return true
         })
-        .catch((err) => {
-            return err
+        .catch(() => {
+            return false
         })
 }

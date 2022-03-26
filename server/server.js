@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const compression = require('compression')
+const cookieParser = require('cookie-parser')
 
 require('dotenv').config()
 const connectDB = require('./config/database')
@@ -10,8 +11,12 @@ const clusterServer = require('./utils/cluster')
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cookieParser())
+
+const allowedOrigin = process.env.FRONT_END_URL
 app.use(cors({
-    origin: "*",
+    credentials: true,
+    origin: allowedOrigin,
 }))
 
 app.use(compression({

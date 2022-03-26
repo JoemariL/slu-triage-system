@@ -1,15 +1,16 @@
 // LIBRARY IMPORTS
 const jwt = require('jsonwebtoken')
+const jwtDecode = require('jwt-decode');
 
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
 
 module.exports.generateAccessToken = async (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_KEY, { expiresIn: '1h' }) 
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_KEY) 
 }
 
 module.exports.generateRefreshToken = async (payload) => {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_KEY, { expiresIn: '150h' })
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_KEY)
 }
 
 module.exports.verifyRefreshToken = async (storedToken, token) => {
@@ -25,4 +26,13 @@ module.exports.verifyRefreshToken = async (storedToken, token) => {
         }
         
     })
+}
+
+module.exports.extractID = async (token) => {
+    try {
+        const decode = await jwtDecode(token)
+        return decode.id
+    } catch (error) {
+        return false
+    }
 }

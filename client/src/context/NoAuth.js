@@ -6,10 +6,9 @@ const NoAuth = () => {
     const location = useLocation();
 
     return (
-        !auth?.user
+        !auth?.access
             ? <Outlet /> 
             : <Navigate to='/home' state={{ from: location }} replace />
-            
     )
 }
 
