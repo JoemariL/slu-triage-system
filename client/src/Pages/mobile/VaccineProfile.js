@@ -3,13 +3,28 @@ import { Button } from "../../Components/commons";
 import { VaccineForm } from "../../Components/presets/mobile";
 import Appbar from "../../Components/presets/mobile/Appbar";
 
+import { useNavigate } from "react-router-dom";
+import { getUserData } from "../../actions/userActions";
+import useAuth from '../../hooks/useAuth'
+
 function VaccineProfile(props) {
+  const { auth } = useAuth();
+  const navigate = useNavigate();
   const [updateVaccineForm, setUpdateVaccineForm] = useState(false);
+  const [vaccine, setVaccine] = useState({})
+
+  useEffect(() => {
+    (async function () {
+      const user = await getUserData();
+      setVaccine(user.vaccination_details[0])
+    })();
+  }, [auth]);
 
   return (
     <div className="text-base relative">
       {updateVaccineForm && (
         <VaccineForm
+          user={vaccine}
           className="absolute h-full w-full z-50"
           returnOnClick={() => setUpdateVaccineForm(false)}
           cancelOnClick={() => setUpdateVaccineForm(false)}
@@ -17,7 +32,7 @@ function VaccineProfile(props) {
       )}
 
       <div>
-        <Appbar className="bg-white" headerText="Vaccine Profile" />
+        <Appbar onClick={() => {navigate('/home')}} className="bg-white" headerText="Vaccine Profile" />
       </div>
 
       <div className="mx-5 pt-20 space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
@@ -31,7 +46,7 @@ function VaccineProfile(props) {
                   </td>
                 </tr>
                 <tr>
-                  <td>...</td>
+                  <td>{vaccine.vaccine_status ? vaccine.vaccine_status : "..."}</td>
                 </tr>
               </tbody>
             </table>
@@ -48,7 +63,7 @@ function VaccineProfile(props) {
                   </td>
                 </tr>
                 <tr>
-                  <td>...</td>
+                  <td>{vaccine.vaccine_name ? vaccine.vaccine_name : "..." }</td>
                 </tr>
               </tbody>
             </table>
@@ -61,7 +76,7 @@ function VaccineProfile(props) {
                   </td>
                 </tr>
                 <tr>
-                  <td>...</td>
+                  <td>{vaccine.vaccine_serial_no ? vaccine.vaccine_serial_no : "..."}</td>
                 </tr>
               </tbody>
             </table>

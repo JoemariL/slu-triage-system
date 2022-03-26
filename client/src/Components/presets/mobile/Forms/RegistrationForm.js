@@ -3,14 +3,33 @@ import classnames from "classnames";
 import { Select, Input, Button, Checkbox } from "../../../commons";
 import Appbar from "../Appbar";
 
+import { register } from "../../../../actions/authActions";
+
 const userType = [
   { id: 1, name: "student", value: "STUDENT" },
   { id: 2, name: "employee", value: "EMPLOYEE" },
   { id: 3, name: "visitor", value: "VISITOR" },
 ];
 
+
 const RegistrationForm = (props) => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [age, setAge] = useState("")
+  const [contactNumber, setContactNumber] = useState("")
+  const [address, setAddress] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = { firstName, lastName, age, contactNumber, address, email, password }
+    const response = await register(user)
+    // TODO: Display something here...
+    if(response) console.log(response)
+  }  
 
   const clickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -32,7 +51,7 @@ const RegistrationForm = (props) => {
         />
       </div>
 
-      <form className="m-5 pt-20 flex flex-col space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+      <form onSubmit={handleSubmit} className="m-5 pt-20 flex flex-col space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
         <div>
           <span className="text-xl">What are you?</span>
           <Select
@@ -56,6 +75,8 @@ const RegistrationForm = (props) => {
             id="firstName"
             name="firstName"
             type={"text"}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             required
           />
           <Input
@@ -65,6 +86,8 @@ const RegistrationForm = (props) => {
             id="lastName"
             name="lastName"
             type={"text"}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             required
           />
           <Input
@@ -73,7 +96,9 @@ const RegistrationForm = (props) => {
             placeholder="Enter your age"
             id="age"
             name="age"
-            type={"number"}
+            type={"text"}
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
             required
           />
         </div>
@@ -91,6 +116,8 @@ const RegistrationForm = (props) => {
             id="contactNumber"
             name="contactNumber"
             type={"text"}
+            value={contactNumber}
+            onChange={(e) => setContactNumber(e.target.value)}
             subtitle="For mobile phones, you can start with either '+63' or '0.'"
             required
           />
@@ -102,6 +129,8 @@ const RegistrationForm = (props) => {
             id="localAddress"
             name="localAddress"
             type={"text"}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             required
           />
         </div>
@@ -121,6 +150,8 @@ const RegistrationForm = (props) => {
             id="emailAddress"
             name="emailAddres"
             type={"email"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
@@ -132,10 +163,12 @@ const RegistrationForm = (props) => {
               placeholder="Enter your password"
               id="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
 
-            <Input
+            {/* <Input
               inputOutStyle="rounded focus-within:border-blue-800"
               type={showPassword ? "text" : "password"}
               inputInStyle="h-12"
@@ -144,7 +177,7 @@ const RegistrationForm = (props) => {
               id="confirmPassword"
               name="confirmPassword"
               required
-            />
+            /> */}
           </div>
 
           <Checkbox

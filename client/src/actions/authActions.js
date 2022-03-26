@@ -34,3 +34,23 @@ export const logout = async () => {
         return false
     })
 }
+
+export const register = async (payload) => {
+    const body = JSON.stringify({
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        password: payload.password,
+        age: payload.age,
+        contactNumber: payload.contactNumber,
+        homeAddress: payload.address,
+        email: payload.email,
+        userType: "STUDENT"
+    })
+    return API.post("/controller/user/register", body, config)
+        .then((res) => {
+            return true
+        })
+        .catch((err) => {
+            return false
+        })
+}

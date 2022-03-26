@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Button } from "../../Components/commons";
 import Appbar from "../../Components/presets/mobile/Appbar";
 
+import { useNavigate } from "react-router-dom";
+
 function HDF(props) {
+  const navigate = useNavigate();
   return (
     <div className="text-base">
       <div>
-        <Appbar className="bg-white" headerText="Health Declaration Form" />
+        <Appbar onClick={() => {navigate('/home')}} className="bg-white" headerText="Health Declaration Form" />
       </div>
 
       <div className="mx-5 pt-20 space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
