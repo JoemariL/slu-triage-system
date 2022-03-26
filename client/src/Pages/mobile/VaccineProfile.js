@@ -16,7 +16,15 @@ function VaccineProfile(props) {
   useEffect(() => {
     (async function () {
       const user = await getUserData();
-      setVaccine(user.vaccination_details[0])
+      if(!user?.vaccination_details[0]){
+        setVaccine({
+          vaccine_status: null,
+          vaccine_name: null,
+          vaccine_serial_no: null
+        })
+      }else {
+        setVaccine(user.vaccination_details[0])
+      }
     })();
   }, [auth]);
 
