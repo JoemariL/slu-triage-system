@@ -16,8 +16,12 @@ function VaccineForm(props) {
     setVacStatus(e.target.value);
   };
 
+  const handleChangeName = (e) => {
+    setVacName(e.target.value.toUpperCase())
+  }
+
   const handleChangeInput = (e) => {
-    setVacSerial(e.target.value);
+    setVacSerial(e.target.value.toUpperCase());
   };
 
   const handleSubmit = async (e) => {
@@ -106,7 +110,9 @@ function VaccineForm(props) {
               id="vaccine"
               name="vaccine"
               type={"text"}
+              value={vacName}
               required
+              onChange={handleChangeName}
             />
 
             <Input
