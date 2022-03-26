@@ -98,18 +98,17 @@ function VaccineForm(props) {
           </div>
 
           <div className="space-y-5">
-            <Checkbox name="pfizer" id="pfizer" label="Pfizer" />
-            <Checkbox name="moderna" id="fever" label="Moderna" />
-            <Checkbox
-              name="jandjj"
-              id="jandjj"
-              label="Jhonson and Johnson Janssen"
+            <Input
+              inputOutStyle="rounded focus-within:border-blue-800"
+              inputInStyle="h-12"
+              placeholder="Enter the vaccine name"
+              subtitle="Sinovac, Pfizer, etc."
+              id="vaccine"
+              name="vaccine"
+              type={"text"}
+              required
             />
-            <Checkbox name="sinova" id="sinova" label="Sinovac" />
-            <Checkbox name="astrazeneca" id="astrazeneca" label="Astrazeneca" />
-          </div>
 
-          <div>
             <Input
               inputOutStyle="rounded focus-within:border-blue-800"
               inputInStyle="h-12"
