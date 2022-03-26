@@ -1,73 +1,63 @@
 import React, { useState, useEffect } from "react";
 // React icon imports.
-import { RiMenuUnfoldFill, RiMenuFoldFill } from "react-icons/ri";
-import { IoAlertCircle } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { RiMenuUnfoldFill } from "react-icons/ri";
 import { FaSyringe } from "react-icons/fa";
 import { GiHealthNormal } from "react-icons/gi";
 // Component imports.
 import { Icon } from "../../Components/commons";
 import { Menu } from "../../Components/presets/mobile";
 import { QRButton } from "../../assets/index";
-
-import useAuth from '../../hooks/useAuth';
-import { logout } from '../../actions/authActions';
-import { getUserData } from '../../actions/userActions';
-import { useNavigate } from 'react-router-dom';
+import { logout } from "../../actions/authActions";
+import { getUserData } from "../../actions/userActions";
+import useAuth from "../../hooks/useAuth";
 
 function Home() {
-  const { auth, setAuth } = useAuth();
-  const [user, setUser] = useState({})
-  const navigate = useNavigate();
+  // const { auth, setAuth } = useAuth();
+  // const [user, setUser] = useState({});
+  // const navigate = useNavigate();
 
   const [menuOpened, setMenuOpened] = useState(false);
 
-  useEffect(() => {
-    (async function(){
-      const user = await getUserData()
-      setUser(user)
-    })()
-  }, [])
-  
-  const logoutSubmit = async (e) => {
-    e.preventDefault();
-    const response = await logout()
-    if(response) {
-      setAuth({ access: null })
-      navigate('/login', { replace: true })
-    }
-  }
+  // useEffect(() => {
+  //   (async function () {
+  //     const user = await getUserData();
+  //     setUser(user);
+  //   })();
+  // }, []);
+
+  // const logoutSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const response = await logout();
+  //   if (response) {
+  //     setAuth({ access: null });
+  //     navigate("/login", { replace: true });
+  //   }
+  // };
 
   return (
-    <div className="text-lg">
+    <div className="text-base relative">
       {/* Menu interface. */}
       {menuOpened && (
         <Menu
-          user={user}
-          logout={logoutSubmit}
-          close={
-            <button
-              className="rounded-full focus:outline-none hover:scale-110 ease-in-out duration-300"
-              type="button"
-              onClick={() => setMenuOpened(false)}
-            >
-              <Icon
-                className="p-3 bg-white"
-                icon={<RiMenuFoldFill className="h-6 w-6 text-blue-800" />}
-              />
-            </button>
-          }
+          className="absolute h-full w-full z-50"
+          // user={user}
+          // logout={logoutSubmit}
+          closeOnClick={() => {
+            setMenuOpened(false);
+          }}
         />
       )}
 
-      <div className="space-y-20">
+      <div className="flex flex-col space-y-16">
         {/* Header. */}
-        <div className="h-32 rounded-b-2xl bg-blue-700">
+        <div className="h-32 py-3 rounded-b-xl bg-blue-900">
           {/* Summarized user details. */}
           <div className="flex flex-row justify-between items-center">
-            <div className="p-4 grid grid-row-2 text-white">
+            <div className="px-4 grid grid-row-2 text-white">
               <span>WELCOME</span>
               <span>
-                <strong>{user.first_name} {user.last_name}</strong>
+                <strong>{/* {user.first_name} {user.last_name} */}</strong>
               </span>
             </div>
 
@@ -79,7 +69,7 @@ function Home() {
                 onClick={() => setMenuOpened(!menuOpened)}
               >
                 <Icon
-                  className="p-3 bg-white"
+                  className="p-2 bg-white"
                   icon={<RiMenuUnfoldFill className="h-6 w-6 text-blue-800" />}
                 />
               </button>
@@ -87,30 +77,17 @@ function Home() {
           </div>
 
           {/* Dashboard. */}
-          <div className="mx-5 rounded-xl bg-white drop-shadow sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
-            <div className="h-24 flex flex-row items-center">
-              <div onClick={() => { navigate('/profile/vaccine')}} className="container grid grid-rows-2 space-y-1 cursor-pointer text-blue-800 hover:text-blue-700">
-                <Icon
-                  icon={<FaSyringe className="border-2 rounded-full text-xl" />}
-                />
-                <span className="text-sm text-center text-blue-800">
-                  Vaccine Profile
-                </span>
-              </div>
+          <div className="mt-5 mx-5 grid grid-cols-2 text-center text-blue-800 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+            <div className="p-4 rounded-l-md bg-white shadow-sm cursor-pointer hover:bg-slate-100">
+              <Icon icon={<FaSyringe className="text-xl" />} />
+              <span className="break-words text-sm">Vaccination Profile</span>
+            </div>
 
-              <div className="container grid grid-rows-2 space-y-1 cursor-pointer text-blue-800 hover:text-blue-700">
-                <div className="absolute p-2 top-0 right-0 self-end">
-                  <IoAlertCircle className="h-6 w-6 text-red-600 animate-pulse" />
-                </div>
-
-                <Icon
-                  icon={
-                    <GiHealthNormal className="border-2 rounded-full text-xl" />
-                  }
-                />
-
-                <span className="text-sm text-center text-blue-800">HDF</span>
-              </div>
+            <div className="p-4 rounded-r-md bg-white shadow-sm cursor-pointer hover:bg-slate-100">
+              <Icon icon={<GiHealthNormal className="text-xl" />} />
+              <span className="break-words text-sm">
+                Health Declaration Form
+              </span>
             </div>
           </div>
         </div>

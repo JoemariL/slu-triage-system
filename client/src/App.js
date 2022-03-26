@@ -1,13 +1,7 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-import {
-  Login,
-  Registration,
-  Home,
-  HDFView,
-  VaccineView,
-  Result,
-} from "./Pages/mobile";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Login, Home, HDF, VaccineProfile } from "./Pages/mobile";
+import { RegistrationForm } from "./Components/presets/mobile";
 import { Layout } from "./Components/index";
 import RequireAuth from "./context/RequireAuth";
 import NoAuth from "./context/NoAuth";
@@ -19,23 +13,16 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            
             <Route element={<NoAuth />}>
-              <Route path="/" element={<Login />}/> 
-              <Route
-                exact
-                path="/web/registration"
-                element={<Registration />}
-              />
+              <Route path="/" element={<Login />} />
               <Route exact path="/login" element={<Login />} />
             </Route>
 
             <Route element={<RequireAuth />}>
-                <Route exact path="/home" element={<Home />} />
-                <Route exact path="/web/hdf" element={<HDFView />} />
-                <Route exact path="/profile/vaccine" element={<VaccineView />} />
+              <Route exact path="/home" element={<Home />} />
+              <Route exact path="/hdf" element={<HDF />} />
+              <Route exact path="/vaccine" element={<VaccineProfile />} />
             </Route>
-
           </Route>
         </Routes>
       </BrowserRouter>

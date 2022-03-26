@@ -6,7 +6,7 @@ function Result(props) {
   const [allowedEntry, setAllowedEntry] = useState(false);
 
   return (
-    <div className="text-lg mx-5 py-10 space-y-16 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+    <div className="text-base mx-5 py-10 space-y-16 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
       <div className="flex flex-col space-y-10">
         <div className="flex flex-col items-center space-y-5">
           <img

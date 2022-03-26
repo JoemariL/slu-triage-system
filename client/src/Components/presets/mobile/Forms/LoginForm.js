@@ -67,11 +67,6 @@ const LoginForm = ({
             label="Log In"
             type={"submit"}
           />
-          <Button
-            buttonStyle="h-12 rounded border-2 border-blue-900 text-blue-900 bg-white hover:border-blue-800 hover:text-blue-800"
-            label="Register"
-            type="button"
-          />
         </div>
       </form>
     </div>

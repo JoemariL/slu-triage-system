@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { Button, Input, Checkbox, RadioButton } from "../../Components/commons";
-import Appbar from "../../Components/presets/mobile/Appbar";
+import classnames from "classnames";
+import { Button, Input, Checkbox, RadioButton } from "../../../commons";
+import Appbar from "../Appbar";
 
-function HDFView(props) {
+function HDFForm(props) {
   return (
-    <div className="text-lg space-y-5">
+    <div
+      className={classnames(
+        "text-base",
+        "space-y-5",
+        "bg-white",
+        props.className
+      )}
+    >
       <div>
         <Appbar className="bg-white" headerText="Health Declaration Form" />
       </div>
@@ -133,4 +141,4 @@ function HDFView(props) {
   );
 }
 
-export default HDFView;
+export default HDFForm;
