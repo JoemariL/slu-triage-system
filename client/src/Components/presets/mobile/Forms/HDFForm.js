@@ -14,7 +14,11 @@ function HDFForm(props) {
       )}
     >
       <div>
-        <Appbar className="bg-white" headerText="Health Declaration Form" />
+        <Appbar
+          className="bg-white"
+          headerText="Fill out your Health Declaration Form"
+          onClick={props.returnOnClick}
+        />
       </div>
 
       <div className="pt-20 mx-5 flex flex-col space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
@@ -131,6 +135,7 @@ function HDFForm(props) {
                 buttonStyle="h-12 rounded text-white bg-blue-900 hover:bg-blue-800"
                 label="Submit"
                 type={"submit"}
+                onClick={props.cancelOnClick}
               />
             </div>
           </form>

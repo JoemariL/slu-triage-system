@@ -58,7 +58,9 @@ function Home() {
             <div className="px-4 grid grid-row-2 text-white">
               <span>WELCOME</span>
               <span>
-                <strong>{user.first_name} {user.last_name}</strong>
+                <strong>
+                  {user.first_name} {user.last_name}
+                </strong>
               </span>
             </div>
 
@@ -79,12 +81,22 @@ function Home() {
 
           {/* Dashboard. */}
           <div className="mt-5 mx-5 grid grid-cols-2 text-center text-blue-800 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
-            <div onClick={() => {navigate('/vaccine')}} className="p-4 rounded-l-md bg-white shadow-sm cursor-pointer hover:bg-slate-100">
+            <div
+              onClick={() => {
+                navigate("/vaccine");
+              }}
+              className="p-4 rounded-l-md bg-white shadow-sm cursor-pointer hover:bg-slate-100"
+            >
               <Icon icon={<FaSyringe className="text-xl" />} />
               <span className="break-words text-sm">Vaccination Profile</span>
             </div>
 
-            <div onClick={() => {navigate('/hdf')}}className="p-4 rounded-r-md bg-white shadow-sm cursor-pointer hover:bg-slate-100">
+            <div
+              onClick={() => {
+                navigate("/hdf");
+              }}
+              className="p-4 rounded-r-md bg-white shadow-sm cursor-pointer hover:bg-slate-100"
+            >
               <Icon icon={<GiHealthNormal className="text-xl" />} />
               <span className="break-words text-sm">
                 Health Declaration Form
@@ -95,19 +107,6 @@ function Home() {
 
         {/* Contents. */}
         <div className="mx-5 space-y-3 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
-          <div className=" grid grid-flow-row auto-rows-auto space-y-2 rounded-lg bg-gradient-to-tl from-sky-800 to-blue-800">
-            <button
-              className="h-16 px-5 flex flex-row space-x-5 items-center text-lg rounded-lg text-white hover:bg-blue-700"
-              type="button"
-            >
-              <Icon
-                className="p-2 bg-white"
-                icon={<FiFileText className="h-5 w-5 text-blue-800" />}
-              />
-              <span>Fill out Health Declaration Form</span>
-            </button>
-          </div>
-
           <div className="p-4 flex flex-col items-center text-center space-y-4 rounded-lg cursor-pointer bg-gradient-to-tl from-yellow-100 to-yellow-500 hover:scale-105 hover:opacity-90 focus:outline-none ease-in-out duration-300">
             <img
               className="object-contain rounded-full w-48 h-auto"

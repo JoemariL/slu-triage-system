@@ -11,25 +11,32 @@ const userType = [
   { id: 3, name: "visitor", value: "VISITOR" },
 ];
 
-
 const RegistrationForm = (props) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [age, setAge] = useState("")
-  const [contactNumber, setContactNumber] = useState("")
-  const [address, setAddress] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [age, setAge] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { firstName, lastName, age, contactNumber, address, email, password }
-    const response = await register(user)
+    const user = {
+      firstName,
+      lastName,
+      age,
+      contactNumber,
+      address,
+      email,
+      password,
+    };
+    const response = await register(user);
     // TODO: Display something here...
-    if(response) console.log(response)
-  }  
+    if (response) console.log(response);
+  };
 
   const clickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -51,7 +58,10 @@ const RegistrationForm = (props) => {
         />
       </div>
 
-      <form onSubmit={handleSubmit} className="m-5 pt-20 flex flex-col space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+      <form
+        onSubmit={handleSubmit}
+        className="m-5 pt-20 flex flex-col space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300"
+      >
         <div>
           <span className="text-xl">What are you?</span>
           <Select
@@ -168,7 +178,7 @@ const RegistrationForm = (props) => {
               required
             />
 
-            {/* <Input
+            <Input
               inputOutStyle="rounded focus-within:border-blue-800"
               type={showPassword ? "text" : "password"}
               inputInStyle="h-12"
@@ -176,8 +186,7 @@ const RegistrationForm = (props) => {
               subtitle="Use 8 or more characters with a mix of letters, numbers & symbols."
               id="confirmPassword"
               name="confirmPassword"
-              required
-            /> */}
+            />
           </div>
 
           <Checkbox

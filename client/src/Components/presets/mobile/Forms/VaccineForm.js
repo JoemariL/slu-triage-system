@@ -6,27 +6,27 @@ import Appbar from "../Appbar";
 import { updateVaccine } from "../../../../actions/userActions";
 
 function VaccineForm(props) {
-  const user = props.user
-  const [vaccine, setVaccine] = useState(user)
-  const [vacStatus, setVacStatus] = useState(vaccine.vaccine_status)
-  const [vacName, setVacName ] = useState(vaccine.vaccine_name)
-  const [vacSerial, setVacSerial] = useState(vaccine.vaccine_serial_no)
+  const user = props.user;
+  const [vaccine, setVaccine] = useState(user);
+  const [vacStatus, setVacStatus] = useState(vaccine.vaccine_status);
+  const [vacName, setVacName] = useState(vaccine.vaccine_name);
+  const [vacSerial, setVacSerial] = useState(vaccine.vaccine_serial_no);
 
   const handleChangeRadio = (e) => {
-    setVacStatus(e.target.value)
-  }
+    setVacStatus(e.target.value);
+  };
 
   const handleChangeInput = (e) => {
-    setVacSerial(e.target.value)
-  }
+    setVacSerial(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const user = { vacStatus, vacName, vacSerial }
-    const response = await updateVaccine(user)
-    // TODO: Display something here... 
-    if(response) console.log(response)
-  }
+    e.preventDefault();
+    const user = { vacStatus, vacName, vacSerial };
+    const response = await updateVaccine(user);
+    // TODO: Display something here...
+    if (response) console.log(response);
+  };
 
   return (
     <div
@@ -45,7 +45,10 @@ function VaccineForm(props) {
         />
       </div>
 
-      <form onSubmit={handleSubmit} className="m-5 pt-20 flex flex-col space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
+      <form
+        onSubmit={handleSubmit}
+        className="m-5 pt-20 flex flex-col space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300"
+      >
         <div className="flex flex-col space-y-5">
           <div>
             <p>
@@ -59,7 +62,9 @@ function VaccineForm(props) {
               id="vaccinationRecord"
               label="Fully Vaccinated"
               value="FULLY-VACCINATED"
-              defaultChecked={vaccine.vaccine_status === "FULLY-VACCINATED" ? true : false}
+              defaultChecked={
+                vaccine.vaccine_status === "FULLY-VACCINATED" ? true : false
+              }
               onChange={handleChangeRadio}
             />
             <RadioButton
@@ -67,7 +72,9 @@ function VaccineForm(props) {
               id="vaccinationRecord"
               value="PARTIALLY-VACCINATED"
               label="Partially Vaccinated"
-              defaultChecked={vaccine.vaccine_status === "PARTIALLY-VACCINATED" ? true : false}
+              defaultChecked={
+                vaccine.vaccine_status === "PARTIALLY-VACCINATED" ? true : false
+              }
               onChange={handleChangeRadio}
             />
             <RadioButton
@@ -75,7 +82,9 @@ function VaccineForm(props) {
               id="vaccinationRecord"
               label="Not Vaccinated"
               value="NOT-VACCINATED"
-              defaultChecked={vaccine.vaccine_status === "NOT-VACCINATED" ? true : false}
+              defaultChecked={
+                vaccine.vaccine_status === "NOT-VACCINATED" ? true : false
+              }
               onChange={handleChangeRadio}
             />
           </div>
