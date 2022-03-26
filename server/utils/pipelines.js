@@ -6,29 +6,6 @@ const moment = require('moment')
 const USERS = require('../models/users')
 const ADMIN = require('../models/admin')
 
-// CHECK IF THE VACCINE OBJECT ID EXIST.
-module.exports.vaccineIfExist = async (userID, vaccineID) => {
-    const vaccine = await USERS.aggregate([
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(userID)
-            }
-        },
-        {
-            $unwind: {
-                path: "$vaccination_details"
-            }
-        },
-        {
-            $match: {
-                "vaccination_details._id": mongoose.Types.ObjectId(vaccineID)
-            }
-        }
-    ])
-    if(vaccine === undefined || vaccine.length === 0 || vaccine === null) return false
-    return true
-}
-
 module.exports.hdfIfExist = async (userID, hdfID) => {
     const hdf = await USERS.aggregate([
         {

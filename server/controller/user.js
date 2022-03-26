@@ -80,7 +80,6 @@ router.post("/user/register", async (req, res) => {
 
 router.post('/token', async (req, res) => {
     try {
-        // const token = req.body.token
         if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) return res.sendStatus(204)
         
         const token = req.cookies.refreshToken

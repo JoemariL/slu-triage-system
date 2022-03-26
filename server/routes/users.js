@@ -8,8 +8,8 @@ const mongoose = require('mongoose')
 const USERS = require('../models/users')
 
 // UTILS IMPORT
-const { objectIDValidator, emailValidator } = require('../utils/validator')
-const { vaccineIfExist, getUserDetails } = require('../utils/pipelines')
+const { objectIDValidator } = require('../utils/validator')
+const { getUserDetails } = require('../utils/pipelines')
 const { extractID } = require('../middleware/jwt-helper')
 
 // GET ALL USER INFO.
@@ -45,8 +45,14 @@ router.get("/get", async (req, res) => {
 })
 
 // CHANGE PASSWORD FOR USER.
-router.patch("/password/:userID", async (req, res) => {
-    const userUid = req.params.userID
+router.patch("/password", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors:{ message:'invalid user ID' }})
 
@@ -75,8 +81,14 @@ router.patch("/password/:userID", async (req, res) => {
 })
 
 // UPDATES USER INFO.
-router.patch("/update/:userID", async (req, res) => {
-    const userUid = req.params.userID
+router.patch("/update", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
@@ -105,9 +117,15 @@ router.patch("/update/:userID", async (req, res) => {
     }
 })
 
-// ADDS VACCINATION RECORD OF A USER.
-router.post("/vaccination/:userID", async (req, res) => {
-    const userUid = req.params.userID
+// ADDS AND UPDATE VACCINATION RECORD OF A USER.
+router.post("/vaccination", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
@@ -119,13 +137,13 @@ router.post("/vaccination/:userID", async (req, res) => {
     const vaccineData = {
         vaccine_status: vaccineStatus,
         vaccine_name: vaccineName,
-        vaccine_serial_no: vaccineSerial
+        vaccine_serial_no: vaccineSerial,
     }
     const uid = user._id
     try {
         const newVaccineData = await USERS.findByIdAndUpdate(
             uid,
-            { $push: { "vaccination_details" : vaccineData }},
+            { $set: { "vaccination_details" : [vaccineData] }},
             { new: true }
         )
         if(newVaccineData) return res.status(201).json({ success: { message:'user vaccination details added'}})
@@ -135,65 +153,20 @@ router.post("/vaccination/:userID", async (req, res) => {
     }
 })
 
-// UPDATES THE VACCINATION RECORD OF A USER.
-router.patch("/vaccination/:userID/:vaccineID", async (req, res) => {
-    const userUid = req.params.userID
-    const idCheck = objectIDValidator(userUid)
-    if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
-
-    const vacUid = req.params.vaccineID
-    const vacCheck = objectIDValidator(vacUid)
-    if (!vacCheck) return res.status(400).json({ errors:{ message:'invalid vaccine ID'}}) 
-
-    const { vaccineStatus, vaccineName, vaccineSerial } = req.body
-
-    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
-    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    
-    const ifExists = await vaccineIfExist(userUid, vacUid)
-    if(!ifExists) return res.status(404).json({ errors:{ message:'user vaccination details not found' }})
-    
-    const uid = user._id
-    try {
-        const newVaccineData = await USERS.findByIdAndUpdate(
-            uid,
-            { 
-                $set: {
-                    "vaccination_details.$[element].vaccine_status": vaccineStatus,
-                    "vaccination_details.$[element].vaccine_name": vaccineName,
-                    "vaccination_details.$[element].vaccine_serial_no": vaccineSerial,
-                }
-            },
-            { 
-                arrayFilters: [
-                    {
-                        "element._id": mongoose.Types.ObjectId(vacUid)
-                    }
-                ]
-            }
-        )
-        if(newVaccineData) return res.status(201).json({ success: { message:'user vaccine record updated'}})
-        return res.status(400).json({ errors:{ message:'user vaccine record failed to update' }}) 
-    } catch (error) {
-        return res.sendStatus(500)
-    }
-})
-
 // DELETES VACCINE RECORD OF A USER.
-router.delete("/vaccination/:userID/:vaccineID", async (req, res) => {
-    const userUid = req.params.userID
+router.delete("/vaccination", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const vacUid = req.params.vaccineID
-    const vacCheck = objectIDValidator(vacUid)
-    if (!vacCheck) return res.status(400).json({ errors:{ message:'invalid vaccine ID'}})
-
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    
-    const ifExists = await vaccineIfExist(userUid, vacUid)
-    if(!ifExists) return res.status(404).json({ errors:{ message:'user vaccination details not found' }})
     
     const uid = user._id
     try {
@@ -201,9 +174,10 @@ router.delete("/vaccination/:userID/:vaccineID", async (req, res) => {
             uid,
             {
                 $pull : {
-                    vaccination_details: { _id: mongoose.Types.ObjectId(vacUid) }
+                    vaccination_details: {}
                 }
-            }
+            },
+            { "multi": true }
         )
         if(removedVaccineData) return res.status(201).json({ success: { message: 'user vaccination details deleted'}})
         return res.status(400).json({ errors:{ message:'user vaccination detail failed to delete' }})

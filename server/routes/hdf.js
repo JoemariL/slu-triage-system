@@ -12,6 +12,7 @@ const SCHOOL = require('../models/school')
 const { objectIDValidator } = require('../utils/validator')
 const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
+const { extractID } = require('../middleware/jwt-helper')
 
 // GET HDF DATA FOR THE DAY.
 router.get("/day", async (req, res) => {
@@ -28,8 +29,14 @@ router.get("/day", async (req, res) => {
 })
 
 // GET HDF DATA FOR SPECIFIC USER
-router.get("/get/:userID", async (req, res) => {
-    const userUid = req.params.userID
+router.get("/get", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
@@ -46,8 +53,14 @@ router.get("/get/:userID", async (req, res) => {
 })
 
 // GENERATE HDF DATA FOR SPECIFIC USER
-router.post("/generate/:userID", async (req, res) => {
-    const userUid = req.params.userID
+router.post("/generate", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
@@ -96,8 +109,14 @@ router.post("/generate/:userID", async (req, res) => {
 })
 
 // HDF QR SCAN
-router.patch("/scan/:userID/:hdfID", async (req, res) => {
-    const userUid = req.params.userID
+router.patch("/scan/:hdfID", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
@@ -158,8 +177,14 @@ router.patch("/scan/:userID/:hdfID", async (req, res) => {
 })
 
 // EDIT HDF DATA FOR SPECIFIC USER
-router.patch("/update/:userID/:hdfID", async (req, res) => {
-    const userUid = req.params.userID
+router.patch("/update/:hdfID", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
@@ -220,8 +245,14 @@ router.patch("/update/:userID/:hdfID", async (req, res) => {
 })
 
 // DELETE HDF DATA IN A USER
-router.delete("/delete/:userID/:hdfID", async (req, res) => {
-    const userUid = req.params.userID
+router.delete("/delete/:hdfID", async (req, res) => {
+    
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 

@@ -62,18 +62,6 @@ const hdfData = mongoose.Schema({
     }
 }, { timestamps: false })
 
-const vaccinationSchema = mongoose.Schema({
-    vaccine_status: {
-        type: String
-    },
-    vaccine_name: {
-        type: String
-    },
-    vaccine_serial_no: {
-        type: String
-    },
-}, { timestamps: false })
-
 const userSchema = mongoose.Schema({
     first_name: {
         type: String
@@ -100,7 +88,7 @@ const userSchema = mongoose.Schema({
     user_type: {
         type: String
     },
-    vaccination_details: [vaccinationSchema],
+    vaccination_details: { type: Array , "default": [] },
     hdf_data: [hdfData]
 }, { timestamps: true })
 

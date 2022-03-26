@@ -10,7 +10,6 @@ const TOKEN = require('../models/token')
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
 const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt-helper')
-const { loginInputValidator } = require('../utils/validator')
 
 // LOGIN AN ADMIN.
 router.post("/admin/login", async (req, res) => {

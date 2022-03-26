@@ -2,7 +2,6 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
-const mongoose = require("mongoose")
 
 // MODEL IMPORT
 const ADMIN = require('../models/admin')
@@ -10,7 +9,7 @@ const USERS = require('../models/users')
 const SCHOOL = require('../models/school')
 
 // UTILS IMPORT
-const { objectIDValidator, changePasswordInputValidator } = require('../utils/validator')
+const { objectIDValidator } = require('../utils/validator')
 const { encryptJSON } = require('../utils/functions')
 
 // GET ALL ADMIN INFO.
@@ -27,7 +26,7 @@ router.get("/all", async (req, res) => {
 // GET SPECIFIC ADMIN.
 router.get("/:adminID", async (req, res) => {
     const adminUid = req.params.adminID
-    const idCheck = objectIDValidator(adminUid)
+    const idCheck = objectIDValidator(adminUid).select('-password -__v -createdAt -updatedAt')
     if (!idCheck) return res.status(400).json({ errors:{ message:'invalid admin id' }})
 
     try {
@@ -85,7 +84,7 @@ router.delete("/delete/:adminID", async(req, res) => {
     } catch (error) {
         return res.sendStatus(500)
     }
-   
+
 })
 
 // DELETES USER.
@@ -118,7 +117,7 @@ router.get("/get/qr", async (req, res) => {
 })
 
 // ADD LIST FOR QR CODE GENERATION.
-router.post("/generate/", async (req, res) => {
+router.post("/generate", async (req, res) => {
     const { school, gate } = req.body
    
     let concat = `${school} ${gate}`
