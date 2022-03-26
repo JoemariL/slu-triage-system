@@ -5,18 +5,18 @@ import Appbar from "../../Components/presets/mobile/Appbar";
 
 import { useNavigate } from "react-router-dom";
 import { getUserData } from "../../actions/userActions";
-import useAuth from '../../hooks/useAuth'
+import useAuth from "../../hooks/useAuth";
 
 function VaccineProfile(props) {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const [updateVaccineForm, setUpdateVaccineForm] = useState(false);
-  const [vaccine, setVaccine] = useState({})
+  const [vaccine, setVaccine] = useState({});
 
   useEffect(() => {
     (async function () {
       const user = await getUserData();
-      setVaccine(user.vaccination_details[0])
+      setVaccine(user.vaccination_details[0]);
     })();
   }, [auth]);
 
@@ -32,11 +32,17 @@ function VaccineProfile(props) {
       )}
 
       <div>
-        <Appbar onClick={() => {navigate('/home')}} className="bg-white" headerText="Vaccine Profile" />
+        <Appbar
+          onClick={() => {
+            navigate("/home");
+          }}
+          className="bg-white"
+          headerText="Vaccine Profile"
+        />
       </div>
 
       <div className="mx-5 pt-20 space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
-        <div className="grid grid-flow-row auto-rows-auto rounded-xl bg-blue-300">
+        <div className="grid grid-flow-row auto-rows-auto bg-blue-300">
           <div className="p-5">
             <table className="w-full table-auto border-collapse">
               <tbody>
@@ -46,14 +52,16 @@ function VaccineProfile(props) {
                   </td>
                 </tr>
                 <tr>
-                  <td>{vaccine.vaccine_status ? vaccine.vaccine_status : "..."}</td>
+                  <td>
+                    {vaccine.vaccine_status ? vaccine.vaccine_status : "..."}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <div className="grid grid-flow-row auto-rows-auto rounded-xl bg-blue-200">
+        <div className="grid grid-flow-row auto-rows-auto bg-blue-200">
           <div className="p-5 space-y-5">
             <table className="w-full table-auto border-collapse">
               <tbody>
@@ -63,7 +71,7 @@ function VaccineProfile(props) {
                   </td>
                 </tr>
                 <tr>
-                  <td>{vaccine.vaccine_name ? vaccine.vaccine_name : "..." }</td>
+                  <td>{vaccine.vaccine_name ? vaccine.vaccine_name : "..."}</td>
                 </tr>
               </tbody>
             </table>
@@ -76,14 +84,18 @@ function VaccineProfile(props) {
                   </td>
                 </tr>
                 <tr>
-                  <td>{vaccine.vaccine_serial_no ? vaccine.vaccine_serial_no : "..."}</td>
+                  <td>
+                    {vaccine.vaccine_serial_no
+                      ? vaccine.vaccine_serial_no
+                      : "..."}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <div className="grid grid-flow-row auto-rows-auto rounded-xl bg-blue-100">
+        <div className="grid grid-flow-row auto-rows-auto bg-blue-100">
           <div className="p-5">
             <table className="w-full table-auto border-collapse">
               <tbody>
