@@ -5,15 +5,11 @@ import Appbar from "../Appbar";
 
 import { register } from "../../../../actions/authActions";
 
-const userType = [
-  { id: 1, name: "student", value: "STUDENT" },
-  { id: 2, name: "employee", value: "EMPLOYEE" },
-  { id: 3, name: "visitor", value: "VISITOR" },
-];
+const userTypes = ["STUDENT", "EMPLOYEE", "VISITOR"];
 
 const RegistrationForm = (props) => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [userType, setUserType] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
@@ -25,6 +21,7 @@ const RegistrationForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
+      userType,
       firstName,
       lastName,
       age,
@@ -65,10 +62,11 @@ const RegistrationForm = (props) => {
         <div>
           <span className="text-xl">What are you?</span>
           <Select
-            items={userType}
+            items={userTypes}
             selectStyle="h-12"
             optionStyle="hover:bg-blue-700 hover:text-white"
             subtitle="Please choose your appropriate type as user."
+            onChange={setUserType}
           />
         </div>
 

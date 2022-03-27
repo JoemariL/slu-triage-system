@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { Listbox, Transition } from "@headlessui/react";
 import classnames from "classnames";
@@ -10,8 +10,19 @@ const Select = ({
   items = [],
   label = "",
   subtitle = "",
+  onChange = () => {},
 }) => {
   const [selectedItem, setSelectedItem] = useState(items[0]);
+
+  const onChangeCb = useCallback(
+    (item) => {
+      if (onChange) {
+        setSelectedItem(item);
+        return onChange(item);
+      }
+    },
+    [onChange]
+  );
 
   return (
     <div className={classnames(className)}>
@@ -21,7 +32,7 @@ const Select = ({
           as="div"
           className="relative"
           value={selectedItem}
-          onChange={setSelectedItem}
+          onChange={onChangeCb}
         >
           {({ open }) => (
             <>
@@ -34,7 +45,7 @@ const Select = ({
                   selectStyle
                 )}
               >
-                {selectedItem.value}
+                {selectedItem}
                 <IoIosArrowDropdown
                   className={open ? "h-6 w-6 rotate-180" : "h-6 w-6"}
                 />
@@ -57,10 +68,10 @@ const Select = ({
                         "rounded cursor-pointer select-none",
                         optionStyle
                       )}
-                      key={item.id}
+                      key={item}
                       value={item}
                     >
-                      {item.value}
+                      {item}
                     </Listbox.Option>
                   ))}
                 </Listbox.Options>

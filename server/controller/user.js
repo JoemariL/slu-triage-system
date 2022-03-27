@@ -46,7 +46,6 @@ router.post("/user/login", async (req, res) => {
 // REGISTER A USER.
 router.post("/user/register", async (req, res) => {
     const { firstName, lastName, password, age, contactNumber, homeAddress, email, userType } = req.body
-
     const emailCheck = emailValidator(email)
     if(emailCheck) return res.status(400).json({ errors:{ message:'email input must be a valid email address' }})
 
