@@ -29,58 +29,52 @@ function HDF(props) {
       </div>
 
       <div className="mx-5 pt-20 space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
-        <div className="grid grid-flow-row auto-rows-auto bg-slate-300">
-          <div className="p-5">
-            <table className="w-full table-auto border-collapse">
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>COVID-19</strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td>EXPOSURE</td>
-                  <td>...</td>
-                </tr>
+        <div className="p-5 bg-slate-300">
+          <table className="w-full table-auto border-collapse">
+            <tbody>
+              <tr>
+                <td>
+                  <strong>COVID-19</strong>
+                </td>
+              </tr>
+              <tr>
+                <td>EXPOSURE</td>
+                <td>...</td>
+              </tr>
 
-                <tr>
-                  <td>POSITIVE</td>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              <tr>
+                <td>POSITIVE</td>
+                <td>...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <div className="grid grid-flow-row auto-rows-auto bg-slate-200">
-          <div className="p-5 flex flex-row justify-around items-center text-lg rounded-2xl">
+        <div className="p-5 flex flex-col bg-slate-200">
+          <div className="flex flex-row justify-around items-center text-lg">
             <span>
               <strong>MEDICAL HISTORY</strong>
             </span>
           </div>
-          <div className="p-5 flex flex-col text-lg rounded-xl">
+          <div className="flex flex-col text-lg rounded-xl">
             <ul>
               <li>...</li>
             </ul>
           </div>
         </div>
 
-        <div className="grid grid-flow-row auto-rows-auto space-y-5 bg-slate-100">
-          <div className="p-5 flex flex-row justify-around items-center text-lg rounded-2xl">
-            <span>PREGNANT</span>
-            <span>
-              <strong>...</strong>
-            </span>
-          </div>
+        <div className="p-5 flex flex-row justify-around items-center text-lg bg-slate-100">
+          <span>PREGNANT</span>
+          <span>
+            <strong>...</strong>
+          </span>
         </div>
 
-        <div className="p-2 grid grid-flow-row auto-rows-auto space-y-5 bg-blue-300">
-          <div className="h-16 px-5 flex flex-col justify-around items-center text-lg rounded-2xl">
-            <span>DEPARTMENT / DESTINATION</span>
-            <span>
-              <u>...</u>
-            </span>
-          </div>
+        <div className="p-5 flex flex-col items-center text-lg bg-blue-300">
+          <span>DEPARTMENT / DESTINATION</span>
+          <span>
+            <u>...</u>
+          </span>
         </div>
 
         <br />

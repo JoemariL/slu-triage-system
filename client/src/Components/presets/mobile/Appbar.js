@@ -1,9 +1,10 @@
-import { IoReturnUpBack } from "react-icons/io5";
+import { FiArrowLeft } from "react-icons/fi";
 import classnames from "classnames";
 import { Icon } from "../../commons";
 
 const Appbar = ({
   className = "",
+  iconStyle = "",
   returnButtonDesign = "",
   headerText = "",
   onClick = () => {},
@@ -15,13 +16,15 @@ const Appbar = ({
       className={classnames(
         "fixed w-full",
         "top-0 p-3 z-10",
-        "flex flex-row items-center gap-x-3",
+        "flex flex-row items-center gap-x-5",
+        "border-b-2",
+        "border-gray-200",
         className
       )}
     >
       <button
         className={classnames(
-          "rounded-full focus:outline-none hover:scale-110 ease-in-out duration-300",
+          "rounded-full focus:outline-none",
           returnButtonDesign
         )}
         type="button"
@@ -29,15 +32,12 @@ const Appbar = ({
         disabled={disabled}
       >
         <Icon
-          className={classnames(
-            "p-2 bg-blue-800",
-            disabled ? "opacity-70" : ""
-          )}
-          icon={<IoReturnUpBack className="h-6 w-6 text-white" />}
+          className={classnames(disabled ? "opacity-70" : "")}
+          icon={<FiArrowLeft className="h-6 w-6" />}
         />
       </button>
 
-      <span className="text-xl">
+      <span className="text-lg">
         <strong>{headerText}</strong>
       </span>
 

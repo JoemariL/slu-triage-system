@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "../../Components/commons";
+import { useNavigate } from "react-router-dom";
+import { FaSyringe, FaIdCard, FaCheck } from "react-icons/fa";
+import { Button, Icon } from "../../Components/commons";
 import { VaccineForm } from "../../Components/presets/mobile";
 import Appbar from "../../Components/presets/mobile/Appbar";
-
-import { useNavigate } from "react-router-dom";
 import { getUserData } from "../../actions/userActions";
 import useAuth from "../../hooks/useAuth";
 
@@ -50,73 +50,56 @@ function VaccineProfile(props) {
       </div>
 
       <div className="mx-5 pt-20 space-y-5 sm:mx-16 md:mx-28 lg:mx-36 ease-in-out duration-300">
-        <div className="grid grid-flow-row auto-rows-auto bg-blue-300">
-          <div className="p-5">
-            <table className="w-full table-auto border-collapse">
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>COVID-19 VACCINATION RECORD</strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    {vaccine.vaccine_status ? vaccine.vaccine_status : "..."}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <div className="my-5 space-y-5">
+          {/* Vaccinated confirmation. */}
+          <div className="flex flex-col space-y-5">
+            <span className="text-gray-600">
+              <strong>COVID-19 VACCINATION RECORD</strong>
+            </span>
+
+            <div className="flex flex-row space-x-5 items-center">
+              {vaccine.vaccine_status ? (
+                <Icon
+                  className="p-2 rounded-full bg-blue-900"
+                  icon={<FaCheck className="h-4 w-4 text-white" />}
+                />
+              ) : (
+                <span>TBD</span>
+              )}
+              <span className="truncate">
+                {vaccine.vaccine_status ? vaccine.vaccine_status : "TBD"}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-flow-row auto-rows-auto bg-blue-200">
-          <div className="p-5 space-y-5">
-            <table className="w-full table-auto border-collapse">
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>COVID-19 VACCINE</strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td>{vaccine.vaccine_name ? vaccine.vaccine_name : "..."}</td>
-                </tr>
-              </tbody>
-            </table>
+          <hr />
 
-            <table className="w-full table-auto border-collapse">
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>VACCINATION SERIAL NUMBER</strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    {vaccine.vaccine_serial_no
-                      ? vaccine.vaccine_serial_no
-                      : "..."}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+          {/* Vaccinated details. */}
+          <div className="flex flex-col space-y-5">
+            <div className="text-gray-600">
+              <span>
+                <strong>COVID-19 VACCINE</strong>
+              </span>
+            </div>
+            <div className="flex flex-row space-x-5 items-center">
+              <Icon
+                className="p-2 rounded-full bg-blue-400"
+                icon={<FaSyringe className="h-4 w-4 text-white" />}
+              />
+              <span className="truncate">
+                {vaccine.vaccine_name ? vaccine.vaccine_name : "TBD"}
+              </span>
+            </div>
 
-        <div className="grid grid-flow-row auto-rows-auto bg-blue-100">
-          <div className="p-5">
-            <table className="w-full table-auto border-collapse">
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>BOOSTER</strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="flex flex-row space-x-5 items-center">
+              <Icon
+                className="p-2 rounded-full bg-green-400"
+                icon={<FaIdCard className="h-4 w-4 text-white" />}
+              />
+              <span className="truncate">
+                {vaccine.vaccine_serial_no ? vaccine.vaccine_serial_no : "TBD"}
+              </span>
+            </div>
           </div>
         </div>
 

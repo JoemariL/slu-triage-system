@@ -12,18 +12,12 @@ const Menu = (props) => {
   return (
     <div className={classnames("text-base", "bg-white", props.className)}>
       {/* Header. */}
-      <div
-        className={classnames(
-          "px-5 py-4",
-          "flex flex-row justify-between",
-          "bg-slate-100"
-        )}
-      >
+      <div className="p-5 flex flex-row justify-between border-b-2 border-gray-200">
         {/* User account details. */}
-        <div className="space-y-5">
+        <div className="space-y-2">
           <div className="grid grid-flow-row auto-rows-auto">
-            <span className="text-sm text-gray-800">ACCOUNT PROFILE</span>
-            <span className="text-xl">
+            <span className="text-sm text-gray-500">ACCOUNT PROFILE</span>
+            <span className="text-lg">
               <strong>
                 {user.first_name} {user.last_name}
               </strong>
@@ -33,7 +27,7 @@ const Menu = (props) => {
           <div className="grid grid-rows-3 space-y-1">
             <div className="flex flex-row items-center space-x-2">
               <Icon
-                className="p-1 bg-blue-600"
+                className="p-1 rounded-full bg-gray-500"
                 icon={<BsPersonCircle className="text-white" />}
               />
               <span>{user.user_type}</span>
@@ -41,7 +35,7 @@ const Menu = (props) => {
 
             <div className="flex flex-row items-center space-x-2">
               <Icon
-                className="p-1 bg-blue-600"
+                className="p-1 rounded-full bg-gray-500"
                 icon={<HiMail className="text-white" />}
               />
               <span>{user.email_address}</span>
@@ -49,7 +43,7 @@ const Menu = (props) => {
 
             <div className="flex flex-row items-center space-x-2">
               <Icon
-                className="p-1 bg-blue-600"
+                className="p-1 rounded-full bg-gray-500"
                 icon={<HiPhone className="text-white" />}
               />
               <span>{user.contact_number}</span>
@@ -59,43 +53,37 @@ const Menu = (props) => {
 
         <div>
           <button
-            className="rounded-full focus:outline-none hover:scale-110 ease-in-out duration-300"
+            className="rounded-full focus:outline-none"
             type="button"
             onClick={props.closeOnClick}
           >
             <Icon
-              className="p-2 bg-white"
-              icon={<RiMenuFoldFill className="h-6 w-6 text-blue-800" />}
+              className="p-2 rounded-full bg-blue-800"
+              icon={<RiMenuFoldFill className="h-6 w-6 text-white" />}
             />
           </button>
         </div>
       </div>
 
       {/* Menu items/lists. */}
-      <div className="m-2 grid grid-flow-row auto-rows-auto space-y-2 rounded-2xl bg-slate-100">
+      <div className="grid grid-flow-row auto-rows-auto space-y-2">
         {/* List 01. */}
         <button
-          className="h-16 px-5 flex flex-row space-x-5 items-center text-lg rounded-2xl opacity-70"
+          className="h-16 px-5 flex flex-row space-x-5 items-center text-gray-600 opacity-70"
           type="button"
           disabled
         >
-          <Icon
-            className="p-2 bg-gray-500"
-            icon={<MdSettings className="h-5 w-5 text-gray-100" />}
-          />
+          <Icon icon={<MdSettings className="h-6 w-6" />} />
           <span>Profile Settings</span>
         </button>
 
         {/* List 02. */}
         <button
           onClick={logout}
-          className="h-16 px-5 flex flex-row space-x-5 items-center text-lg rounded-2xl hover:bg-blue-100"
+          className="h-16 px-5 flex flex-row space-x-5 items-center text-gray-600 hover:bg-slate-100"
           type="button"
         >
-          <Icon
-            className="p-2 bg-gray-500"
-            icon={<MdOutlineLogout className="h-5 w-5 text-gray-100" />}
-          />
+          <Icon icon={<MdOutlineLogout className="h-6 w-6" />} />
           <span>Log out</span>
         </button>
       </div>

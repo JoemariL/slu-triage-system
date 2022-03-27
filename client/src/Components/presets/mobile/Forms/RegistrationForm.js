@@ -9,7 +9,7 @@ const userTypes = ["STUDENT", "EMPLOYEE", "VISITOR"];
 
 const RegistrationForm = (props) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState(userTypes[0]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
@@ -74,7 +74,9 @@ const RegistrationForm = (props) => {
 
         <div>
           <div className="mb-5 text-gray-600">
-            <strong>USER INFORMATION</strong>
+            <span>
+              <strong>USER INFORMATION</strong>
+            </span>
           </div>
           <Input
             inputOutStyle="rounded focus-within:border-blue-800"
@@ -115,7 +117,9 @@ const RegistrationForm = (props) => {
 
         <div className="space-y-5">
           <div className="mb-5 text-gray-600">
-            <strong>USER CONTACT DETAILS</strong>
+            <span>
+              <strong>CONTACT INFORMATION</strong>
+            </span>
           </div>
           <Input
             inputOutStyle="rounded focus-within:border-blue-800"
@@ -147,7 +151,9 @@ const RegistrationForm = (props) => {
 
         <div className="space-y-5">
           <div className="mb-5 text-gray-600">
-            <strong>USER ACCOUNT DETAILS</strong>
+            <span>
+              <strong>USER ACCOUNT</strong>
+            </span>
           </div>
 
           <Input
@@ -176,7 +182,7 @@ const RegistrationForm = (props) => {
               required
             />
 
-            <Input
+            {/* <Input
               inputOutStyle="rounded focus-within:border-blue-800"
               type={showPassword ? "text" : "password"}
               inputInStyle="h-12"
@@ -184,7 +190,7 @@ const RegistrationForm = (props) => {
               subtitle="Use 8 or more characters with a mix of letters, numbers & symbols."
               id="confirmPassword"
               name="confirmPassword"
-            />
+            /> */}
           </div>
 
           <Checkbox

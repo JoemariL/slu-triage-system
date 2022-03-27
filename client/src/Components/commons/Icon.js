@@ -4,7 +4,7 @@ const Icon = ({ className = "", icon }) => {
   return (
     <div
       className={classnames(
-        "flex flex-row justify-center items-center rounded-full",
+        "flex flex-row justify-center items-center",
         className
       )}
     >

@@ -9,3 +9,6 @@ export { default as RegistrationForm } from "./Forms/RegistrationForm";
 
 // Home navigation presets.
 export { default as Menu } from "./Profile/Menu";
+
+// Success screens.
+export { default as Success } from "./Success/RegisterSuccess";

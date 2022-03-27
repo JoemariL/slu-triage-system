@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login, Home, HDF, VaccineProfile } from "./Pages/mobile";
-import { RegistrationForm } from "./Components/presets/mobile";
 import { Layout } from "./Components/index";
 import RequireAuth from "./context/RequireAuth";
 import NoAuth from "./context/NoAuth";
