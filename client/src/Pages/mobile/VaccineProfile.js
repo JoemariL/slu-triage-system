@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaSyringe, FaIdCard, FaCheck } from "react-icons/fa";
+import { FaSyringe, FaIdCard, FaCheck, FaQuestion } from "react-icons/fa";
 import { Button, Icon } from "../../Components/commons";
 import { VaccineForm } from "../../Components/presets/mobile";
 import Appbar from "../../Components/presets/mobile/Appbar";
@@ -60,11 +60,14 @@ function VaccineProfile(props) {
             <div className="flex flex-row space-x-5 items-center">
               {vaccine.vaccine_status ? (
                 <Icon
-                  className="p-2 rounded-full bg-blue-900"
+                  className="p-2 rounded-full bg-blue-600"
                   icon={<FaCheck className="h-4 w-4 text-white" />}
                 />
               ) : (
-                <span>TBD</span>
+                <Icon
+                  className="p-2 rounded-full bg-red-600"
+                  icon={<FaQuestion className="h-4 w-4 text-white" />}
+                />
               )}
               <span className="truncate">
                 {vaccine.vaccine_status ? vaccine.vaccine_status : "TBD"}
