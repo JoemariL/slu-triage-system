@@ -17,11 +17,7 @@ function VaccineProfile(props) {
     (async function () {
       const user = await getUserData();
       if (!user?.vaccination_details[0]) {
-        setVaccine({
-          vaccine_status: null,
-          vaccine_name: null,
-          vaccine_serial_no: null,
-        });
+        setVaccine({});
       } else {
         setVaccine(user.vaccination_details[0]);
       }

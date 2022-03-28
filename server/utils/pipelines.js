@@ -118,6 +118,33 @@ module.exports.getHdfToday = async(fromDate, toDate) => {
     ]).sort({ createdAt: -1 })
 }
 
+module.exports.getHdfTodayUser = async(userID, fromDate, toDate) => {
+    return await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $replaceRoot: {
+                newRoot: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                createdAt: {
+                    $gt: fromDate, $lt: toDate
+                }
+            }
+        },
+    ])
+}
+
 module.exports.hdfIfExistDay = async(userID, fromDate, toDate) => {
     const hdf =  await USERS.aggregate([
         {

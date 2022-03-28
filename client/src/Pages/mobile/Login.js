@@ -17,7 +17,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await login(email, password);
-    if (response.hasOwnProperty("message")) alert(response.message);
+    //TODO: SUCCESS AND ERROR MESSAGES 
+    if (response.hasOwnProperty("message")) console.log(response.message)
     if (response) {
       setAuth({ access: response });
       navigate("/home", { replace: true });

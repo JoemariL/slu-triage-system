@@ -21,7 +21,7 @@ const hdfData = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    dept_destination: {
+    destination: {
         type: String
     },
     covid_exposure: {
@@ -53,7 +53,7 @@ const hdfData = mongoose.Schema({
         default: null
     },
     pregnant: {
-        type: String,
+        type: Boolean,
         default: null
     },
     createdAt: {

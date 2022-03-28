@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../Components/commons";
 import { HDFForm } from "../../Components/presets/mobile";
 import Appbar from "../../Components/presets/mobile/Appbar";
 
+import { getHdfDay } from "../../actions/userActions";
+import useAuth from "../../hooks/useAuth";
+
 function HDF(props) {
+  const { auth } = useAuth()
   const navigate = useNavigate();
   const [createHDF, setCreateHDF] = useState(false);
+  const [hdf, setHdf] = useState({})
+
+  useEffect(() => {
+    (async function() {
+        const user = await getHdfDay();
+        if(!user || user.length === 0){
+          setHdf({})
+        }else {
+          setHdf(user[0])
+        }
+    })()
+  },[auth])
 
   return (
     <div className="text-base relative">
@@ -39,12 +55,12 @@ function HDF(props) {
               </tr>
               <tr>
                 <td>EXPOSURE</td>
-                <td>...</td>
+                <td>{(hdf.covid_exposure === undefined) ? "..." : hdf.covid_exposure ? "YES" : "NO"}</td>
               </tr>
 
               <tr>
                 <td>POSITIVE</td>
-                <td>...</td>
+                <td>{(hdf.covid_positive === undefined) ? "..." : hdf.covid_positive ? "YES" : "NO"}</td>
               </tr>
             </tbody>
           </table>
@@ -58,7 +74,14 @@ function HDF(props) {
           </div>
           <div className="flex flex-col text-lg rounded-xl">
             <ul>
-              <li>...</li>
+              {/* TODO: ERROR HANDLING AND PROPER DISPLAY */}
+              <li>{hdf.fever ? <span>FEVER</span>: " "}</li>
+              <li>{hdf.cough ? <span>COUGH</span> : " "}</li>
+              <li>{hdf.cold ? <span>COLD</span> : " "}</li>
+              <li>{hdf.sore_throat ? <span>SORE THROAT</span> : " "}</li>
+              <li>{hdf.diff_breathing ? <span>DIFFICULTY IN BREATHING</span> : " "}</li>
+              <li>{hdf.diarrhea ? <span>DIARRHEA</span> : " "}</li>
+              <li>{hdf.others ? <span>{hdf.others.toUpperCase()}</span> : " "}</li>
             </ul>
           </div>
         </div>
@@ -66,14 +89,16 @@ function HDF(props) {
         <div className="p-5 flex flex-row justify-around items-center text-lg bg-slate-100">
           <span>PREGNANT</span>
           <span>
-            <strong>...</strong>
+            {/* TODO: ERROR HANDLING AND PROPER DISPLAY */}
+            <strong>{(hdf.pregnant === undefined || hdf.pregnant === null) ? "N/A" : hdf.pregnant ? "YES" : "NO"}</strong>
           </span>
         </div>
 
         <div className="p-5 flex flex-col items-center text-lg bg-blue-300">
           <span>DEPARTMENT / DESTINATION</span>
           <span>
-            <u>...</u>
+            {/* TODO: ERROR HANDLING AND PROPER DISPLAY */}
+            <u>{hdf.destination ? hdf.destination.toUpperCase() : "..."}</u>
           </span>
         </div>
 

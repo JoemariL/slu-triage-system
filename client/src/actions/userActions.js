@@ -12,7 +12,7 @@ export const getUserData = async() => {
             return res.data
         })
         .catch((err) => {
-            return err
+            return err.response?.data?.errors;
         })
 }
 
@@ -21,8 +21,8 @@ export const getRefreshToken = async () => {
         .then(() => {
             return true
         })
-        .catch(() => {
-            return false
+        .catch((err) => {
+            return err.response?.data?.errors;
         })
 }
 
@@ -33,10 +33,42 @@ export const updateVaccine = async (payload) => {
         vaccineSerial: payload.vacSerial,
     })
     return API.post("/user/vaccination", body, config)
-        .then((res) => {
+        .then(() => {
             return true
         })
         .catch((err) => {
-            return false
+            return err.response?.data?.errors;
+        })
+}
+
+export const getHdfDay = async () => {
+    return API.get("/hdf/get", config)
+        .then((res) => {
+            return res.data
+        })
+        .catch((err) => {
+            return err.response?.data?.errors;
+        })
+}
+
+export const generateHdf = async (payload) => {
+    const body = JSON.stringify({
+        covidExposure: payload.exposure,
+        covidPositive: payload.positive,
+        fever: payload.fever,
+        cough: payload.cough,
+        cold: payload.cold,
+        soreThroat: payload.soreThroat,
+        diffBreathing: payload.diffBreathing,
+        diarrhea: payload.diarrhea,
+        pregnant: payload.pregnant,
+        destination: payload.destination
+    })
+    return API.post("/hdf/generate", body, config)
+        .then(() => {
+            return true
+        })
+        .catch((err) => {
+            return err.response?.data?.errors;
         })
 }

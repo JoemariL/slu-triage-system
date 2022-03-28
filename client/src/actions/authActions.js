@@ -47,10 +47,10 @@ export const register = async (payload) => {
     userType: payload.userType,
   });
   return API.post("/controller/user/register", body, config)
-    .then((res) => {
+    .then(() => {
       return true;
     })
     .catch((err) => {
-      return false;
+      return err.response?.data?.errors;
     });
 };

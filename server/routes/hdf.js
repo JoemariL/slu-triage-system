@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday, getHdfTodayUser } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 
@@ -52,6 +52,34 @@ router.get("/get", async (req, res) => {
     }
 })
 
+// GET HDF DATA FOR SPECIFIC USER WITH-IN A DAY
+router.get("/get/day", async (req, res) => {
+
+    let dateToday = moment().startOf('day').toDate()
+    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const userUid = await extractID(req.cookies.accessToken)
+    const idCheck = objectIDValidator(userUid)
+    if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
+
+    try {
+        const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
+        if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
+
+        const userHdf = await getHdfTodayUser(user._id, dateToday, dateTomorrow)
+        if(!userHdf) return res.status(404).json({ errors:{ message:'not found' }})
+        return res.status(200).json(userHdf)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+
+})
+
 // GENERATE HDF DATA FOR SPECIFIC USER
 router.post("/generate", async (req, res) => {
 
@@ -67,7 +95,7 @@ router.post("/generate", async (req, res) => {
     let dateToday = moment().startOf('day').toDate()
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
 
-    const { deptDestination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, ifPregnant } = req.body
+    const { destination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, pregnant } = req.body
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
@@ -80,7 +108,7 @@ router.post("/generate", async (req, res) => {
 
     const hdfData = {
         allowed,
-        dept_destination: deptDestination,
+        destination,
         covid_exposure: covidExposure,
         covid_positive: covidPositive,
         fever,
@@ -90,7 +118,7 @@ router.post("/generate", async (req, res) => {
         diff_breathing: diffBreathing,
         diarrhea,
         others,
-        pregnant: ifPregnant,
+        pregnant
     }
 
     const uid = user._id
@@ -192,7 +220,7 @@ router.patch("/update/:hdfID", async (req, res) => {
     const hdfCheck = objectIDValidator(hdfUid)
     if (!hdfCheck) return res.status(400).json({ errors:{ message:'invalid hdf ID'}})
 
-    const { deptDestination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, ifPregnant } = req.body
+    const { destination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, ifPregnant } = req.body
 
     let dateYesterday = moment().startOf('day').add(-1, 'days').toDate()
     
@@ -214,7 +242,7 @@ router.patch("/update/:hdfID", async (req, res) => {
             uid,
             {
                 $set: {
-                    "hdf_data.$[element].dept_destination": deptDestination,
+                    "hdf_data.$[element].destination": destination,
                     "hdf_data.$[element].covid_exposure": covidExposure,
                     "hdf_data.$[element].covid_positive": covidPositive,
                     "hdf_data.$[element].fever": fever,
