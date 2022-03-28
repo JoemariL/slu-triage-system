@@ -25,6 +25,7 @@ export const logout = async () => {
   return API.delete("/controller/logout", {
     headers: {
       "Content-Type": "application/json",
+      "authorization": 'Bearer ' + Cookies.get("accessToken")
     },
   })
     .then(() => {

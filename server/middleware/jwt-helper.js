@@ -6,11 +6,11 @@ const jwtDecode = require('jwt-decode');
 require('dotenv').config({ path: '../.env'})
 
 module.exports.generateAccessToken = async (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_KEY) 
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_KEY, { expiresIn: '2h' }) 
 }
 
 module.exports.generateRefreshToken = async (payload) => {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_KEY)
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' })
 }
 
 module.exports.verifyRefreshToken = async (storedToken, token) => {

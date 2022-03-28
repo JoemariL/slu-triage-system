@@ -1,13 +1,15 @@
 import API from "../modules/api"
+import Cookies from "js-cookie";
 
 const config = {
     headers: {
         "Content-Type": "application/json",
+        "authorization": 'Bearer ' + Cookies.get("accessToken")
     },
 };
 
 export const getUserData = async() => {
-    return API.get(`/user/get`, config)
+    return API.get("/user/get", config)
         .then((res) => {
             return res.data
         })

@@ -9,6 +9,7 @@ const TOKEN = require('../models/token')
 
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
+const auth = require('../middleware/auth')
 const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../middleware/jwt-helper')
 const { emailValidator } = require('../utils/validator')
 
@@ -34,10 +35,18 @@ router.post("/user/login", async (req, res) => {
         })
         await saveToken.save()
 
-        return res.status(200)
-        .cookie("accessToken", accessToken, {sameSite:'strict', path: '/', expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
-        .cookie("refreshToken", refreshToken, {sameSite:'strict', path: '/', expires: new Date(new Date().getTime() + 518400 * 1000) , httpOnly: true, secure: true})
-        .send('Cookies registered')
+        if (process.env.NODE_ENV === "PRODUCTION"){
+            return res.status(200)
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
+            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000) , httpOnly: true, secure: true})
+            .send('Cookies registered')
+        } else {
+            return res.status(200)
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000) })
+            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000), httpOnly: true })
+            .send('Cookies registered')
+        }
+        
     } catch (error) {
         return res.status(400).json({ errors: { message:'error occurred' }})
     }
@@ -94,16 +103,21 @@ router.post('/token', async (req, res) => {
         if(!tokenInfo) return res.sendStatus(403)
         const accessToken = await generateAccessToken(tokenInfo)
 
-        return res.status(200)
-        .cookie("accessToken", accessToken, {sameSite:'strict', path: '/', expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
-        .send('accessToken Generated')
-
+        if (process.env.NODE_ENV === "PRODUCTION") {
+            return res.status(200)
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
+            .send('accessToken Generated')
+        } else {
+            return res.status(200)
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000) })
+            .send('accessToken Generated')
+        }
     } catch (error) {
         return res.sendStatus(404)
     }
 })
 
-router.delete('/logout', async (req, res) => {
+router.delete('/logout', auth, async (req, res) => {
     try {
         const token = req.cookies.refreshToken
         if (token == null) {
