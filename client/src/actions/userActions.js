@@ -44,7 +44,7 @@ export const updateVaccine = async (payload) => {
 };
 
 export const getHdfDay = async () => {
-  return API.get("/hdf/get", config)
+  return API.get("/hdf/get/day", config)
     .then((res) => {
       return res.data;
     })
