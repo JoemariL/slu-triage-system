@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import classnames from "classnames";
 import { Input, Checkbox, RadioButton, Button } from "../../Components/commons";
 import { Appbar } from "../../Components";
 import { generateHdf } from "../../actions/userActions";
 
 const GenerateHDF = (props) => {
+  const navigate = useNavigate();
+
   // HDF Variables.
   const [exposure, setExposure] = useState(false);
   const [positive, setPositive] = useState(false);
@@ -78,7 +81,7 @@ const GenerateHDF = (props) => {
     if (response.hasOwnProperty("message")) console.log(response.message);
     if (response) console.log(response);
 
-    props.nextPage();
+    navigate("/entry_result");
   };
 
   return (

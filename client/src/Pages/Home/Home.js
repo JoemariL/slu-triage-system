@@ -2,23 +2,22 @@ import React, { useState, useEffect } from "react";
 // React npm modules.
 import { useNavigate } from "react-router-dom";
 // React icons.
-import { FaSyringe } from "react-icons/fa";
+import { FaCheck, FaSyringe } from "react-icons/fa";
 import { GiHealthNormal } from "react-icons/gi";
+import { ImCross } from "react-icons/im";
 import { GoReport } from "react-icons/go";
 import { MdSpaceDashboard } from "react-icons/md";
 import { RiMenuUnfoldFill, RiMenuFoldFill } from "react-icons/ri";
-// Import QR scanner.
-import { Html5QrcodeScanner } from "html5-qrcode";
 // Pages.
 import Menu from "./Menu";
 // Components.
 import { Icon } from "../../Components/commons";
 // Actions & hooks.
 import { logout } from "../../actions/authActions";
-import { getUserData } from "../../actions/userActions";
+import { getUserData, getHdfDay } from "../../actions/userActions";
 import useAuth from "../../hooks/useAuth";
 // Resources.
-import { QRButton } from "../../assets/";
+import { QRButton, QRButtonDisabled } from "../../assets/";
 
 function Home() {
   const navigate = useNavigate();
@@ -28,13 +27,27 @@ function Home() {
 
   // User variables.
   const [user, setUser] = useState({});
+  const [hdf, setHdf] = useState({});
 
   const [openMenu, setOpenMenu] = useState(false);
+  const [hasHDF, setHasHDF] = useState(false);
 
   useEffect(() => {
     (async function () {
       const user = await getUserData();
       setUser(user);
+    })();
+  }, [auth]);
+
+  useEffect(() => {
+    (async function () {
+      const user = await getHdfDay();
+      if (!user || user.length === 0) {
+        setHdf({});
+      } else {
+        setHasHDF(true);
+        setHdf(user[0]);
+      }
     })();
   }, [auth]);
 
@@ -99,73 +112,136 @@ function Home() {
         {/* Dashboard. */}
         <div onClick={() => setOpenMenu(false)}>
           <div className="mx-5 sm:mx-32 md:mx-40 lg:mx-80 ease-in-out duration-300 space-y-5">
-            <div className="p-5 rounded space-y-5 shadow-sm bg-blue-50">
-              <div className="flex flex-row items-center space-x-3">
-                <Icon
-                  className="p-1 rounded bg-green-300"
-                  icon={<MdSpaceDashboard className="h-4 w-4 text-white" />}
-                />
-                <span>Dashboard</span>
-              </div>
+            <div>
+              {/* RESULT. */}
+              {hasHDF && (
+                <div>
+                  {hdf.allowed ? (
+                    <div
+                      className="p-5 cursor-pointer bg-blue-600 hover:opacity-90 focus:outline-none ease-in-out duration-300"
+                      onClick={() => {
+                        navigate("/entry_result");
+                      }}
+                    >
+                      <div className="flex flex-row items-center gap-x-3">
+                        <Icon
+                          className="p-2 rounded-full bg-blue-400"
+                          icon={<FaCheck className="h-5 w-5 text-white" />}
+                        />
 
-              <div className="flex flex-col rounded space-y-2 bg-white">
-                {/* List 01. */}
-                <button
-                  className="p-3 flex flex-row items-center rounded space-x-5 hover:bg-slate-100"
-                  type="button"
-                  onClick={() => {
-                    navigate("/hdf");
-                  }}
-                >
-                  <Icon
-                    className="p-2 rounded-full bg-red-400"
-                    icon={<GiHealthNormal className="h-4 w-4 text-white" />}
-                  />
-                  <span className="text-left">
-                    Fill out your Health Declaration Form
-                  </span>
-                </button>
+                        <div className="flex flex-col text-white">
+                          <span>ALLOWED</span>
+                          <span className="text-sm">Entry status</span>
+                        </div>
 
-                {/* List 02. */}
-                <button
-                  className="p-3 flex flex-row items-center rounded space-x-5 hover:bg-slate-100"
-                  type="button"
-                  onClick={() => {
-                    navigate("/vaccine_profile");
-                  }}
-                >
-                  <Icon
-                    className="p-2 rounded-full bg-blue-400"
-                    icon={<FaSyringe className="h-4 w-4 text-white" />}
-                  />
-                  <span className="text-left">Manage your Vaccine Profile</span>
-                </button>
+                        <div className="ml-auto text-white">
+                          <span>
+                            <strong>CLICK TO VIEW</strong>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="p-5 cursor-pointer bg-red-600 hover:opacity-90 focus:outline-none ease-in-out duration-300"
+                      onClick={() => {
+                        navigate("/entry_result");
+                      }}
+                    >
+                      <div className="flex flex-row items-center gap-x-3">
+                        <Icon
+                          className="p-2 rounded-full bg-red-400"
+                          icon={<ImCross className="h-5 w-5 text-white" />}
+                        />
 
-                {/* List 03. */}
-                <button
-                  className="p-3 flex flex-row items-center rounded space-x-5 hover:bg-slate-100"
-                  type="button"
-                >
+                        <div className="flex flex-col text-white">
+                          <span>NOT ALLOWED</span>
+                          <span className="text-sm">Entry status</span>
+                        </div>
+
+                        <div className="ml-auto text-white">
+                          <span>
+                            <strong>CLICK TO VIEW</strong>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Operations. */}
+              <div className="p-5 rounded space-y-5 shadow-sm bg-blue-50">
+                <div className="flex flex-row items-center space-x-3">
                   <Icon
-                    className="p-2 rounded-full bg-green-400"
-                    icon={<GoReport className="h-4 w-4 text-white" />}
+                    className="p-1 rounded bg-green-300"
+                    icon={<MdSpaceDashboard className="h-4 w-4 text-white" />}
                   />
-                  <span className="text-left">View result</span>
-                </button>
+                  <span>Dashboard</span>
+                </div>
+
+                <div className="flex flex-col rounded space-y-2 bg-white">
+                  {/* List 01. */}
+                  <button
+                    className="p-3 flex flex-row items-center rounded gap-x-5 hover:bg-slate-100"
+                    type="button"
+                    onClick={() => {
+                      navigate("/hdf");
+                    }}
+                  >
+                    <Icon
+                      className="p-2 rounded-full bg-red-400"
+                      icon={<GiHealthNormal className="h-4 w-4 text-white" />}
+                    />
+                    <span className="text-left">
+                      Fill out your Health Declaration Form
+                    </span>
+                  </button>
+
+                  {/* List 02. */}
+                  <button
+                    className="p-3 flex flex-row items-center rounded space-x-5 hover:bg-slate-100"
+                    type="button"
+                    onClick={() => {
+                      navigate("/vaccine_profile");
+                    }}
+                  >
+                    <Icon
+                      className="p-2 rounded-full bg-blue-400"
+                      icon={<FaSyringe className="h-4 w-4 text-white" />}
+                    />
+                    <span className="text-left">
+                      Manage your Vaccine Profile
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* SCAN QR BUTTON. */}
-            <div className="p-4 flex flex-col items-center text-center space-y-4 rounded cursor-pointer bg-gradient-to-l from-yellow-200 to-yellow-500 hover:scale-105 hover:opacity-90 focus:outline-none ease-in-out duration-300">
-              <img
-                className="object-contain rounded-full h-auto w-36"
-                src={QRButton}
-                alt="saint louis university triage application qr code scanner button"
-              />
-              <div className="px-4 py-1 rounded-full bg-white">
-                <span>Scan QR</span>
+            {hasHDF ? (
+              <div className="p-4 flex flex-col items-center text-center space-y-4 rounded cursor-pointer bg-gradient-to-l from-yellow-200 to-yellow-500 hover:scale-105 hover:opacity-90 focus:outline-none ease-in-out duration-300">
+                <img
+                  className="object-contain rounded-full h-auto w-36"
+                  src={QRButton}
+                  alt="saint louis university triage application qr code scanner button"
+                />
+                <div className="px-4 py-1 rounded-full bg-white">
+                  <span>Scan QR</span>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="p-4 flex flex-col items-center text-center space-y-4 rounded bg-gradient-to-l from-gray-200 to-gray-500">
+                <img
+                  className="object-contain rounded-full h-auto w-36"
+                  src={QRButtonDisabled}
+                  alt="saint louis university triage application qr code scanner button"
+                />
+                <div className="px-4 py-1 rounded-full bg-white">
+                  <span>Please fill out your HDF first before scanning.</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

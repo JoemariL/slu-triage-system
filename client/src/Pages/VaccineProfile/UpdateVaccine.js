@@ -32,7 +32,6 @@ const UpdateVaccine = (props) => {
     const response = await updateVaccine(user);
     // TODO: Display something here...
     if (response) console.log(response);
-
     props.nextPage();
   };
 

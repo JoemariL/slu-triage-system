@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Authentication, Home, HDF, VaccineProfile } from "./Pages";
+import { Authentication, Home, HDF, VaccineProfile, Results } from "./Pages";
 import { Layout } from "./Components/index";
 import RequireAuth from "./context/RequireAuth";
 import NoAuth from "./context/NoAuth";
@@ -25,6 +25,7 @@ function App() {
                 path="/vaccine_profile"
                 element={<VaccineProfile />}
               />
+              <Route exact path="/entry_result" element={<Results />} />
             </Route>
           </Route>
         </Routes>

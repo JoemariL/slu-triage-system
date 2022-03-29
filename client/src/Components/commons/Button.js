@@ -1,4 +1,5 @@
 import classnames from "classnames";
+import { BiLoaderAlt } from "react-icons/bi";
 
 const Button = ({
   className = "",
@@ -7,6 +8,7 @@ const Button = ({
   type,
   disabled = false,
   onClick = () => {},
+  loading = false,
 }) => {
   return (
     <div className={classnames(className)}>
@@ -16,7 +18,13 @@ const Button = ({
         onClick={onClick}
         disabled={disabled}
       >
-        <span>{label}</span>
+        {loading ? (
+          <div className="flex flex-row justify-center">
+            <BiLoaderAlt className="h-6 w-6 text-white animate-spin" />
+          </div>
+        ) : (
+          label
+        )}
       </button>
     </div>
   );

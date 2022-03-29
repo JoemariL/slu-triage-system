@@ -43,9 +43,6 @@ function HDF() {
       {generateHDF && (
         <GenerateHDF
           returnOnClick={() => setGenerateHDF(false)}
-          nextPage={() => {
-            setGenerateHDF(false);
-          }}
         />
       )}
 

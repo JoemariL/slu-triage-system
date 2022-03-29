@@ -9,3 +9,6 @@ export { default as Home } from "./Home/Home";
 // Application.
 export { default as HDF } from "./HDF/HDF";
 export { default as VaccineProfile } from "./VaccineProfile/VaccineProfile";
+
+// Entry result page.
+export { default as Results } from "./Results";
