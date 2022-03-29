@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { Input, Button } from "../../../commons";
 import classnames from "classnames";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import { Input, Button } from "../../Components/commons";
 
-const LoginForm = ({
+const Login = ({
   className = "",
   emailAddress,
   password,
@@ -20,7 +20,7 @@ const LoginForm = ({
   };
 
   return (
-    <div className={classnames("text-base", className)}>
+    <div className={classnames(className)}>
       <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
         <div>
           <Input
@@ -31,8 +31,8 @@ const LoginForm = ({
             name="emailAddres"
             value={emailAddress}
             type={"email"}
-            required
             onChange={emailOnChange}
+            required
           />
           <Input
             inputOutStyle="rounded focus-within:border-blue-800"
@@ -42,8 +42,8 @@ const LoginForm = ({
             name="password"
             value={password}
             type={showPassword ? "text" : "password"}
-            required
             onChange={pwdOnChange}
+            required
             iconRight={
               <button type="button" onClick={clickShowPassword}>
                 {showPassword ? (
@@ -61,9 +61,9 @@ const LoginForm = ({
           </span>
         </div>
 
-        <div className="flex flex-col space-y-3">
+        <div>
           <Button
-            buttonStyle="h-12 rounded text-white bg-blue-900 hover:bg-blue-800"
+            buttonStyle="h-12 rounded bg-blue-900 text-white hover:bg-blue-800"
             label="Log In"
             type={"submit"}
           />
@@ -73,4 +73,4 @@ const LoginForm = ({
   );
 };
 
-export default LoginForm;
+export default Login;

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login, Home, HDF, VaccineProfile } from "./Pages/mobile";
+import { Authentication, Home, HDF, VaccineProfile } from "./Pages";
 import { Layout } from "./Components/index";
 import RequireAuth from "./context/RequireAuth";
 import NoAuth from "./context/NoAuth";
@@ -13,14 +13,18 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route element={<NoAuth />}>
-              <Route path="/" element={<Login />} />
-              <Route exact path="/login" element={<Login />} />
+              <Route path="/" element={<Authentication />} />
+              <Route exact path="/login" element={<Authentication />} />
             </Route>
 
             <Route element={<RequireAuth />}>
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/hdf" element={<HDF />} />
-              <Route exact path="/vaccine" element={<VaccineProfile />} />
+              <Route
+                exact
+                path="/vaccine_profile"
+                element={<VaccineProfile />}
+              />
             </Route>
           </Route>
         </Routes>

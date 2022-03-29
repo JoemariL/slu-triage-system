@@ -1,14 +1,14 @@
-import { createContext, useEffect, useState } from "react";
-import Cookies from 'js-cookie';
+import { createContext, useState } from "react";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext({});
 
-let access
+let access;
 try {
-  const cookie = Cookies.get('accessToken') ? Cookies.get('accessToken') : null
-  access = cookie
+  const cookie = Cookies.get("accessToken") ? Cookies.get("accessToken") : null;
+  access = cookie;
 } catch (error) {
-  access = null
+  access = null;
 }
 
 export const AuthProvider = ({ children }) => {
