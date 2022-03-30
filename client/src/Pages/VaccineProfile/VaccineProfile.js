@@ -30,7 +30,7 @@ function VaccineProfile() {
         setVaccine(user.vaccination_details[0]);
       }
     })();
-  }, [auth]);
+  }, [auth, vaccineForm]);
 
   return (
     <div className="relative text-sm sm:text-base">
