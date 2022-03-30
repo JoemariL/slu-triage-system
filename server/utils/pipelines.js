@@ -201,3 +201,37 @@ module.exports.hdfIfOver = async(userID, hdfID, dateFrom) => {
     if(beforeTime.isBefore(dateFrom)) return true
     return false
 }
+
+module.exports.getVisitor = async(date) => {
+    return await USERS.aggregate([
+        {
+            $match: {
+                user_type: "VISITOR"
+            }
+        },
+        {
+            $match: {
+                createdAt: {
+                    $lt: date
+                }
+            }
+        }
+    ])
+} 
+
+module.exports.getExpiredHDF = async(date) => {
+    return await USERS.aggregate([
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                "hdf_data.createdAt": {
+                    $lt: date
+                }
+            }
+        }
+    ])
+}

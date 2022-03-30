@@ -23,6 +23,7 @@
     "moment": "^2.29.1",
     "mongoose": "^5.13.14",
     "mongoose-float": "^1.0.4",
+    "node-schedule": "^2.1.0",
     "ws": "^8.5.0"
   },
   "devDependencies": {
