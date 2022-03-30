@@ -129,14 +129,14 @@ router.post("/vaccination", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const { vaccineStatus, vaccineName, vaccineSerial } = req.body
+    const { vaccineStatus, vaccineDate, vaccineSerial } = req.body
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
     const vaccineData = {
         vaccine_status: vaccineStatus,
-        vaccine_name: vaccineName,
+        vaccine_date: vaccineDate,
         vaccine_serial_no: vaccineSerial,
     }
     const uid = user._id
