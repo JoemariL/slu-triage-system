@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday, getHdfTodayUser, getExpiredHDF } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday, getHdfTodayUser } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 
@@ -18,10 +18,7 @@ const { extractID } = require('../middleware/jwt-helper')
 router.get("/day", async (req, res) => {
     let dateToday = moment().startOf('day').toDate()
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
-    const data = await getExpiredHDF(dateTomorrow)
-    for(let i = 0; i < data.length; i++){
-        console.log("user_id: ", data[i]._id, "hdf_id: ", data[i].hdf_data._id)
-    }
+    
     try {
         const data = await getHdfToday(dateToday, dateTomorrow)
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
