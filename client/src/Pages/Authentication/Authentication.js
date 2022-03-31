@@ -6,6 +6,7 @@ import { login } from "../../actions/authActions";
 import useAuth from "../../hooks/useAuth";
 import { LogoSLU } from "../../assets";
 import Register from "./Register";
+import VisitorForm from "../Visitor/VisitorForm";
 
 function Authentication() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Authentication() {
   const [password, setPassword] = useState("");
 
   const [switchRegister, setSwitchRegister] = useState(false);
+  const [switchVisitor, setSwitchVisitor] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +43,14 @@ function Authentication() {
           }}
           nextPage={() => {
             setSwitchRegister(false);
+          }}
+        />
+      )}
+
+      {switchVisitor && (
+        <VisitorForm
+          returnOnClick={() => {
+            setSwitchVisitor(false);
           }}
         />
       )}
@@ -70,6 +80,12 @@ function Authentication() {
             emailAddress={email}
             password={password}
             handleSubmit={handleSubmit}
+          />
+          <Button
+            buttonStyle="h-12 rounded bg-sky-900 text-white hover:bg-sky-800"
+            label="Login as visitor"
+            type="button"
+            onClick={() => setSwitchVisitor(!switchVisitor)}
           />
           <Button
             buttonStyle="btn-secondary"

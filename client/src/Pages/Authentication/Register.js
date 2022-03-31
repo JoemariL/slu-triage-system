@@ -4,7 +4,7 @@ import { Appbar } from "../../Components";
 import { Select, Input, Checkbox, Button } from "../../Components/commons";
 import { register } from "../../actions/authActions";
 
-const userTypes = ["STUDENT", "EMPLOYEE", "VISITOR"];
+const userTypes = ["STUDENT", "EMPLOYEE"];
 
 const Register = (props) => {
   // Set up registration variables.

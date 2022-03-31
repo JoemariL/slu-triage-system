@@ -2,40 +2,8 @@ import React, { useState } from "react";
 import classnames from "classnames";
 import { Appbar } from "../../Components";
 import { Input, RadioButton, Button } from "../../Components/commons";
-import { updateVaccine } from "../../actions/userActions";
 
-const UpdateVaccine = (props) => {
-  // Actions & hooks.
-  const user = props.user;
-
-  // Vaccine form variables.
-  const [vaccine, setVaccine] = useState(user);
-  const [vacStatus, setVacStatus] = useState("");
-  const [vacName, setVacName] = useState("");
-  const [vacSerial, setVacSerial] = useState("");
-
-  const [unvaccinated, setUnvaccinated] = useState(false);
-
-  const handleChangeRadio = (e) => {
-    setUnvaccinated(false);
-    setVacStatus(e.target.value);
-  };
-
-  const handleUnvaccinated = (e) => {
-    setUnvaccinated(true);
-    setVacStatus(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const user = { vacStatus, vacName, vacSerial };
-    const response = await updateVaccine(user);
-    // TODO: Display something here...
-    if (response.hasOwnProperty("message")) console.log(response.message);
-    if (response) console.log(response);
-    props.nextPage();
-  };
-
+const VaccineForm = (props) => {
   return (
     <div
       className={classnames(
@@ -63,7 +31,7 @@ const UpdateVaccine = (props) => {
           </p>
         </div>
 
-        <form className="space-y-5" onSubmit={handleSubmit}>
+        <form className="space-y-5">
           <div className="space-y-5">
             <p>
               ENTER YOUR &nbsp;
@@ -78,32 +46,18 @@ const UpdateVaccine = (props) => {
                 id="vaccinationRecord"
                 label="Fully Vaccinated"
                 value="FULLY-VACCINATED"
-                defaultChecked={
-                  vaccine.vaccine_status === "FULLY-VACCINATED" ? true : false
-                }
-                onChange={handleChangeRadio}
               />
               <RadioButton
                 name="vaccinationRecord"
                 id="vaccinationRecord"
                 value="PARTIALLY-VACCINATED"
                 label="Partially Vaccinated"
-                defaultChecked={
-                  vaccine.vaccine_status === "PARTIALLY-VACCINATED"
-                    ? true
-                    : false
-                }
-                onChange={handleChangeRadio}
               />
               <RadioButton
                 name="vaccinationRecord"
                 id="vaccinationRecord"
                 label="Not Vaccinated"
                 value="NOT-VACCINATED"
-                defaultChecked={
-                  vaccine.vaccine_status === "NOT-VACCINATED" ? true : false
-                }
-                onChange={handleUnvaccinated}
               />
             </div>
           </div>
@@ -120,16 +74,12 @@ const UpdateVaccine = (props) => {
             </p>
 
             <div className="space-y-3">
-              {/* TODO: date input. */}
               <Input
                 inputOutStyle="rounded focus-within:border-blue-800"
                 inputInStyle="h-12"
-                placeholder="Enter the vaccine brand or name"
-                subtitle="Sinovac, Pfizer, etc."
                 id="vaccine"
                 name="vaccine"
                 type={"date"}
-                value={vacName}
                 required
               />
 
@@ -140,10 +90,7 @@ const UpdateVaccine = (props) => {
                 id="deptDestination"
                 name="deptDestination"
                 type={"text"}
-                value={vacSerial}
                 required
-                disabled={unvaccinated ? true : false}
-                onChange={(e) => setVacSerial(e.target.value.toUpperCase())}
               />
             </div>
           </div>
@@ -165,4 +112,4 @@ const UpdateVaccine = (props) => {
   );
 };
 
-export default UpdateVaccine;
+export default VaccineForm;
