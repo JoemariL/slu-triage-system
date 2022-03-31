@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { FaCheck, FaSyringe } from "react-icons/fa";
 import { GiHealthNormal } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
-import { GoReport } from "react-icons/go";
 import { MdSpaceDashboard } from "react-icons/md";
 import { RiMenuUnfoldFill, RiMenuFoldFill } from "react-icons/ri";
 // Pages.
 import Menu from "./Menu";
+import QRScanner from "./QRScanner";
 // Components.
 import { Icon } from "../../Components/commons";
 // Actions & hooks.
@@ -30,6 +30,7 @@ function Home() {
   const [hdf, setHdf] = useState({});
 
   const [openMenu, setOpenMenu] = useState(false);
+  const [scanQR, setScanQR] = useState(false);
   const [hasHDF, setHasHDF] = useState(false);
 
   useEffect(() => {
@@ -70,6 +71,8 @@ function Home() {
           closeOnClick={() => setOpenMenu(false)}
         />
       )}
+
+      {scanQR && <QRScanner returnOnClick={() => setScanQR(false)} />}
 
       {/* Main. */}
       <div className="flex flex-col space-y-5">
@@ -220,7 +223,12 @@ function Home() {
 
             {/* SCAN QR BUTTON. */}
             {hasHDF ? (
-              <div className="p-4 flex flex-col items-center text-center space-y-4 rounded cursor-pointer bg-gradient-to-l from-yellow-200 to-yellow-500 hover:scale-105 hover:opacity-90 focus:outline-none ease-in-out duration-300">
+              <div
+                className="p-4 flex flex-col items-center text-center space-y-4 rounded cursor-pointer bg-gradient-to-l from-yellow-200 to-yellow-500 hover:scale-105 hover:opacity-90 focus:outline-none ease-in-out duration-300"
+                onClick={() => {
+                  setScanQR(!scanQR);
+                }}
+              >
                 <img
                   className="object-contain rounded-full h-auto w-36"
                   src={QRButton}
