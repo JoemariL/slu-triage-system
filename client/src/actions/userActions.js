@@ -74,3 +74,18 @@ export const generateHdf = async (payload) => {
       return err.response?.data?.errors;
     });
 };
+
+export const scanQR = async(payload) => {
+  const hdfID = payload.hdfID
+  const body = JSON.stringify({
+    qrCode: payload.qrCode
+  })
+  console.log(payload)
+  return API.post(`/hdf/scan/${hdfID}`, body, config)
+    .then(() => {
+      return true
+    })
+    .catch((err) => {
+      return err.response?.data?.errors;
+    })
+}

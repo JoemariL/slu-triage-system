@@ -31,6 +31,7 @@ const UpdateVaccine = (props) => {
     const user = { vacStatus, vacName, vacSerial };
     const response = await updateVaccine(user);
     // TODO: Display something here...
+    if (response.hasOwnProperty("message")) console.log(response.message);
     if (response) console.log(response);
     props.nextPage();
   };

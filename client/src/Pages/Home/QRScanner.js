@@ -3,8 +3,24 @@ import classnames from "classnames";
 import { QrReader } from "react-qr-reader";
 import { Appbar } from "../../Components";
 
+import { scanQR } from "../../actions/userActions";
+
 function QRScanner(props) {
-  const [data, setData] = useState("No result");
+  const hdf = props.hdf
+
+  const handleSubmitQR = async (qrCode) => {
+    const hdfID = hdf._id
+    const payload = {
+      hdfID,
+      qrCode
+    }
+    const response = await scanQR(payload);
+    // TODO: Display something here...
+    if (response.hasOwnProperty("message")) console.log(response.message);
+    if (response) {
+      console.log(response)
+    }
+  }
 
   return (
     <div
@@ -28,12 +44,14 @@ function QRScanner(props) {
           </div>
           <div>
             <QrReader
+              scanDelay={500}
+              constraints={{facingMode: 'environment'}}
               onResult={(result, error) => {
                 if (!!result) {
-                  setData(result?.text);
+                  handleSubmitQR(result?.text)
                 }
                 if (!!error) {
-                  console.info(error);
+                  // console.info(error);
                 }
               }}
               style={{ height: "auto", width: "200px" }}

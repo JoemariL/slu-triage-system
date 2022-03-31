@@ -72,7 +72,7 @@ function Home() {
         />
       )}
 
-      {scanQR && <QRScanner returnOnClick={() => setScanQR(false)} />}
+      {scanQR && <QRScanner hdf={hdf} returnOnClick={() => setScanQR(false)} />}
 
       {/* Main. */}
       <div className="flex flex-col space-y-5">

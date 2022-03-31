@@ -44,7 +44,7 @@ router.post("/user/login", async (req, res) => {
         } else {
             return res.status(200)
             .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000) })
-            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000), httpOnly: true })
+            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000) })
             .send('Cookies registered')
         }
         

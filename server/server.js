@@ -6,7 +6,6 @@ const compression = require('compression')
 const cookieParser = require('cookie-parser')
 
 require('dotenv').config()
-const auth = require('./middleware/auth')
 const connectDB = require('./config/database')
 const clusterServer = require('./utils/cluster')
 
@@ -44,7 +43,6 @@ const userController = require('./controller/user')
 app.use("/controller", adminController)
 app.use("/controller", userController)
 
-if (process.env.NODE_ENV === "PRODUCTION") app.use(auth)
 app.use("/admin", adminRouter)
 app.use("/user", userRouter)
 app.use("/hdf", userHdfRouter)

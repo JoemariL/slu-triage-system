@@ -194,7 +194,7 @@ router.post("/visitor/generate", async (req, res) => {
 })
 
 // HDF QR SCAN
-router.patch("/scan/:hdfID", async (req, res) => {
+router.post("/scan/:hdfID", async (req, res) => {
 
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
