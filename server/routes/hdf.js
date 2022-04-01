@@ -136,63 +136,6 @@ router.post("/generate", async (req, res) => {
     }
 })
 
-// FOR VISITORS
-router.post("/visitor/generate", async (req, res) => {
-    const { qrCode } = req.body
-    const { first_name, last_name, age, contact_number, home_address } = req.body
-    const { vaccine_status, vaccine_date, vaccine_serial_no } = req.body
-    const { covid_exposure, covid_positive, fever, cough, cold, sore_throat, diff_breathing, diarrhea, others, pregnant, destination } = req.body
-
-    let allowed = true
-    if(covid_exposure || covid_positive || fever || cough || cold || sore_throat || diff_breathing || diarrhea) allowed = false
-
-    const vaccination_details = {
-        vaccine_status,
-        vaccine_date,
-        vaccine_serial_no
-    }
-
-    let decrypted, school, gate, code = null
-    try {
-        decrypted = decryptJSON(qrCode)
-        if(decrypted.hasOwnProperty('raw_code')) school = decrypted.school, gate = decrypted.gate, code = decrypted.raw_code
-        let check = await SCHOOL.findOne({ raw_code: code})
-        if(!check) return res.status(404).json({ errors:{ message:'qr code information not found' }})
-    } catch (error) {
-        return res.status(400).json({ errors:{ message:'no signature found or invalid qr code' }})
-    }
-    let dateNow = moment().toDate()
-
-    const hdf_data = {
-        entry_date: dateNow,
-        entry_campus: school,
-        gate_info: gate,
-        allowed,
-        destination,
-        is_expired: true
-    }
-    let random = (Math.random() + 1).toString(36).substring(7)
-    try {
-        const user = new USERS({
-            first_name,
-            last_name,
-            age,
-            contact_number,
-            home_address,
-            email_address: random,
-            user_type: "VISITOR",
-            vaccination_details,
-            hdf_data,
-            others,
-            pregnant
-        })
-        await user.save({ validateBeforeSave: false })
-        res.status(201).json({ success: { message:'visitor registered' }})
-    } catch (error) {
-        return res.sendStatus(500)
-    }
-})
-
 // HDF QR SCAN
 router.post("/scan/:hdfID", async (req, res) => {
 

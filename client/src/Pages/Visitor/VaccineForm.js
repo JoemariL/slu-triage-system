@@ -4,6 +4,29 @@ import { Appbar } from "../../Components";
 import { Input, RadioButton, Button } from "../../Components/commons";
 
 const VaccineForm = (props) => {
+  const [vaccine_status, setVacStatus] = useState("");
+  const [vaccine_date, setDate] = useState("")
+  const [vaccine_serial_no, setVacSerial] = useState("");
+
+  const [unvaccinated, setUnvaccinated] = useState(false);
+
+  const handleChangeRadio = (e) => {
+    setUnvaccinated(false);
+    setVacStatus(e.target.value);
+  }
+
+  const handleUnvaccinated = (e) => {
+    setUnvaccinated(true);
+    setVacStatus(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const data = {vaccine_status, vaccine_date, vaccine_serial_no} 
+    localStorage.setItem('userVaccine', JSON.stringify(data))
+    props.nextPage();
+  }
+
   return (
     <div
       className={classnames(
@@ -31,7 +54,7 @@ const VaccineForm = (props) => {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-5">
             <p>
               ENTER YOUR &nbsp;
@@ -46,18 +69,32 @@ const VaccineForm = (props) => {
                 id="vaccinationRecord"
                 label="Fully Vaccinated"
                 value="FULLY-VACCINATED"
+                defaultChecked={
+                  vaccine_status === "FULLY-VACCINATED" ? true : false
+                }
+                onChange={handleChangeRadio}
               />
               <RadioButton
                 name="vaccinationRecord"
                 id="vaccinationRecord"
                 value="PARTIALLY-VACCINATED"
                 label="Partially Vaccinated"
+                defaultChecked={
+                  vaccine_status === "PARTIALLY-VACCINATED"
+                    ? true
+                    : false
+                }
+                onChange={handleChangeRadio}
               />
               <RadioButton
                 name="vaccinationRecord"
                 id="vaccinationRecord"
                 label="Not Vaccinated"
                 value="NOT-VACCINATED"
+                defaultChecked={
+                  vaccine_status === "NOT-VACCINATED" ? true : false
+                }
+                onChange={handleUnvaccinated}
               />
             </div>
           </div>
@@ -80,6 +117,9 @@ const VaccineForm = (props) => {
                 id="vaccine"
                 name="vaccine"
                 type={"date"}
+                value={vaccine_date}
+                disabled={unvaccinated ? true : false}
+                onChange={(e) => setDate(e.target.value)}
                 required
               />
 
@@ -90,6 +130,9 @@ const VaccineForm = (props) => {
                 id="deptDestination"
                 name="deptDestination"
                 type={"text"}
+                disabled={unvaccinated ? true : false}
+                value={vaccine_serial_no}
+                onChange={(e) => setVacSerial(e.target.value.toUpperCase())}
                 required
               />
             </div>

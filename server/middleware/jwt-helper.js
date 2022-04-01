@@ -9,6 +9,10 @@ module.exports.generateAccessToken = async (payload) => {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_KEY, { expiresIn: '2h' }) 
 }
 
+module.exports.generateVisitorToken = async (payload) => {
+    return jwt.sign(payload, process.env.VISITOR_ACCESS_KEY, { expiresIn: '2h' } )
+}
+
 module.exports.generateRefreshToken = async (payload) => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' })
 }

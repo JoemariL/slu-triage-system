@@ -1,12 +1,81 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import classnames from "classnames";
 import { Input, Checkbox, RadioButton, Button } from "../../Components/commons";
 import { Appbar } from "../../Components";
 import { generateHdf } from "../../actions/userActions";
+import { useNavigate } from "react-router-dom";
 
 const VHDForm = (props) => {
   const navigate = useNavigate();
+  // HDF Variables.
+  const [covid_exposure, setExposure] = useState(false);
+  const [covid_positive, setPositive] = useState(false);
+
+  // Medical history checkboxes.
+  const [fever, setFever] = useState(false);
+  const [cough, setCough] = useState(false);
+  const [cold, setCold] = useState(false);
+  const [sore_throat, setSoreThroat] = useState(false);
+  const [diff_breathing, setDiffBreathing] = useState(false);
+  const [diarrhea, setDiarrhea] = useState(false);
+
+  const [pregnant, setPregnant] = useState(false);
+  const [destination, setDestination] = useState("");
+
+  const handleChangeCheckboxes = (e) => {
+    switch (e.target.value) {
+      case "FEVER":
+        setFever(!fever);
+        break;
+      case "COUGH":
+        setCough(!cough);
+        break;
+      case "COLD":
+        setCold(!cold);
+        break;
+      case "SORE":
+        setSoreThroat(!sore_throat);
+        break;
+      case "BREATHING":
+        setDiffBreathing(!diff_breathing);
+        break;
+      case "DIARRHEA":
+        setDiarrhea(!diarrhea);
+        break;
+      default:
+        return null;
+    }
+  };
+
+  const handleChangePregnant = (e) => {
+    if (e.target.value === "YES") setPregnant(true);
+    else if (e.target.value === "N/A") setPregnant(null);
+    else setPregnant(false);
+  };
+
+  const handleChangeDestination = (e) => {
+    setDestination(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const createdAt = new Date()
+    const payload = {
+      covid_exposure,
+      covid_positive,
+      fever,
+      cough,
+      cold,
+      sore_throat,
+      diff_breathing,
+      diarrhea,
+      pregnant,
+      destination,
+      createdAt
+    };
+    localStorage.setItem('userHDF', JSON.stringify(payload))
+    navigate('/visitor')
+  };
 
   return (
     <div
@@ -32,7 +101,7 @@ const VHDForm = (props) => {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           {/* COVID-19 Exposure. */}
           <div className="space-y-5">
             <p>
@@ -49,12 +118,18 @@ const VHDForm = (props) => {
                 id="covidExposure"
                 value="YES"
                 label="Yes"
+                onChange={() => {
+                  setExposure(true);
+                }}
               />
               <RadioButton
                 name="covidExposure"
                 id="covidExposure"
                 value="NO"
                 label="No"
+                onChange={() => {
+                  setExposure(false);
+                }}
               />
             </div>
           </div>
@@ -75,12 +150,18 @@ const VHDForm = (props) => {
                 id="covidPositive"
                 value="YES"
                 label="Yes"
+                onChange={() => {
+                  setPositive(true);
+                }}
               />
               <RadioButton
                 name="covidPositive"
                 id="covidPositive"
                 value="NO"
                 label="No"
+                onChange={() => {
+                  setPositive(false);
+                }}
               />
             </div>
           </div>
@@ -102,26 +183,29 @@ const VHDForm = (props) => {
               </span>
 
               <div className="space-y-3">
-                <Checkbox name="fever" id="fever" label="Fever" value="FEVER" />
-                <Checkbox name="cough" id="cough" label="Cough" value="COUGH" />
-                <Checkbox name="cold" id="cold" label="Cold" value="COLD" />
+                <Checkbox name="fever" id="fever" label="Fever" value="FEVER" onChange={handleChangeCheckboxes}/>
+                <Checkbox name="cough" id="cough" label="Cough" value="COUGH" onChange={handleChangeCheckboxes}/>
+                <Checkbox name="cold" id="cold" label="Cold" value="COLD" onChange={handleChangeCheckboxes}/>
                 <Checkbox
                   name="soreThroat"
                   id="soreThroat"
                   label="Sore Throat"
                   value="SORE"
+                  onChange={handleChangeCheckboxes}
                 />
                 <Checkbox
                   name="diffBreathing"
                   id="diffBreathing"
                   label="Difficulty Breathing"
                   value="BREATHING"
+                  onChange={handleChangeCheckboxes}
                 />
                 <Checkbox
                   name="diarrhea"
                   id="diarrhea"
                   label="Diarrhea"
                   value="DIARRHEA"
+                  onChange={handleChangeCheckboxes}
                 />
               </div>
             </div>
@@ -145,18 +229,21 @@ const VHDForm = (props) => {
                     id="isPregnant"
                     value="YES"
                     label="Yes"
+                    onChange={handleChangePregnant}
                   />
                   <RadioButton
                     name="isPregnant"
                     id="isPregnant"
                     value="NO"
                     label="No"
+                    onChange={handleChangePregnant}
                   />
                   <RadioButton
                     name="isPregnant"
                     id="isPregnant"
                     value="N/A"
                     label="Not Applicable"
+                    onChange={handleChangePregnant}
                   />
                 </div>
               </div>
@@ -175,6 +262,7 @@ const VHDForm = (props) => {
                 type={"text"}
                 subtitle="SAMCIS, SEA, etc."
                 required
+                onChange={handleChangeDestination}
               />
             </div>
 

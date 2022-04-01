@@ -13,6 +13,7 @@ import {
 } from "./Pages";
 import { Layout } from "./Components/index";
 import RequireAuth from "./context/RequireAuth";
+import VisitorAuth from "./context/VisitorRoute";
 import NoAuth from "./context/NoAuth";
 import "./App.css";
 
@@ -25,6 +26,9 @@ function App() {
             <Route element={<NoAuth />}>
               <Route path="/" element={<Authentication />} />
               <Route exact path="/login" element={<Authentication />} />
+            </Route>
+
+            <Route element={<VisitorAuth />}>
               <Route exact path="/visitor" element={<Visitor />} />
               <Route exact path="/visitor/hdf" element={<VisitorHDF />} />
               <Route exact path="/visitor/vaccine" element={<VisitorVaccine />} />

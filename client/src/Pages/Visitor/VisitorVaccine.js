@@ -10,8 +10,17 @@ import VaccineForm from "./VaccineForm";
 
 function VisitorVaccine() {
   const navigate = useNavigate();
-
+  const [vaccine, setVaccine] = useState({})
   const [vaccineForm, setVaccineForm] = useState(false);
+
+  const userVaccine = JSON.parse(localStorage.getItem('userVaccine'))
+  useEffect(() => {
+    if(userVaccine) {
+      setVaccine(userVaccine)
+    }
+  },[vaccineForm])
+
+
 
   return (
     <div className="relative text-sm sm:text-base">
@@ -20,6 +29,7 @@ function VisitorVaccine() {
         <VaccineForm
           returnOnClick={() => setVaccineForm(false)}
           cancelOnClick={() => setVaccineForm(false)}
+          nextPage={() => setVaccineForm(false)}
         />
       )}
 
@@ -40,7 +50,7 @@ function VisitorVaccine() {
             <span className="text-sm truncate text-gray-500">I AM</span>
             <div className="flex flex-row items-center gap-x-2">
               <span className="truncate">
-                <strong>STATUS</strong>
+                <strong>{vaccine ? <strong>{vaccine.vaccine_status}</strong> : "..."}</strong>
               </span>
 
               <div
@@ -69,7 +79,7 @@ function VisitorVaccine() {
                 icon={<FaSyringe className="h-5 w-5 text-white" />}
               />
 
-              <span>VACCINE NAME</span>
+              <span>{vaccine ? <span>{vaccine.vaccine_date}</span> : "..."}</span>
             </div>
 
             <div className="flex flex-row items-center space-x-3">
@@ -80,7 +90,7 @@ function VisitorVaccine() {
               <div className="flex flex-col">
                 <span>SERIAL NO.</span>
                 <span className="text-sm text-gray-500">
-                  Vaccination serial no.
+                  {vaccine ? <span>{vaccine.vaccine_serial_no}</span> : "..."}
                 </span>
               </div>
             </div>

@@ -11,7 +11,7 @@ const UpdateVaccine = (props) => {
   // Vaccine form variables.
   const [vaccine, setVaccine] = useState(user);
   const [vacStatus, setVacStatus] = useState("");
-  const [vacName, setVacName] = useState("");
+  const [date, setDate] = useState("")
   const [vacSerial, setVacSerial] = useState("");
 
   const [unvaccinated, setUnvaccinated] = useState(false);
@@ -28,7 +28,8 @@ const UpdateVaccine = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { vacStatus, vacName, vacSerial };
+    const vacDate = new Date(date)
+    const user = { vacStatus, vacDate, vacSerial };
     const response = await updateVaccine(user);
     // TODO: Display something here...
     if (response.hasOwnProperty("message")) console.log(response.message);
@@ -129,7 +130,8 @@ const UpdateVaccine = (props) => {
                 id="vaccine"
                 name="vaccine"
                 type={"date"}
-                value={vacName}
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
                 required
               />
 

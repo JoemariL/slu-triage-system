@@ -39,9 +39,11 @@ const userRouter = require('./routes/users')
 const userHdfRouter = require('./routes/hdf')
 const adminController = require('./controller/admin')
 const userController = require('./controller/user') 
+const visitorRouter = require('./routes/visitor')
 
 app.use("/controller", adminController)
 app.use("/controller", userController)
+app.use("/visitor", visitorRouter)
 
 app.use("/admin", adminRouter)
 app.use("/user", userRouter)

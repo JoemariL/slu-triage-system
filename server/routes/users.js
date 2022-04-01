@@ -9,7 +9,6 @@ const USERS = require('../models/users')
 
 // UTILS IMPORT
 const { objectIDValidator } = require('../utils/validator')
-const { getUserDetails } = require('../utils/pipelines')
 const { extractID } = require('../middleware/jwt-helper')
 
 // GET ALL USER INFO.

@@ -119,8 +119,8 @@ function VaccineProfile() {
                 />
 
                 <span>
-                  {vaccine.vaccine_name
-                    ? vaccine.vaccine_name
+                  {vaccine.vaccine_date
+                    ? vaccine.vaccine_date
                     : "You have not set up your vaccine name."}
                 </span>
               </div>

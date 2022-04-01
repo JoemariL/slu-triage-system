@@ -31,7 +31,7 @@ export const getRefreshToken = async () => {
 export const updateVaccine = async (payload) => {
   const body = JSON.stringify({
     vaccineStatus: payload.vacStatus,
-    vaccineName: payload.vacName,
+    vaccineDate: payload.vacDate,
     vaccineSerial: payload.vacSerial,
   });
   return API.post("/user/vaccination", body, config)

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classnames from "classnames";
 import {
   AiOutlineScan,
@@ -14,9 +14,26 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "../../Components/commons";
 import VisitorQR from "./VisitorQR";
 
+import { getVisitor } from "../../actions/visitorActions"
+
 function Visitor() {
   const navigate = useNavigate();
   const [scanQR, setScanQR] = useState(false);
+  const [user, setUser] = useState({});
+  const [isValid, setIsValid] = useState(false)
+
+  useEffect(() => {
+    (async function (){
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+      if(userInfo) {
+        setUser(userInfo)
+      } else {
+        const user = await getVisitor()
+        setUser(user)
+        setIsValid(true)
+      }
+    })()
+  }, [])
 
   return (
     <div className="relative text-sm sm:text-base">
@@ -31,7 +48,7 @@ function Visitor() {
             <div className="flex flex-col text-white">
               <span>WELCOME</span>
               <span className="text-xl">
-                <strong>NAME</strong>
+                <strong>{user.first_name && user.last_name ? <strong>{user.first_name} {user.last_name}</strong> : "..."}</strong>
               </span>
             </div>
           </div>
@@ -45,7 +62,7 @@ function Visitor() {
 
             <div className="flex flex-row items-center space-x-3">
               <Icon icon={<AiOutlinePhone />} />
-              <span>CONTACT</span>
+              <span>{user.contact_number ? <span>{user.contact_number}</span> : "..."}</span>
             </div>
           </div>
         </div>
