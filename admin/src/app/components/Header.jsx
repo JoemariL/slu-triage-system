@@ -9,19 +9,7 @@ function Header() {
             <Link to='/Dashboard'>Admin Dashboard</Link>
         </div>
 
-        <ul>
-            <li>
-                <Link to='/'>
-                    <FaSignInAlt/> Login
-                </Link>
-            </li>
-            <li>
-                <Link to='/register'>
-                    <FaUser/> Register
-                </Link>
-            </li>
-            
-        </ul>
+
     </header>
   )
 }
