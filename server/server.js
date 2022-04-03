@@ -4,10 +4,14 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const compression = require('compression')
 const cookieParser = require('cookie-parser')
+const http = require('http')
+const https = require('https')
+const fs = require('fs')
 
+// UTIL IMPORTS.
 require('dotenv').config()
+const auth = require('./middleware/auth')
 const connectDB = require('./config/database')
-const clusterServer = require('./utils/cluster')
 
 const app = express()
 app.use(bodyParser.json())
@@ -45,26 +49,36 @@ app.use("/controller", adminController)
 app.use("/controller", userController)
 app.use("/visitor", visitorRouter)
 
+if(process.env.NODE_ENV === "PRODUCTION") app.use(auth)
 app.use("/admin", adminRouter)
 app.use("/user", userRouter)
 app.use("/hdf", userHdfRouter)
 
 // DATABASE CONNECTION AND SERVER INITIALIZATION.
 const port = process.env.PORT
-function serverInit(processor_number){
+if(process.env.NODE_ENV === "PRODUCTION") {
+    const privateKey  = fs.readFileSync('certificate/server.key', 'utf8');
+    const certificate = fs.readFileSync('certificate/server.crt', 'utf8');
+    const credentials = { key: privateKey, cert: certificate };
+    const httpsServer = https.createServer(credentials, app)
+
     connectDB().then(() => {
-        app.listen(port, '0.0.0.0',() => {
-            console.log(`**-- Database running on processor: ${processor_number}.`)
-            console.log(`Server: ${processor_number} running on port ${port}. --** \n`)
+        httpsServer.listen(port, '0.0.0.0', () => {
+            console.log("✈  Database connected!")
+            console.log(`🚀 server is running on port: ${port}!`)
         })
     }).catch(() => {
-        console.log('Failed to connect!')
+        console.log('⁉  Failed to connect!')
     })
-}
-
-if (process.env.NODE_ENV === "PRODUCTION") {
-    clusterServer(serverInit)
 } else {
-    serverInit()
+    const httpServer = http.createServer(app)
+    connectDB().then(() => {
+        httpServer.listen(port, '0.0.0.0', () => {
+            console.log("✈  Database connected!")
+            console.log(`🚀 server is running on port: ${port}!`)
+        })
+    }).catch(() => {
+        console.log('⁉  Failed to connect!')
+    })
 }
 

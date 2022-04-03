@@ -15,7 +15,7 @@ const { encryptJSON } = require('../utils/functions')
 // GET ALL ADMIN INFO.
 router.get("/all", async (req, res) => {
     try {
-        const adminData = await ADMIN.find().select('-password')
+        const adminData = await ADMIN.find().select('-password -__v')
         if(!adminData) return res.status(404).json({ errors:{ message: 'no data found' }})
         return res.status(200).json(adminData)
     } catch (error) {
@@ -119,7 +119,7 @@ router.get("/get/qr", async (req, res) => {
 // ADD LIST FOR QR CODE GENERATION.
 router.post("/generate", async (req, res) => {
     const { school, gate } = req.body
-   
+
     let concat = `${school} ${gate}`
     let matches = concat.match(/\b(\w)/g)
     let qrData = matches.join('')
