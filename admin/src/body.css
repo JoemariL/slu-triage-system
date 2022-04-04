@@ -2,23 +2,62 @@
   background-color: gray;
 }
 
-.container1{
-  display:flex;
-  flex-direction: column;
+.card{
+  background-color: grey;
 
+  width:100%;
 }
 
-.container2 {
-  display:flex;
-  flex-direction: column;
-
+.sidenav {
+  height: 100%;
+  width: 15%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: grey;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: black;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flex-container > div {
+  background-color: grey;
+  border-style: solid;
+  width: 45%;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+.flex-container > div:hover{
+
+  background-color: aqua;
+
+}
 
 .dot {
   height: 25px;
   width: 25px;
-   background-color: red;
+  background-color: red;
   border-radius: 50%;
   display: inline-block;
 }
@@ -26,21 +65,7 @@
 .dot2 {
   height: 25px;
   width: 25px;
-  background-color: blue;
+  background-color: lightskyblue;
   border-radius: 50%;
   display: inline-block;
-} 
-
-.main-container{
-  display:flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10%;
-
-}
-
-.card{
-  background-color: grey;
-  border-style: solid;
-  width:250px;
 }
