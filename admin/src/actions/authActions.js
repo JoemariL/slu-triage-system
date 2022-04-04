@@ -5,7 +5,7 @@ const config = {
     headers: {
       "Content-Type": "application/json",
     },
-  };
+};
 
 export const login = async(username, password) => {
     const body = JSON.stringify({
@@ -21,6 +21,20 @@ export const login = async(username, password) => {
         })
 }
 
+export const register = async(username, password) => {
+  const body = JSON.stringify({
+    username,
+    password
+  })
+  return API.post("/controller/admin/register", body, config)
+    .then(() => {
+      return true
+    })
+    .catch((err) => {
+      return err.response?.data?.errors
+    })
+}
+
 export const logout = async () => {
     return API.delete("/controller/logout", {
       headers: {
@@ -34,4 +48,4 @@ export const logout = async () => {
       .catch(() => {
         return false;
       });
-  };
+};
