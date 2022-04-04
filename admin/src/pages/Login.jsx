@@ -2,28 +2,29 @@ import {useState, useEffect} from 'react'
 import {FaSignInAlt} from 'react-icons/fa'
 import "../index.css";
 
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import { login } from '../actions/authActions';
+
 function Login() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+    const navigate = useNavigate();
+    const { setAuth } = useAuth();
 
-    })
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
-    const{email, password} = formData
-
-    const onChange= (e) =>{
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
+    const onSubmit = async (e) =>{
+        e.preventDefault();
+        const response = await login(username, password)
+        if(response.hasOwnProperty("message")) console.log(response.message);
+        if(response) {
+            setAuth({ access: response })
+            // navigate("/dashboard", { replace: true })
+        }
     }
 
-    const onSubmit = (e) =>{
-        e.preventDefault()
-    }
-
-  return( <>
-    <section className="heading">
+    return( <>
+        <section className="heading">
         <h1>
             <FaSignInAlt/> Login
         </h1>
@@ -33,10 +34,10 @@ function Login() {
         <section className="form">
             <form onSubmit={onSubmit}>
                 <div className="form-group">
-                <input type="email" className="form-control" id="email " name="email" value={email} placeholder="Enter your E-mail" onChange={onChange} /> 
+                <input type="text" className="form-control" id="email " name="email" value={username} placeholder="Enter your E-mail" onChange={(e) => {setUsername(e.target.value)}} /> 
                 </div>
                 <div className="form-group">
-                <input type="password" className="form-control" id="password " name="password" value={password} placeholder="Enter your password" onChange={onChange} /> 
+                <input type="password" className="form-control" id="password " name="password" value={password} placeholder="Enter your password" onChange={(e) => { setPassword(e.target.value)}} /> 
                 </div>
 
                 <div className="form-group">
@@ -45,8 +46,6 @@ function Login() {
 
             </form>
         </section>
-         </>
-         )
-}
+    </>)}
 
 export default Login
