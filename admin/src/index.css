@@ -37,7 +37,7 @@ h3 {
 
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: auto;
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
@@ -139,7 +139,7 @@ h3 {
   padding: 10px 20px;
   border: 1px solid #000;
   border-radius: 5px;
-  background: #000;
+  background: rgb(18, 144, 228);
   color: #fff;
   font-size: 16px;
   font-weight: 700;

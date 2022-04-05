@@ -14,9 +14,10 @@ function Header() {
 
 <div class="sidenav">
   <h1><a href="">Admin Dashboard</a></h1>
-  <a href="/dashboard-main-campus">Main Campus</a>
-  <a href="/dashboard-bakakeng">Mary Heights Campus</a>
-  <a href="/dashboard-navy-base">Navy Base Campus</a>
+  <a href="/dashboard">Main Campus</a>
+  <a href="/dashboard">Mary Heights Campus</a>
+  <a href="/dashboard">Navy Base Campus</a>
+  <a href="/" class="logout">Logout</a>
 </div>
 
     </>

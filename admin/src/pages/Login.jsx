@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import {FaSignInAlt} from 'react-icons/fa'
 import "../index.css";
-
+import "../login.css";
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { login } from '../actions/authActions';
@@ -26,26 +26,27 @@ function Login() {
     return( <>
         <section className="heading">
         <h1>
-            <FaSignInAlt/> Login
+        Saint Louis University
         </h1>
-        <p>Please Login</p>
+        <h6>Admin TRIAGE APPLICATION Login</h6>
         </section>
-
-        <section className="form">
+        
+        <div class="cardContainer">
+           <div class="loginCard">
             <form onSubmit={onSubmit}>
-                <div className="form-group">
-                <input type="text" className="form-control" id="email " name="email" value={username} placeholder="Enter your E-mail" onChange={(e) => {setUsername(e.target.value)}} /> 
+                <div>
+                <input type="text" class="loginform"  id="email " name="email" value={username} placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} /> 
                 </div>
-                <div className="form-group">
-                <input type="password" className="form-control" id="password " name="password" value={password} placeholder="Enter your password" onChange={(e) => { setPassword(e.target.value)}} /> 
-                </div>
-
-                <div className="form-group">
-                    <button type="submit" class= 'btn btn-block'>Submit</button>
+                <div >
+                <input type="password" class="loginform"  id="password " name="password" value={password} placeholder="Enter your password" onChange={(e) => { setPassword(e.target.value)}} /> 
                 </div>
 
+            <div >
+                 <button type="submit" class= 'loginbutton'>Login</button>
+            </div>
             </form>
-        </section>
+            </div>
+            </div>
     </>)}
 
 export default Login

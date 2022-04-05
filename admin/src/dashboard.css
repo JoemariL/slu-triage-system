@@ -11,7 +11,7 @@
 .sidenav {
   height: 100%;
   width: 15%;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   top: 0;
   left: 0;
@@ -36,16 +36,21 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  position:relative;
+  height:auto;
+  width:auto;
+  margin-left: 10%;
 }
 
 .flex-container > div {
   background-color: grey;
   border-style: solid;
-  width: 45%;
+  width: 35%;
   margin: 10px;
   text-align: center;
   line-height: 75px;
   font-size: 30px;
+  height: auto;
 }
 
 .flex-container > div:hover{
@@ -68,4 +73,14 @@
   background-color: lightskyblue;
   border-radius: 50%;
   display: inline-block;
+}
+
+.rejected:hover{
+  color:red;
+}
+
+.logout{
+  position: absolute;
+  bottom: 0;
+  right: 35%;
 }
