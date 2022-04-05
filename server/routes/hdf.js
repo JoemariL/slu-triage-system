@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getUserHdf, getHdfToday, getHdfTodayUser } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getHdfTodayUser, getHdfStatistics } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 
@@ -20,33 +20,9 @@ router.get("/day", async (req, res) => {
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
     
     try {
-        const data = await getHdfToday(dateToday, dateTomorrow)
+        const data = await getHdfStatistics(dateToday, dateTomorrow)
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
         return res.status(200).json(data)
-    } catch (error) {
-        return res.sendStatus(500)
-    }
-})
-
-// GET HDF DATA FOR SPECIFIC USER
-router.get("/get", async (req, res) => {
-
-    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
-        res.clearCookie('accessToken')
-        return res.sendStatus(401)
-    }
-
-    const userUid = await extractID(req.cookies.accessToken)
-    const idCheck = objectIDValidator(userUid)
-    if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
-
-    try {
-        const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
-        if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-
-        const userHdf = await getUserHdf(user._id)
-        if(!userHdf) return res.status(404).json({ errors:{ message:'not found' }})
-        return res.status(200).json(userHdf)
     } catch (error) {
         return res.sendStatus(500)
     }

@@ -10,7 +10,7 @@ const connectDB = async() => {
             useCreateIndex: true
         })
     } catch (error) {
-        console.log(err)
+        console.log(error)
         process.exit(1)
     }
 }

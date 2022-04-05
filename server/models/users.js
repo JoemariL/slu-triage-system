@@ -58,16 +58,18 @@ const hdfData = mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: () => Date.now()
     }
 }, { timestamps: false })
 
 const userSchema = mongoose.Schema({
     first_name: {
-        type: String
+        type: String,
+        uppercase: true
     },
     last_name: {
-        type: String
+        type: String,
+        uppercase: true
     },
     password: {
         type: String
@@ -83,10 +85,12 @@ const userSchema = mongoose.Schema({
     },
     email_address: {
         type: String,
-        unique: true
+        unique: true,
+        immutable: true
     },
     user_type: {
-        type: String
+        type: String,
+        uppercase: true
     },
     vaccination_details: { type: Array , "default": [] },
     hdf_data: [hdfData]

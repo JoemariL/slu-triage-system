@@ -23,8 +23,7 @@
     "moment": "^2.29.1",
     "mongoose": "^5.13.14",
     "mongoose-float": "^1.0.4",
-    "node-schedule": "^2.1.0",
-    "websocket.io": "^0.2.1"
+    "node-schedule": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.1"

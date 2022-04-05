@@ -57,6 +57,7 @@ app.use("/hdf", userHdfRouter)
 // DATABASE CONNECTION AND SERVER INITIALIZATION.
 const port = process.env.PORT
 if(process.env.NODE_ENV === "PRODUCTION") {
+    app.set('trust proxy', 1)
     const privateKey  = fs.readFileSync('certificate/server.key', 'utf8');
     const certificate = fs.readFileSync('certificate/server.crt', 'utf8');
     const credentials = { key: privateKey, cert: certificate };
@@ -71,6 +72,7 @@ if(process.env.NODE_ENV === "PRODUCTION") {
         console.log('⁉  Failed to connect!')
     })
 } else {
+    app.set('trust proxy', 1)
     const httpServer = http.createServer(app)
     connectDB().then(() => {
         httpServer.listen(port, '0.0.0.0', () => {

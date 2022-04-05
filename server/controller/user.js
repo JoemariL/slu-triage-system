@@ -63,14 +63,14 @@ router.post("/user/register", async (req, res) => {
 
     try {
         let newUser = new USERS({
-            first_name: firstName.toUpperCase(),
-            last_name: lastName.toUpperCase(),
+            first_name: firstName,
+            last_name: lastName,
             password: hashedPassword,
             age,
             contact_number: contactNumber,
             home_address: homeAddress,
             email_address: email,
-            user_type: userType.toUpperCase()
+            user_type: userType
         })
 
         await newUser.save()

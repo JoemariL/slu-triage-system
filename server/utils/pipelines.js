@@ -55,26 +55,6 @@ module.exports.hdfIfExpired = async (userID, hdfID) => {
     return false
 }
 
-module.exports.getUserHdf = async(userID) => {
-    return await USERS.aggregate([
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(userID)
-            }
-        },
-        {
-            $unwind: {
-                path: "$hdf_data"
-            }
-        },
-        {
-            $replaceRoot: {
-                newRoot: "$hdf_data"
-            }
-        }
-    ])
-}
-
 module.exports.getUserDetails = async(userID) => {
     return await USERS.aggregate([
         {
@@ -98,11 +78,18 @@ module.exports.getUserDetails = async(userID) => {
     ])
 }
 
-module.exports.getHdfToday = async(fromDate, toDate) => {
+module.exports.getHdfStatistics = async(fromDate, toDate) => {
     return await USERS.aggregate([
         {
             $unwind: {
                 path: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                'hdf_data.entry_date': {
+                    $ne: null
+                }
             }
         },
         {
@@ -113,7 +100,35 @@ module.exports.getHdfToday = async(fromDate, toDate) => {
             }
         },
         {
-            $unset: ["password", "createdAt", "updatedAt", "__v"]
+            $group: {
+                '_id': {
+                    'school': '$hdf_data.entry_campus',
+                    'gate': '$hdf_data.gate_info'
+                },
+                'allowed': {
+                    '$sum': {
+                        '$cond': ['$hdf_data.allowed', 1, 0]
+                    }
+                }, 
+                'not-allowed': {
+                    '$sum': {
+                        '$cond': ['$hdf_data.allowed', 0, 1]
+                    }
+                },
+                'users': {
+                    '$push': {
+                        'id': '$_id', 
+                        'first_name': '$first_name', 
+                        'last_name': '$last_name', 
+                        'age': '$age', 
+                        'contact_number': '$contact_number', 
+                        'home_address': '$home_address', 
+                        'email_address': '$email_address', 
+                        'hdf_data': '$hdf_data', 
+                        'vaccination_details': '$vaccination_details'
+                    }
+                }
+            }
         }
     ]).sort({ createdAt: -1 })
 }

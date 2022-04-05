@@ -149,4 +149,22 @@ router.post("/generate", async (req, res) => {
     }
 })
 
+// DELETES THE QR CODE GENERATED
+router.delete("/removeQr/:qrID", async (req, res) => {
+    const qrUid = req.params.qrID
+    const idCheck = objectIDValidator(qrUid)
+    if (!idCheck) return res.status(400).json({ errors: { message:'invalid qr id' }})
+
+    const qr = await SCHOOL.findById(qrUid)
+    if(!qr) return res.status(404).json({ errors:{ message:'qr info not found' }})
+
+    try {
+        const deleteQR = await SCHOOL.deleteOne({ _id: qr._id })
+        if(deleteQR) return res.status(200).json({ success:{ message:'qr info deleted' }})
+        return res.status(400).json({ errors:{ message:'qr info deletion error' }})
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
 module.exports = router
