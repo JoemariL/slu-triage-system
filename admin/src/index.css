@@ -36,11 +36,12 @@ h3 {
 }
 
 .container {
-  width: 100%;
+  /* width: 100%;
   max-width: auto;
   margin: 0 auto;
-  padding: 0 20px;
-  text-align: center;
+  text-align: center; */
+  display:flex;
+  flex-direction: row;
 }
 
 .header {

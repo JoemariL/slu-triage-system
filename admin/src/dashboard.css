@@ -9,15 +9,15 @@
 }
 
 .sidenav {
-  height: 100%;
   width: 15%;
-  position: absolute;
+  position: relative;
   z-index: 1;
   top: 0;
   left: 0;
   background-color: grey;
   overflow-x: hidden;
   padding-top: 20px;
+  height: 780px;
 }
 
 .sidenav a {
@@ -30,6 +30,7 @@
 
 .sidenav a:hover {
   color: black;
+  background-color: aquamarine;
 }
 
 .flex-container {
@@ -39,7 +40,6 @@
   position:relative;
   height:auto;
   width:auto;
-  margin-left: 10%;
 }
 
 .flex-container > div {
@@ -83,4 +83,17 @@
   position: absolute;
   bottom: 0;
   right: 35%;
+}
+
+.sidenavcontainer{
+  display: flex;
+  flex-direction: row;
+  height: 775px;
+}
+
+.container2{
+  display: flex;
+  flex-direction: column;
+  width:auto;
+  align-items: center;
 }

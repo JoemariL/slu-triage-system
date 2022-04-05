@@ -1,5 +1,5 @@
 import "../dashboard.css"
-import Header from '../app/components/Header';
+import Header from '../app/components/sidenav';
 
 function Dashboard() {
   return (<>
@@ -7,11 +7,14 @@ function Dashboard() {
 <Header/>
 
 
+<div class="container2">
+  <div>
 <h1 name="dashboardh1">Admin Dashboard</h1>
-<h1 name="dashboardh1">Main Campus Status:</h1>
-
+<h1 name="dashboardh1">Main Campus Status:</h1> 
+</div>
 
 <div class="flex-container">
+
   <div>
   <h4>Gate 1</h4>  
   <p><span class="dot2"></span>Allowed: 1000</p>
@@ -38,7 +41,7 @@ function Dashboard() {
   <p class="rejected"><span class="dot"></span>Rejected: 65</p>
   </div>
 </div>
-
+</div>
 
 </>
   )

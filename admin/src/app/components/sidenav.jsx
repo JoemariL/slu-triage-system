@@ -8,18 +8,14 @@ function Header() {
         <div className='logo'>
            <Link to='/Dashboard'>Admin Dashboard</Link>
       </div>
-
-
     </header> */}
 
 <div class="sidenav">
-  <h1><a href="">Admin Dashboard</a></h1>
-  <a href="/dashboard">Main Campus</a>
-  <a href="/dashboard">Mary Heights Campus</a>
-  <a href="/dashboard">Navy Base Campus</a>
+  <h1><a href="/dashboard">Admin Dashboard</a></h1>
+  <a href="/generateQR">QR </a>
+  <a href="/users">Users</a>
   <a href="/" class="logout">Logout</a>
 </div>
-
     </>
   )
 }
