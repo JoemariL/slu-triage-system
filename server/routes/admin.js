@@ -11,6 +11,7 @@ const SCHOOL = require('../models/school')
 // UTILS IMPORT
 const { objectIDValidator } = require('../utils/validator')
 const { encryptJSON } = require('../utils/functions')
+const { extractID } = require('../middleware/jwt-helper')
 
 // GET ALL ADMIN INFO.
 router.get("/all", async (req, res) => {
@@ -24,8 +25,14 @@ router.get("/all", async (req, res) => {
 })
 
 // GET SPECIFIC ADMIN.
-router.get("/:adminID", async (req, res) => {
-    const adminUid = req.params.adminID
+router.get("/get", async (req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const adminUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(adminUid).select('-password -__v -createdAt -updatedAt')
     if (!idCheck) return res.status(400).json({ errors:{ message:'invalid admin id' }})
 
@@ -39,8 +46,14 @@ router.get("/:adminID", async (req, res) => {
 })
 
 // CHANGE PASSWORD FOR ADMIN.
-router.patch("/update/password/:adminID", async(req, res) => {
-    const adminUid = req.params.adminID
+router.patch("/update/password", async(req, res) => {
+
+    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
+        res.clearCookie('accessToken')
+        return res.sendStatus(401)
+    }
+
+    const adminUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(adminUid)
     if (!idCheck) return res.status(400).json({ errors:{ message:'invalid admin id '}})
 
@@ -117,7 +130,7 @@ router.get("/get/qr", async (req, res) => {
 })
 
 // ADD LIST FOR QR CODE GENERATION.
-router.post("/generate", async (req, res) => {
+router.post("/generateQr", async (req, res) => {
     const { school, gate } = req.body
 
     let concat = `${school} ${gate}`

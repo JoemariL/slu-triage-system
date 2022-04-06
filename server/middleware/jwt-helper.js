@@ -17,6 +17,14 @@ module.exports.generateRefreshToken = async (payload) => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' })
 }
 
+module.exports.adminAccessToken = async (payload) => {
+    return jwt.sign(payload, process.env.ADMIN_ACCESS_KEY, { expiresIn: '1d' })
+}
+
+module.exports.adminRefreshToken = async (payload) => {
+    return jwt.sign(payload, process.env.ADMIN_REFRESH_KEY, { expiresIn: '1d' })
+}
+
 module.exports.verifyRefreshToken = async (storedToken, token) => {
     return await jwt.verify(token, process.env.REFRESH_TOKEN_KEY, (err, user) => {
         if (err) return false
@@ -28,7 +36,6 @@ module.exports.verifyRefreshToken = async (storedToken, token) => {
         } catch (error) {
             return false
         }
-        
     })
 }
 

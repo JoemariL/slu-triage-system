@@ -44,7 +44,7 @@ router.get("/get", async (req, res) => {
 })
 
 // CHANGE PASSWORD FOR USER.
-router.patch("/password", async (req, res) => {
+router.patch("/update/password", async (req, res) => {
 
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
@@ -91,13 +91,11 @@ router.patch("/update", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const { firstName, lastName, age, contactNumber, homeAddress } = req.body
+    const { age, contactNumber, homeAddress } = req.body
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
     const userDetails = {
-        first_name: firstName,
-        last_name: lastName,
         age: age,
         contact_number: contactNumber,
         home_address: homeAddress,
@@ -151,39 +149,5 @@ router.post("/vaccination", async (req, res) => {
         return res.sendStatus(500)
     }
 })
-
-// DELETES VACCINE RECORD OF A USER.
-router.delete("/vaccination", async (req, res) => {
-
-    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
-        res.clearCookie('accessToken')
-        return res.sendStatus(401)
-    }
-
-    const userUid = await extractID(req.cookies.accessToken)
-    const idCheck = objectIDValidator(userUid)
-    if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
-
-    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
-    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-    
-    const uid = user._id
-    try {
-        const removedVaccineData = await USERS.findByIdAndUpdate(
-            uid,
-            {
-                $pull : {
-                    vaccination_details: {}
-                }
-            },
-            { "multi": true }
-        )
-        if(removedVaccineData) return res.status(201).json({ success: { message: 'user vaccination details deleted'}})
-        return res.status(400).json({ errors:{ message:'user vaccination detail failed to delete' }})
-    } catch (error) {
-        return res.sendStatus(500)
-    }
-})
-
 
 module.exports = router;

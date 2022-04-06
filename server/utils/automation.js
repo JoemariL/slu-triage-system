@@ -31,3 +31,11 @@ const autoDeleteHDF = async () => {
         }
     }
 }
+
+module.exports = () => {
+    schedule.scheduleJob('0 0 * * *', () => {
+        autoDeleteVisitor()
+        autoDeleteHDF()
+        console.log('scheduler check run.')
+    })
+}

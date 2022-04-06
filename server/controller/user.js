@@ -118,7 +118,7 @@ router.post('/token', async (req, res) => {
     }
 })
 
-router.delete('/logout', auth, async (req, res) => {
+router.delete('/logout', async (req, res) => {
     try {
         const token = req.cookies.refreshToken
         if (token == null) {

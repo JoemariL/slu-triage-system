@@ -9,7 +9,7 @@ const TOKEN = require('../models/token')
 
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
-const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt-helper')
+const { adminAccessToken, adminRefreshToken } = require('../middleware/jwt-helper')
 
 // LOGIN AN ADMIN.
 router.post("/admin/login", async (req, res) => {
@@ -26,8 +26,8 @@ router.post("/admin/login", async (req, res) => {
         const payload = {
             id: admin._id,
         }
-        const accessToken = await generateAccessToken(payload)
-        const refreshToken = await generateRefreshToken(payload)
+        const accessToken = await adminAccessToken(payload)
+        const refreshToken = await adminRefreshToken(payload)
 
         const saveToken = new TOKEN ({
             token: refreshToken
@@ -35,13 +35,13 @@ router.post("/admin/login", async (req, res) => {
         await saveToken.save()
         if (process.env.NODE_ENV === "PRODUCTION"){
             return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
-            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000) , httpOnly: true, secure: true})
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 86000 * 1000), secure: true })
+            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 86000 * 1000) , httpOnly: true, secure: true})
             .send('Cookies registered')
         } else {
             return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000) })
-            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000) })
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 86000 * 1000) })
+            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 86000 * 1000) })
             .send('Cookies registered')
         }
     } catch (error) {
@@ -52,12 +52,13 @@ router.post("/admin/login", async (req, res) => {
 
 // REGISTER AN ADMIN.
 router.post("/admin/register", async (req, res) => {
-    const { username, password } = req.body
+    const { username, password, role } = req.body
     
     let hashedPassword = await bcrypt.hash(password, 12)
     const newAdmin = new ADMIN({
         username,
-        password: hashedPassword
+        password: hashedPassword,
+        role
     })
 
     try {

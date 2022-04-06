@@ -12,6 +12,7 @@ const fs = require('fs')
 require('dotenv').config()
 const auth = require('./middleware/auth')
 const connectDB = require('./config/database')
+const auto = require('./utils/automation')
 
 const app = express()
 app.use(bodyParser.json())
@@ -67,6 +68,7 @@ if(process.env.NODE_ENV === "PRODUCTION") {
         httpsServer.listen(port, '0.0.0.0', () => {
             console.log("✈  Database connected!")
             console.log(`🚀 server is running on port: ${port}!`)
+            auto()
         })
     }).catch(() => {
         console.log('⁉  Failed to connect!')
@@ -78,6 +80,7 @@ if(process.env.NODE_ENV === "PRODUCTION") {
         httpServer.listen(port, '0.0.0.0', () => {
             console.log("✈  Database connected!")
             console.log(`🚀 server is running on port: ${port}!`)
+            auto()
         })
     }).catch(() => {
         console.log('⁉  Failed to connect!')
