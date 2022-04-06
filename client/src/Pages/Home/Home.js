@@ -32,11 +32,16 @@ function Home() {
   const [openMenu, setOpenMenu] = useState(false);
   const [scanQR, setScanQR] = useState(false);
   const [hasHDF, setHasHDF] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async function () {
+      setIsLoading(true)
       const user = await getUserData();
-      setUser(user);
+      if(user){
+        setUser(user);
+        setIsLoading(false)
+      }
     })();
   }, [auth]);
 
@@ -51,7 +56,6 @@ function Home() {
       }
     })();
   }, [auth]);
-
   const logoutUser = async (e) => {
     e.preventDefault();
     const response = await logout();
@@ -62,7 +66,12 @@ function Home() {
   };
 
   return (
+
     <div className="relative text-sm sm:text-base">
+      {
+        isLoading ? <div className={isLoading ? "text-blue-800 animate-spin" : " "}>٩(◕‿◕｡)۶</div>
+        : <div></div>
+      }
       {/* Menu. */}
       {openMenu && (
         <Menu

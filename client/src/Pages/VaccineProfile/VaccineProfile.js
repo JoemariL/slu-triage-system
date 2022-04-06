@@ -17,17 +17,21 @@ function VaccineProfile() {
   //   Vaccine profile variables.
   const [vaccine, setVaccine] = useState({});
   const [hasVaccine, setHasVaccine] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [vaccineForm, setVaccineForm] = useState(false);
 
   useEffect(() => {
     (async function () {
+      setIsLoading(true)
       const user = await getUserData();
       if (!user?.vaccination_details[0]) {
         setVaccine({});
+        setIsLoading(false)
       } else {
         setHasVaccine(true);
         setVaccine(user.vaccination_details[0]);
+        setIsLoading(false)
       }
     })();
   }, [auth, vaccineForm]);

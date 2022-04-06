@@ -24,15 +24,19 @@ function HDF() {
 
   const [generateHDF, setGenerateHDF] = useState(false);
   const [hasHDF, setHasHDF] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async function () {
+      setIsLoading(true)
       const user = await getHdfDay();
       if (!user || user.length === 0) {
         setHdf({});
+        setIsLoading(false)
       } else {
         setHasHDF(true);
         setHdf(user[0]);
+        setIsLoading(false)
       }
     })();
   }, [auth]);

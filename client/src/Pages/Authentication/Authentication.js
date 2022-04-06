@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import { Button } from "../../Components/commons";
@@ -20,17 +20,20 @@ function Authentication() {
 
   const [switchRegister, setSwitchRegister] = useState(false);
   const [switchVisitor, setSwitchVisitor] = useState(false);
+  const isMounted = useRef(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    isMounted.current = true
     const response = await login(email, password);
 
     //TODO: Success & Error messages.
     if (response.hasOwnProperty("message")) console.log(response.message);
-    if (response) {
+    if (response && (isMounted.current)) {
       setAuth({ access: response });
       navigate("/home", { replace: true });
     }
+    isMounted.current = false
   };
 
   return (
