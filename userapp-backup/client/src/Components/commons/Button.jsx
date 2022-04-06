@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { BiLoaderAlt } from "react-icons/bi";
 
 const Button = ({
-  buttonStyle = "",
+  buttonStyle = "primary" || "secondary" || "light",
   label = "",
   type,
   disabled = false,
@@ -15,10 +15,12 @@ const Button = ({
     <>
       <button
         className={classnames(
-          "h-12 w-full bg-blue-900 text-white hover:bg-blue-800",
+          "h-12 w-full",
           disabled && "cursor-default opacity-70",
           roundedFull ? "rounded-full" : "rounded",
-          buttonStyle
+          buttonStyle === "secondary"
+            ? "border-2 border-blue-900 text-blue-900 hover:border-blue-800 hover:text-blue-800"
+            : "bg-blue-900 text-white hover:bg-blue-800"
         )}
         type={type}
         onClick={onClick}

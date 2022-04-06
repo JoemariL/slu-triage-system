@@ -1,12 +1,12 @@
 import classnames from "classnames";
 import { FaUserAlt } from "react-icons/fa";
-import { Icon } from "../commons";
+import { Icon } from "../../commons";
 
 const Profile = ({ userFullName = "", userEmail = "", loading = false }) => {
   return (
     <div
       className={classnames(
-        "inline-flex items-center gap-x-5",
+        "w-full p-5 inline-flex items-center gap-x-5 bg-blue-200 rounded",
         loading ? "blur-sm animate-pulse" : ""
       )}
     >
@@ -17,10 +17,10 @@ const Profile = ({ userFullName = "", userEmail = "", loading = false }) => {
       />
       <div className="flex flex-col">
         <span className="font-bold underline underline-offset-2 decoration-blue-900">
-          {userFullName}
+          {userFullName} FIRST NAME LAST NAME
         </span>
 
-        <span className="text-sm text-gray-500">{userEmail}</span>
+        <span className="text-sm text-gray-600">{userEmail} EMAIL</span>
       </div>
     </div>
   );

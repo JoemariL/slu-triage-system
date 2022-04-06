@@ -1,7 +1,7 @@
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { MdQrCodeScanner } from "react-icons/md";
 import { RiSyringeFill, RiHealthBookFill } from "react-icons/ri";
-import { Icon, Menu, MenuItem, Button } from "../commons";
+import { Icon, Menu, MenuItem, Button } from "../../commons";
 
 const Dashboard = ({
   onClickHDF = () => {},
@@ -9,15 +9,12 @@ const Dashboard = ({
   onClickQR = () => {},
   hasHDF = false,
   status = false,
+  loading = false,
 }) => {
   return (
     <div className="space-y-5">
-      <div className="rounded bg-white shadow-sm">
+      <div className="rounded bg-slate-50 shadow-sm">
         <Menu position="vertical">
-          <MenuItem label="SLU TRIAGE APPLICATION" />
-
-          <hr />
-
           <MenuItem
             icon={
               <Icon
@@ -50,11 +47,15 @@ const Dashboard = ({
         </Menu>
       </div>
 
-      {hasHDF && (
-        <div className="space-y-3">
+      {!hasHDF && (
+        <div className="flex flex-col space-y-10">
           <Menu position="vertical">
+            <MenuItem label="STATUS" />
+
             <MenuItem
-              className={status ? "bg-blue-600" : "bg-red-600"}
+              className={
+                status ? "select-none bg-blue-600" : "select-none  bg-red-600"
+              }
               icon={
                 <Icon
                   background="rounded-full"
@@ -80,8 +81,8 @@ const Dashboard = ({
             />
           </Menu>
 
-          <div className="grid grid-cols-2 gap-x-3">
-            <Button label="VIEW DETAILS" roundedFull />
+          <div className="bottom-0 grid grid-cols-2 gap-x-3">
+            <Button buttonStyle="secondary" label="VIEW" roundedFull />
             <Button
               icon={<MdQrCodeScanner className="h-6 w-6" />}
               label="SCAN QR CODE"

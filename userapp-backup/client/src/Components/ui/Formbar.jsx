@@ -7,10 +7,11 @@ const Formbar = ({
   headerText = "",
   onReturnClick = () => {},
   disabled = false,
+  fixedTop = false,
 }) => {
   return (
     <div
-      className={classnames("fixed w-full top-0 p-3 z-10 bg-white", className)}
+      className={classnames(fixedTop ? "fixed w-full top-0 p-3 z-10 bg-white" : "", className)}
     >
       <div className="flex flex-row items-center gap-x-3">
         <button

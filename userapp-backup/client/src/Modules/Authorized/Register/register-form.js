@@ -25,7 +25,10 @@ export const RegisterFormValidations = [
     isRequired(address) || { address: "Local address is required." },
   ({ email }) => isRequired(email) || { email: "Email address is required." },
   ({ email }) =>
-    isValidEmail(email) && { email: "The email you entered is invalid." },
+    isValidEmail(email) && {
+      email:
+        "The email you entered is invalid. Please use the university email: (@slu.edu.ph).",
+    },
   ({ password }) =>
     isRequired(password) || { password: "Password is required." },
   ({ password, confirmPassword }) =>

@@ -53,7 +53,8 @@ const Input = ({
         <input
           className={classnames(
             "p-1.5 w-full rounded-full focus:outline-none",
-            loading ? "blur-sm animate-pulse" : ""
+            loading ? "blur-sm animate-pulse" : "",
+            error ? "bg-red-50" : ""
           )}
           type={type}
           id={id}

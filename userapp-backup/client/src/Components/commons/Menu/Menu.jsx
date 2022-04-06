@@ -4,9 +4,8 @@ const Menu = ({ children, position = "vertical" || "horizontal" }) => {
   return (
     <div
       className={classnames(
-        position === "vertical"
-          ? "flex flex-col"
-          : "flex flex-row items-center"
+        "rounded-md",
+        position === "vertical" ? "flex flex-col" : "flex flex-row items-center"
       )}
     >
       {children}

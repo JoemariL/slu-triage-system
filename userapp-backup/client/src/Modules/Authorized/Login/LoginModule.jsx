@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import useAuth from "../../../hooks/useAuth";
 import { login } from "../../../actions/authActions";
 import { Input, Button } from "../../../Components/commons";
@@ -20,16 +21,28 @@ const LoginModule = () => {
     setPassword(e.target.value);
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+  const isMounted = useRef(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    isMounted.current = true;
+    setIsLoading(true);
     const response = await login(email, password);
 
     // TODO: SUCCESS, ERROR, LOADING.
-    if (response.hasOwnProperty("message")) console.log(response.message);
-    if (response) {
+    if (response.hasOwnProperty("message")) {
+      console.log(response.message);
+      setIsLoading(false);
+    }
+    if (response && isMounted.current) {
       setAuth({ access: response });
+      setIsLoading(false);
       // navigate("/application", { replace: true });
-    }  };
+    }
+    isMounted.current = false;
+  };
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -56,19 +69,20 @@ const LoginModule = () => {
             name="password"
             type={showPassword ? "text" : "password"}
             iconRight={
-              <span
-                className="font-bold cursor-pointer"
-                onClick={toggleShowPassword}
-              >
-                {showPassword ? "HIDE" : "SHOW"}
-              </span>
+              <button type="button" onClick={toggleShowPassword}>
+                {showPassword ? (
+                  <VscEye className="h-6 w-6 mr-2 text-gray-500" />
+                ) : (
+                  <VscEyeClosed className="h-6 w-6 mr-2 text-gray-500" />
+                )}
+              </button>
             }
             onChange={handlePassword}
             required
           />
         </div>
 
-        <Button label="Log In" type="submit" />
+        <Button label="Log In" type="submit" loading={isLoading} />
       </form>
     </>
   );
