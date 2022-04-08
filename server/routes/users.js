@@ -11,18 +11,7 @@ const USERS = require('../models/users')
 const { objectIDValidator } = require('../utils/validator')
 const { extractID } = require('../middleware/jwt-helper')
 
-// GET ALL USER INFO.
-router.get("/all", async (req, res) => {
-    try {
-        const userData = await USERS.find().select('-password -__v -createdAt -updatedAt').sort({ "hdf_data.createdAt": -1 })
-        if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
-        return res.status(200).json(userData)
-    } catch (error) {
-        return res.sendStatus(500)
-    }
-})
-
-// GET SPECIFIC USER.
+// GET A USER PROFILE. 
 router.get("/get", async (req, res) => {
     
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
@@ -35,7 +24,7 @@ router.get("/get", async (req, res) => {
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
     try {
-        const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
+        const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt -hdf_data')
         if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
         return res.status(200).json(user)
     } catch (error) {

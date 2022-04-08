@@ -14,11 +14,22 @@ const { encryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 
 // GET ALL ADMIN INFO.
-router.get("/all", async (req, res) => {
+router.get("/get-all-admin", async (req, res) => {
     try {
         const adminData = await ADMIN.find().select('-password -__v')
         if(!adminData) return res.status(404).json({ errors:{ message: 'no data found' }})
         return res.status(200).json(adminData)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+// GET ALL USERS
+router.get("/get-all-users", async (req, res) => {
+    try {
+        const userData = await USERS.find().select('-password -__v -createdAt -updatedAt ').sort({ "hdf_data.createdAt": -1 })
+        if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
+        return res.status(200).json(userData)
     } catch (error) {
         return res.sendStatus(500)
     }
@@ -175,6 +186,21 @@ router.delete("/removeQr/:qrID", async (req, res) => {
         const deleteQR = await SCHOOL.deleteOne({ _id: qr._id })
         if(deleteQR) return res.status(200).json({ success:{ message:'qr info deleted' }})
         return res.status(400).json({ errors:{ message:'qr info deletion error' }})
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+// GET A FULL USER PROFILE.
+router.get("/get-user/:userUid", async (req, res) => {
+    const userUid = req.params.userUid
+    const idCheck = objectIDValidator(userUid)
+    if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
+    
+    try {
+        const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
+        if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
+        return res.status(200).json(user)
     } catch (error) {
         return res.sendStatus(500)
     }
