@@ -1,8 +1,6 @@
 // Files .jpg.
-export { default as LogoSLU } from "./Images/SLU-logo.jpg";
+export { default as LogoSLU } from "./svg/SLU-logo.svg";
 
 // Files .svg.
-export { default as QRButton } from "./svg/QR-button.svg";
-export { default as QRButtonDisabled } from "./svg/QR-button-disabled.svg";
 export { default as Approved } from "./svg/Approve-screen.svg";
 export { default as Disapproved } from "./svg/Disapprove-screen.svg";

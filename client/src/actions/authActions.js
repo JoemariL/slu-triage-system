@@ -1,4 +1,4 @@
-import API from "../modules/api";
+import API from "../config/api";
 import Cookies from "js-cookie";
 
 const config = {

@@ -1,4 +1,4 @@
-import API from "../modules/api";
+import API from "../config/api";
 import Cookies from "js-cookie";
 
 const config = {
@@ -44,7 +44,7 @@ export const updateVaccine = async (payload) => {
 };
 
 export const getHdfDay = async () => {
-  return API.get("/hdf/get/day", config)
+  return API.get("/hdf/day-user", config)
     .then((res) => {
       return res.data;
     })
@@ -55,8 +55,8 @@ export const getHdfDay = async () => {
 
 export const generateHdf = async (payload) => {
   const body = JSON.stringify({
-    covidExposure: payload.exposure,
-    covidPositive: payload.positive,
+    covidExposure: payload.covidExposure,
+    covidPositive: payload.covidPositive,
     fever: payload.fever,
     cough: payload.cough,
     cold: payload.cold,
@@ -75,17 +75,17 @@ export const generateHdf = async (payload) => {
     });
 };
 
-export const scanQR = async(payload) => {
-  const hdfID = payload.hdfID
+export const scanQR = async (payload) => {
+  const hdfID = payload.hdfID;
   const body = JSON.stringify({
-    qrCode: payload.qrCode
-  })
-  console.log(payload)
+    qrCode: payload.qrCode,
+  });
+
   return API.post(`/hdf/scan/${hdfID}`, body, config)
     .then(() => {
-      return true
+      return true;
     })
     .catch((err) => {
       return err.response?.data?.errors;
-    })
-}
+    });
+};

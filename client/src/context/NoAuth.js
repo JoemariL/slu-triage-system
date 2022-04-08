@@ -8,7 +8,7 @@ const NoAuth = () => {
   return !auth?.access ? (
     <Outlet />
   ) : (
-    <Navigate to="/home" state={{ from: location }} replace />
+    <Navigate to="/main" state={{ from: location }} replace />
   );
 };
 
