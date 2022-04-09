@@ -1,9 +1,0 @@
-export { default as Main } from "./Main";
-export { default as HDF } from "./HDF";
-export { default as HDFormPage } from "./HDFormPage";
-export { default as Vaccine } from "./Vaccine";
-export { default as VaccineFormPage } from "./VaccineFormPage";
-export { default as Login } from "./Login";
-export { default as Register } from "./Register";
-export { default as QRScanner } from "./QRScanner";
-export { default as Result } from "./Result";
