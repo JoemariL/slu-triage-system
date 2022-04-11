@@ -9,7 +9,7 @@
 }
 
 .sidenav {
-  width: 15%;
+  width: 35vh;
   position: relative;
   z-index: 1;
   top: 0;
@@ -17,13 +17,13 @@
   background-color: grey;
   overflow-x: hidden;
   padding-top: 20px;
-  height: 780px;
+  height: 100vh;
 }
 
 .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 2vmin;
   color: white;
   display: block;
 }
@@ -45,7 +45,8 @@
 .flex-container > div {
   background-color: grey;
   border-style: solid;
-  width: 35%;
+  /* width: 35%; */
+  width: 75vh;
   margin: 10px;
   text-align: center;
   line-height: 75px;

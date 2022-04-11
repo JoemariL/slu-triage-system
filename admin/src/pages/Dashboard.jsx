@@ -41,6 +41,7 @@ function Dashboard() {
   <p class="rejected"><span class="dot"></span>Rejected: 65</p>
   </div>
 </div>
+
 </div>
 
 </>
