@@ -1,8 +1,7 @@
 import Header from '../app/components/sidenav';
 import React from 'react'
 import { useTable } from 'react-table'
-// import "../body.css"
-import "../findQR.css"
+import "../css/findQR.css"
 
 function App() {
   const data = React.useMemo(

@@ -1,4 +1,4 @@
-import "../dashboard.css"
+import "../css/dashboard.css"
 import Header from '../app/components/sidenav';
 
 function Dashboard() {
@@ -9,8 +9,7 @@ function Dashboard() {
 
 <div class="container2">
   <div>
-<h1 name="dashboardh1">Admin Dashboard</h1>
-<h1 name="dashboardh1">Main Campus Status:</h1> 
+    <h1 name="dashboardh1">Main Campus Status:</h1> 
 </div>
 
 <div class="flex-container">

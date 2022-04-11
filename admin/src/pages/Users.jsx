@@ -1,8 +1,7 @@
 import Header from '../app/components/sidenav';
 import React from 'react'
 import { useTable } from 'react-table'
-// import "../body.css"
-import "../users.css"
+import "../css/users.css"
 
 function App() {
   const data = React.useMemo(
@@ -64,7 +63,6 @@ function App() {
   return (<>
 
 <Header/>
-<h1 class="userh1">Users</h1>
 <div class="flex-container">
 
 <button type="submit" class= 'button'>Add User</button>

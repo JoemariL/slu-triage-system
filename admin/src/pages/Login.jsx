@@ -1,10 +1,12 @@
 import {useState, useEffect} from 'react'
 import {FaSignInAlt} from 'react-icons/fa'
 import "../index.css";
-import "../login.css";
+import "../css/login.css"
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { login } from '../actions/authActions';
+import SLULOGO from "../assets/images/slu-logo.png";
+
 
 function Login() {
     const navigate = useNavigate();
@@ -28,17 +30,23 @@ function Login() {
         <h1>
         Saint Louis University
         </h1>
-        <h6>Admin TRIAGE APPLICATION Login</h6>
+        <img
+        className="h-auto w-32"
+        src={SLULOGO}
+        alt="slu triage application logo"
+      />
         </section>
-        
         <div class="cardContainer">
+            
            <div class="loginCard">
+           <h3>Admin TRIAGE</h3>
+           <h3>Login</h3>
             <form onSubmit={onSubmit}>
                 <div>
-                <input type="text" class="loginform"  id="email " name="email" value={username} placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} /> 
+                <input type="text" class="loginform"  id="username " name="username" value={username} placeholder="Username" onChange={(e) => {setUsername(e.target.value)}} /> 
                 </div>
                 <div >
-                <input type="password" class="loginform"  id="password " name="password" value={password} placeholder="Enter your password" onChange={(e) => { setPassword(e.target.value)}} /> 
+                <input type="password" class="loginform"  id="password " name="password" value={password} placeholder="Password" onChange={(e) => { setPassword(e.target.value)}} /> 
                 </div>
 
             <div >

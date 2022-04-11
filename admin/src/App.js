@@ -11,26 +11,26 @@ import RequireAuth from './context/RequireAuth';
 import NoAuth from './context/NoAuth';
 
 function App() {
-  return (
+  return (<>
+    <div>
+     <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Login />}/>
+        </Routes>
+      </BrowserRouter>
+    </div>
+
     <div className='container'> 
-    {/* div classname='container' */}
       <BrowserRouter>
         <Routes>
-           {/*Public Routes */}
-
-            {/* <Route path='/' element={<Layout />}/> */}
-            
-            <Route path='/' element={<Login />}/>
-              {/*Protected routes */}
             <Route path='/dashboard' element={<Dashboard />}/>
             <Route path='/generateQR' element={<NavyBase />}/>
             <Route path='/users' element={<Users />}/>
             <Route path='/register' element={<Register/>}/>
         </Routes>
       </BrowserRouter>
-    </div>
-    
-  );
+      </div>
+      </>);
 }
 
 export default App;

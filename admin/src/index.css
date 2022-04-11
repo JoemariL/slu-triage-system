@@ -36,10 +36,10 @@ h3 {
 }
 
 .container {
-  /* width: 100%;
+  width: 100%;
   max-width: auto;
   margin: 0 auto;
-  text-align: center; */
+  text-align: center;
   display:flex;
   flex-direction: row;
 }
@@ -79,7 +79,7 @@ h3 {
 .heading {
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   padding: 0 20px;
   text-align: center;
 }
