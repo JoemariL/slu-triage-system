@@ -56,6 +56,7 @@ router.post("/user/login", async (req, res) => {
 // REGISTER A USER.
 router.post("/user/register", async (req, res) => {
     const { firstName, lastName, password, age, contactNumber, homeAddress, email, userType } = req.body
+    let email_address = email.replace(/\s+/g, '')
     const emailCheck = emailValidator(email)
     if(emailCheck) return res.status(400).json({ errors:{ message:'email input must be a valid email address' }})
 
@@ -69,7 +70,7 @@ router.post("/user/register", async (req, res) => {
             age,
             contact_number: contactNumber,
             home_address: homeAddress,
-            email_address: email,
+            email_address,
             user_type: userType
         })
 
@@ -107,11 +108,11 @@ router.post('/token', async (req, res) => {
         if (process.env.NODE_ENV === "PRODUCTION") {
             return res.status(200)
             .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
-            .send('accessToken Generated')
+            .send('Access token generated')
         } else {
             return res.status(200)
             .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000) })
-            .send('accessToken Generated')
+            .send('Access token generated')
         }
     } catch (error) {
         return res.sendStatus(404)

@@ -51,7 +51,6 @@ router.post("/generate", async (req, res) => {
         is_expired: true,
         createdAt
     }
-    let random = (Math.random() + 1).toString(36).substring(7)
     try {
         const user = new USERS({
             first_name,
@@ -59,7 +58,6 @@ router.post("/generate", async (req, res) => {
             age,
             contact_number,
             home_address,
-            email_address: random,
             user_type: "VISITOR",
             vaccination_details,
             hdf_data,
@@ -98,7 +96,7 @@ router.get("/get", async(req, res) => {
 
     try {
         const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt -email_address')
-        if(user.user_type != "VISITOR") return res.status(401)
+        if(user.user_type != "VISITOR") return res.sendStatus(401)
         if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
         return res.status(200).json(user)
     } catch (error) {

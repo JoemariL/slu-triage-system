@@ -120,12 +120,12 @@ module.exports.getHdfStatistics = async(fromDate, toDate) => {
                         'id': '$_id', 
                         'first_name': '$first_name', 
                         'last_name': '$last_name', 
-                        'age': '$age', 
                         'contact_number': '$contact_number', 
                         'home_address': '$home_address', 
                         'email_address': '$email_address', 
                         'hdf_data': '$hdf_data', 
-                        'vaccination_details': '$vaccination_details'
+                        'vaccination_details': '$vaccination_details',
+                        'user_type': '$user_type'
                     }
                 }
             }

@@ -65,11 +65,13 @@ const hdfData = mongoose.Schema({
 const userSchema = mongoose.Schema({
     first_name: {
         type: String,
-        uppercase: true
+        uppercase: true,
+        immutable: true,
     },
     last_name: {
         type: String,
-        uppercase: true
+        uppercase: true,
+        immutable: true
     },
     password: {
         type: String
@@ -90,7 +92,8 @@ const userSchema = mongoose.Schema({
     },
     user_type: {
         type: String,
-        uppercase: true
+        uppercase: true,
+        immutable: true
     },
     vaccination_details: { type: Array , "default": [] },
     hdf_data: [hdfData]
