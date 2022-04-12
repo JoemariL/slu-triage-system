@@ -1,31 +1,11 @@
-.body{
+.body {
   background-color: gray;
 }
 
-.card{
+.card {
   background-color: grey;
 
-  width:100%;
-}
-
-.sidenav {
-  width: 35vh;
-  position: relative;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: grey;
-  overflow-x: hidden;
-  padding-top: 20px;
-  height: 100vh;
-}
-
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 2vmin;
-  color: white;
-  display: block;
+  width: 100%;
 }
 
 .sidenav a:hover {
@@ -37,27 +17,27 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  position:relative;
-  height:auto;
-  width:auto;
+  position: relative;
+  height: auto;
+  width: auto;
+  /* z-index: -1; */
+  margin-left: 90px;
 }
 
 .flex-container > div {
   background-color: grey;
   border-style: solid;
   /* width: 35%; */
-  width: 75vh;
-  margin: 10px;
+  width: 700px;
+  margin: 30px;
   text-align: center;
   line-height: 75px;
   font-size: 30px;
   height: auto;
 }
 
-.flex-container > div:hover{
-
+.flex-container > div:hover {
   background-color: aqua;
-
 }
 
 .dot {
@@ -76,25 +56,25 @@
   display: inline-block;
 }
 
-.rejected:hover{
-  color:red;
+.rejected:hover {
+  color: red;
 }
 
-.logout{
+.logout {
   position: absolute;
   bottom: 0;
   right: 35%;
 }
 
-.sidenavcontainer{
+.sidenavcontainer {
   display: flex;
   flex-direction: row;
   height: 775px;
 }
 
-.container2{
+.container2 {
   display: flex;
   flex-direction: column;
-  width:auto;
+  width: auto;
   align-items: center;
 }

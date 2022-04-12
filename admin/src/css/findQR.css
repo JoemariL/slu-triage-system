@@ -3,31 +3,31 @@ table {
   width: 165vh;
   height: 49.5vw;
   font-size: 3vmin;
-  }
-  
- th {
+}
+
+th {
   border-bottom: solid 3px;
   background: aliceblue;
   font-weight: bold;
-  }
+}
 
-  td{
-    padding: 100px;
-    border-bottom: solid 5px gray;
-    text-align: center;
-    /* background: papayawhip; */
-  }
+td {
+  padding: 100px;
+  border-bottom: solid 5px gray;
+  text-align: center;
+  /* background: papayawhip; */
+}
 
-  td:hover{
-    background-color: antiquewhite;
-  }
+td:hover {
+  background-color: antiquewhite;
+}
 
-  tr{
-    border-bottom: solid 5px gray;
-  }
-  
-  .container3{
-    display: flex;
-    flex-direction: column;
-    width:100vh;
-  }
+tr {
+  border-bottom: solid 5px gray;
+}
+
+.container3 {
+  display: flex;
+  flex-direction: column;
+  width: 100vh;
+}
