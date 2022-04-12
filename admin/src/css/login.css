@@ -43,6 +43,7 @@
   transform: scale(0.98);
 }
 
-img {
-  height: 15vw;
+.loginimg {
+  height: auto;
+  width: 15%;
 }

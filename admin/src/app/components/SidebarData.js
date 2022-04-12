@@ -12,7 +12,7 @@ export const SidebarData = [
   },
   {
     title: "QR",
-    path: "/",
+    path: "/generateQR",
     icon: <AIcons.AiFillHome />,
     className: "nav-text",
   },

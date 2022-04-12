@@ -13,3 +13,23 @@
 .button:hover {
   transform: scale(0.98);
 }
+
+table.admintable {
+  border: solid 3px;
+  margin-top: 5%;
+  width: 100vh;
+  height: 500px;
+  text-align: center;
+}
+
+tr.users {
+  border-bottom: solid 3px;
+}
+
+tr.usersbody {
+  border-bottom: solid 3px;
+}
+
+td.usersbody {
+  border-right: solid 3px;
+}

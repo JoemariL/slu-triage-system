@@ -40,6 +40,10 @@ function Navbar() {
         <Link to="#" className="menu-bars">
           <FAIcons.FaBars onClick={showSidebar} />
         </Link>
+        {/* <h1>ADMIN DASHBOARD</h1> */}
+        <Link to="/dashboard" className="">
+          <h1>Admin Dashboard</h1>
+        </Link>
       </div>
 
       <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
@@ -53,7 +57,7 @@ function Navbar() {
             return (
               <li key={index} className={item.className}>
                 <Link to={item.path}>
-                  {item.icon}
+                  {/* {item.icon} */}
                   <span>{item.title}</span>
                 </Link>
               </li>

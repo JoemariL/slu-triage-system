@@ -1,7 +1,9 @@
 import Header from "../app/components/Navbar";
 import React from "react";
 import { useTable } from "react-table";
+import BTable from "react-bootstrap/Table";
 import "../css/users.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const data = React.useMemo(
@@ -57,17 +59,17 @@ function App() {
   return (
     <>
       <div class="flex-container">
-        <button type="submit" class="button">
+        {/* <button type="submit" class="button">
           Add User
         </button>
         <button type="submit" class="button">
           Remove User
-        </button>
+        </button> */}
 
-        <table {...getTableProps()}>
+        <table className="admintable" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+              <tr className="users" {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()}>
                     {column.render("Header")}
@@ -81,11 +83,11 @@ function App() {
             {rows.map((row) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr className="usersbody" {...row.getRowProps()}>
                   {row.cells.map((cell) => {
                     console.log(cell);
                     return (
-                      <td {...cell.getCellProps()}>
+                      <td className="usersbody" {...cell.getCellProps()}>
                         {/* if(every 3 cell) */}
                         {cell.render("Cell")}
                       </td>

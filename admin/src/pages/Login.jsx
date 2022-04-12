@@ -29,7 +29,7 @@ function Login() {
       <section className="heading">
         <h1>Saint Louis University</h1>
         <img
-          className="h-auto w-32"
+          className="loginimg"
           src={SLULOGO}
           alt="slu triage application logo"
         />

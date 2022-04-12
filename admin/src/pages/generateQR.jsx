@@ -49,7 +49,6 @@ function App() {
 
   return (
     <>
-      <Header />
       { 
         !campusInfo.length ? <div><h1>Empty</h1></div>
         : campusInfo.length && <TableComponent COLUMNS={columns} DATA={campusInfo}/>

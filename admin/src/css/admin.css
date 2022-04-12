@@ -1,0 +1,25 @@
+table.admintable {
+  border: solid 3px;
+  margin-top: 5%;
+  width: 100vh;
+  height: 500px;
+  text-align: center;
+}
+
+/* .admintablerow {
+  background-color: green;
+  border: solid 10px;
+} */
+
+/* .admintablerow:hover {
+  background-color: white;
+} */
+
+.admintabletd {
+  border: solid 3px;
+  height: 1px;
+}
+
+.admintableth {
+  text-align: center;
+}
