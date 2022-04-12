@@ -1,102 +1,58 @@
-import Header from '../app/components/sidenav';
-import React from 'react'
-import { useTable } from 'react-table'
-import "../css/findQR.css"
+import Header from "../app/components/sidenav";
+import React, { useEffect, useState } from "react";
+import "../css/findQR.css";
+import TableComponent from "../app/components/table"
+
+import { getQR } from "../actions/adminActions"
 
 function App() {
-  const data = React.useMemo(
+  const [campusInfo, setCampusInfo] = useState({})
+  useEffect(() => {
+    (async function () {
+        const info = await getQR()
+        setCampusInfo(info)
+    })()
+  }, [])
 
-    // Sample data ito
-    () => [
-      {
-        campus: 'Main',
-        gate: 'Gate1',
-        qrlink: 'qrlink.jpeg',
-      },
-      {
-        campus: 'Bakakeng',
-        gate: 'Gate2',
-        qrlink: 'qrlink.jpeg',
-      },
-      {
-        campus: 'Navy Base',
-        gate: 'Gate1',
-        qrlink: 'qrlink.jpeg'
-      },
-    ],
-    []
-  )
+  const data = [
+    {
+      campus: 'Main',
+      gate: 'Gate1',
+      qrlink: 'qrlink.jpeg',
+    },
+    {
+      campus: 'Bakakeng',
+      gate: 'Gate2',
+      qrlink: 'qrlink.jpeg',
+    },
+    {
+      campus: 'Navy Base',
+      gate: 'Gate1',
+      qrlink: 'qrlink.jpeg'
+    },
+  ]
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Campus',
-        accessor: 'campus', // accessor is the "key" in the data
-      },
-      {
-        Header: 'Gate',
-        accessor: 'gate',
-      },
-      {
-        Header: 'QR link',
-        accessor: 'qrlink',
-      },     
-    ],
-    []
-  )
+  const columns = [
+    {
+      Header: 'Campus',
+      accessor: 'school'
+    },
+    {
+      Header: 'Gate',
+      accessor: 'gate'
+    },
+    {
+      Header: 'QR',
+      accessor: 'generated_code'
+    }
+  ]
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data })
-
-  return (<>
-
-<Header/>
-
-<div class="flex-container">
-<h1>QR PAGE</h1>
-    <table {...getTableProps()}>
-
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>
-                {column.render('Header')}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-
-
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                console.log(cell)
-                return (
-                  <td {...cell.getCellProps()}>
-                    {/* if(every 3 cell) */}
-                    {cell.render('Cell')}
-                  </td>
-                )
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-
-    </table>
-    </div>
+  return(
+    <>
+      <Header />
+      { campusInfo.length && <TableComponent COLUMNS={columns} DATA={data}/>}
     </>
   )
 }
 
-export default App
+export default App;
