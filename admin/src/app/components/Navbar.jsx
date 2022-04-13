@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import * as FAIcons from "react-icons/fa";
 import * as AIcons from "react-icons/ai";
 import { SidebarData } from "./SidebarData";
@@ -65,6 +65,8 @@ function Navbar() {
           })}
         </ul>
       </nav>
+
+      <Outlet />
     </>
   );
 }

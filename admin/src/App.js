@@ -21,27 +21,17 @@ import "./css/App.css";
 function App() {
   return (
     <>
-      {/* <Header /> */}
-      {/* <Sidenav /> */}
-
-      <div>
+      <div className="">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-
-      {/* <div className="container"> */}
-      <div className="">
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/generateQR" element={<NavyBase />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/admin" element={<Admin />} />
+              <Route element={<Navbar />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/generateQR" element={<NavyBase />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/admin" element={<Admin />} />
+              </Route>
           </Routes>
         </BrowserRouter>
       </div>
