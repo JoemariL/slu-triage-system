@@ -1,7 +1,5 @@
-import Header from "../app/components/Navbar";
 import React from "react";
 import { useTable } from "react-table";
-import BTable from "react-bootstrap/Table";
 import "../css/users.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -12,19 +10,19 @@ function App() {
       {
         name: "Juan",
         email: "juan@gmail.com",
-        lastActivity: "Entered Gate1",
+        lastActivity: "13:00",
         action: "delete button, reset button",
       },
       {
         name: "Benz",
         email: "benz@gmail.com",
-        lastActivity: "Exited Gate1",
+        lastActivity: "9:00",
         action: "delete button, reset button",
       },
       {
         name: "JP",
         email: "jp@gmail.com",
-        lastActivity: "Entered Gate 1",
+        lastActivity: "5:00",
         action: "delete button, reset button",
       },
     ],

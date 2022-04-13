@@ -1,7 +1,5 @@
-import Header from "../app/components/Navbar";
 import React from "react";
-import { useTable, useResizeColumns } from "react-table";
-import BTable from "react-bootstrap/Table";
+import { useTable } from "react-table";
 import "../css/admin.css";
 
 function App() {

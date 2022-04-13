@@ -1,4 +1,4 @@
-import Header from "../app/components/Navbar";
+
 import React, { useEffect, useState } from "react";
 import "../css/findQR.css";
 import TableComponent from "../app/components/table";
