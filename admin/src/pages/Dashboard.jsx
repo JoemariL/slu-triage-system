@@ -45,9 +45,9 @@ function Dashboard() {
               <span className="dot"></span>Rejected: 250
             </p>
             <div className="Breakdown">
-              <h5>Student:100</h5>
-              <h5>Employee:50</h5>
-              <h5>Visitor:500</h5>
+              <h5>Student:500</h5>
+              <h5>Employee:200</h5>
+              <h5>Visitor:100</h5>
             </div>
           </div>
           <div>
@@ -59,9 +59,9 @@ function Dashboard() {
               <span className="dot"></span>Rejected: 350
             </p>
             <div className="Breakdown">
-              <h5>Student:100</h5>
+              <h5>Student:500</h5>
               <h5>Employee:50</h5>
-              <h5>Visitor:500</h5>
+              <h5>Visitor:50</h5>
             </div>
           </div>
           <div>
@@ -73,9 +73,9 @@ function Dashboard() {
               <span className="dot"></span>Rejected: 65
             </p>
             <div className="Breakdown">
-              <h5>Student:100</h5>
-              <h5>Employee:50</h5>
-              <h5>Visitor:500</h5>
+              <h5>Student: 20</h5>
+              <h5>Employee:20</h5>
+              <h5>Visitor:5</h5>
             </div>
           </div>
         </div>
