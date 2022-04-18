@@ -37,16 +37,26 @@ function Navbar() {
   return (
     <>
       <div className="navbar" value={{ color: "#fff" }}>
-        <Link to="#" className="menu-bars">
+        {/* <Link to="#" className="menu-bars">
           <FAIcons.FaBars onClick={showSidebar} />
-        </Link>
+        </Link> */}
         {/* <h1>ADMIN DASHBOARD</h1> */}
         <Link to="/dashboard" className="">
           <h1>Admin Dashboard</h1>
         </Link>
+        {SidebarData.map((item, index) => {
+          return (
+            <li key={index} className={item.className}>
+              <Link to={item.path}>
+                {/* {item.icon} */}
+                <span>{item.title}</span>
+              </Link>
+            </li>
+          );
+        })}
       </div>
 
-      <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
+      {/* <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
         <ul className="nav-menu-items" onClick={showSidebar}>
           <li className="navbar-toggle">
             <Link to="#" className="menu-bars">
@@ -56,15 +66,15 @@ function Navbar() {
           {SidebarData.map((item, index) => {
             return (
               <li key={index} className={item.className}>
-                <Link to={item.path}>
-                  {/* {item.icon} */}
-                  <span>{item.title}</span>
-                </Link>
+                <Link to={item.path}> */}
+      {/* {item.icon} */}
+      {/* <span>{item.title}</span> */}
+      {/* </Link>
               </li>
             );
           })}
         </ul>
-      </nav>
+      </nav> */}
 
       <Outlet />
     </>

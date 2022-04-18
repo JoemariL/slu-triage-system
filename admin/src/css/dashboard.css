@@ -25,15 +25,28 @@
 }
 
 .flex-container > div {
+  /* display: flex;
+  flex-wrap: wrap; */
   background-color: grey;
   border-style: solid;
   /* width: 35%; */
-  width: 300px;
+  width: 600px;
   margin: 30px;
   text-align: center;
   line-height: 75px;
   font-size: 30px;
   height: auto;
+}
+
+.Breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 15%;
+}
+
+.Breakdown > h5 {
+  text-align: center;
+  margin-left: 5%;
 }
 
 .flex-container > div:hover {
