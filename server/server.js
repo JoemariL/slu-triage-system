@@ -50,7 +50,6 @@ app.use("/controller", adminController)
 app.use("/controller", userController)
 app.use("/visitor", visitorRouter)
 
-if(process.env.NODE_ENV === "PRODUCTION") app.use(auth)
 app.use("/admin", adminRouter)
 app.use("/user", userRouter)
 app.use("/hdf", userHdfRouter)

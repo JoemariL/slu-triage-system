@@ -27,7 +27,7 @@ router.get("/get-all-admin", async (req, res) => {
 // GET ALL USERS
 router.get("/get-all-users", async (req, res) => {
     try {
-        const userData = await USERS.find().select('-password -__v -createdAt -updatedAt ').sort({ "hdf_data.createdAt": -1 })
+        const userData = await USERS.find().select('-password -__v -createdAt').sort({ "hdf_data.createdAt": -1 })
         if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
         return res.status(200).json(userData)
     } catch (error) {
