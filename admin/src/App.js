@@ -5,7 +5,7 @@ import {
   BrowserRouter,
   Switch,
 } from "react-router-dom";
-import NavyBase from "./pages/generateQR";
+import GenerateQR from "./pages/generateQR";
 import Users from "./pages/Users";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
@@ -25,13 +25,13 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-              <Route element={<Navbar />}>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/generateQR" element={<NavyBase />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/admin" element={<Admin />} />
-              </Route>
+            <Route element={<Navbar />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/generateQR" element={<GenerateQR />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/admin" element={<Admin />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </div>

@@ -1,11 +1,10 @@
-
 import React, { useEffect, useState } from "react";
 import "../css/findQR.css";
 import TableComponent from "../app/components/table";
 
 import { getQR } from "../actions/adminActions";
 
-function App() {
+function GenerateQR() {
   const [campusInfo, setCampusInfo] = useState({});
   useEffect(() => {
     (async function () {
@@ -49,12 +48,17 @@ function App() {
 
   return (
     <>
-      { 
-        !campusInfo.length ? <div><h1>Empty</h1></div>
-        : campusInfo.length && <TableComponent COLUMNS={columns} DATA={campusInfo}/>
-      }
+      {!campusInfo.length ? (
+        <div>
+          <h1>Empty</h1>
+        </div>
+      ) : (
+        campusInfo.length && (
+          <TableComponent COLUMNS={columns} DATA={campusInfo} />
+        )
+      )}
     </>
   );
 }
 
-export default App;
+export default GenerateQR;
