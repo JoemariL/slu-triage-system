@@ -1,6 +1,19 @@
+import React, { useEffect, useState } from "react"
 import "../css/dashboard.css";
 
+import { getHdfToday } from "../actions/commonActions";
+
 function Dashboard() {
+  const [records, setRecords] = useState({})
+  useEffect(() => {
+    (async function(){
+      const info = await getHdfToday();
+      setRecords(info)
+    })()
+  }, [])
+
+  console.log(records)
+  
   return (
     <>
       <div className="container2">

@@ -1,9 +1,19 @@
-import React from "react";
-import { useTable } from "react-table";
+import React, { useEffect, useState } from "react";
 import "../css/users.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import TableComponent from "../app/components/table";
+import { getAllUser } from "../actions/adminActions";
+
 function App() {
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    (async function () {
+      const user = await getAllUser();
+      setUserInfo(user);
+    })();
+  }, []);
+  console.log(userInfo)
   const data = React.useMemo(
     // Sample data ito
     () => [
@@ -29,74 +39,39 @@ function App() {
     []
   );
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "Name",
-        accessor: "name", // accessor is the "key" in the data
-      },
-      {
-        Header: "Email",
-        accessor: "email",
-      },
-      {
-        Header: "Last Activity",
-        accessor: "lastActivity",
-      },
-      {
-        Header: "Action",
-        accessor: "action",
-      },
-    ],
-    []
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const columns = [
+    {
+      Header: "First Name",
+      accessor: "first_name", // accessor is the "key" in the data
+    },
+    {
+      Header: "Last Name",
+      accessor: "last_name",
+    },
+    {
+      Header: "Email",
+      accessor: "email_address",
+    },
+    {
+      Header: "Type",
+      accessor: "user_type"
+    },
+    {
+      Header: "Last Activity",
+      accessor: "updatedAt",
+    },
+    {
+      Header: "Action",
+      accessor: ""
+    }
+  ];
 
   return (
     <>
-      <div class="flex-container">
-        {/* <button type="submit" class="button">
-          Add User
-        </button>
-        <button type="submit" class="button">
-          Remove User
-        </button> */}
-
-        <table className="admintable" {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr className="users" {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr className="usersbody" {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    console.log(cell);
-                    return (
-                      <td className="usersbody" {...cell.getCellProps()}>
-                        {/* if(every 3 cell) */}
-                        {cell.render("Cell")}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      {
+        !userInfo.length ? <div><h1>Empty</h1></div>
+        : userInfo.length && <TableComponent COLUMNS={columns} DATA={userInfo}/>
+      }
     </>
   );
 }

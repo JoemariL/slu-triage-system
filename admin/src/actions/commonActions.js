@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 const config = {
     headers: {
         "Content-Type": "application/json",
+        "authorization": "Bearer " + Cookies.get("accessToken")
     },
 };
 
