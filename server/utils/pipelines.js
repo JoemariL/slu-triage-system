@@ -28,6 +28,19 @@ module.exports.hdfIfExist = async (userID, hdfID) => {
     return true
 }
 
+module.exports.getAllUsers = async() => {
+    return await USERS.aggregate([
+        {
+            $match: {
+                user_type: { $ne: "VISITOR"}
+            },
+        },
+        {
+            $unset: ["password", "createdAt", "__v"]
+        }
+    ])
+}
+
 module.exports.hdfIfExpired = async (userID, hdfID) => {
     const hdf = await USERS.aggregate([
         {
@@ -110,10 +123,13 @@ module.exports.getHdfStatistics = async(fromDate, toDate) => {
                         '$cond': ['$hdf_data.allowed', 1, 0]
                     }
                 }, 
-                'not-allowed': {
+                'not_allowed': {
                     '$sum': {
                         '$cond': ['$hdf_data.allowed', 0, 1]
                     }
+                },
+                'total_entry': {
+                    '$sum': 1
                 },
                 'users': {
                     '$push': {

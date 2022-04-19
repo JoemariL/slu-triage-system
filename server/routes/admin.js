@@ -12,6 +12,7 @@ const SCHOOL = require('../models/school')
 const { objectIDValidator } = require('../utils/validator')
 const { encryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
+const { getAllUsers } = require('../utils/pipelines')
 
 // GET ALL ADMIN INFO.
 router.get("/get-all-admin", async (req, res) => {
@@ -27,10 +28,11 @@ router.get("/get-all-admin", async (req, res) => {
 // GET ALL USERS
 router.get("/get-all-users", async (req, res) => {
     try {
-        const userData = await USERS.find().select('-password -__v -createdAt').sort({ "hdf_data.createdAt": -1 })
+        const userData = await getAllUsers();
         if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
         return res.status(200).json(userData)
     } catch (error) {
+        console.log(error)
         return res.sendStatus(500)
     }
 })
