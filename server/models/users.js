@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const Float = require('mongoose-float').loadType(mongoose)
 
 const hdfData = mongoose.Schema({
     entry_date: {
@@ -89,6 +88,10 @@ const userSchema = mongoose.Schema({
         type: String,
         unique: true,
         immutable: true
+    },
+    department: {
+        type: String,
+        uppercase: true
     },
     user_type: {
         type: String,

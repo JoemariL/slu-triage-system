@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt')
 const ADMIN = require('../models/admin')
 const USERS = require('../models/users')
 const SCHOOL = require('../models/school')
+const STATISTICS = require('../models/statistics')
 
 // UTILS IMPORT
 const { objectIDValidator } = require('../utils/validator')
@@ -39,7 +40,6 @@ router.get("/get-all-users", async (req, res) => {
 
 // GET SPECIFIC ADMIN.
 router.get("/get", async (req, res) => {
-
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
@@ -203,6 +203,16 @@ router.get("/get-user/:userUid", async (req, res) => {
         const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
         if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
         return res.status(200).json(user)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+router.get("/daily-reports", async (req, res) => {
+    try {
+        const stats = await STATISTICS.find()
+        if(!stats) return res.status(404).json({ errors: { message: 'empty' }})
+        return res.status(200).json(stats)
     } catch (error) {
         return res.sendStatus(500)
     }

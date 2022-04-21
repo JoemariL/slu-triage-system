@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, hdfIfExistDay, hdfIfOver, getHdfTodayUser, getHdfStatistics } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 
@@ -18,11 +18,13 @@ const { extractID } = require('../middleware/jwt-helper')
 router.get("/day", async (req, res) => {
     let dateToday = moment().startOf('day').toDate()
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+    let dateNow = moment().format("MMM Do YYYY")
     
     try {
-        const data = await getHdfStatistics(dateToday, dateTomorrow)
+        const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
-        return res.status(200).json(data)
+
+        return res.status(200).json(data) 
     } catch (error) {
         return res.sendStatus(500)
     }
@@ -30,7 +32,6 @@ router.get("/day", async (req, res) => {
 
 // GET HDF DATA FOR SPECIFIC USER WITH-IN A DAY
 router.get("/day-user", async (req, res) => {
-
     let dateToday = moment().startOf('day').toDate()
     let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
 
@@ -49,7 +50,9 @@ router.get("/day-user", async (req, res) => {
 
         const userHdf = await getHdfTodayUser(user._id, dateToday, dateTomorrow)
         if(!userHdf) return res.status(404).json({ errors:{ message:'not found' }})
-        return res.status(200).json(userHdf)
+
+        const hdf = userHdf.slice().sort((a, b) => b.createdAt - a.createdAt)
+        return res.status(200).json(hdf)
     } catch (error) {
         return res.sendStatus(500)
     }
@@ -57,7 +60,6 @@ router.get("/day-user", async (req, res) => {
 
 // GENERATE HDF DATA FOR SPECIFIC USER
 router.post("/generate", async (req, res) => {
-
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
@@ -67,16 +69,10 @@ router.post("/generate", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    let dateToday = moment().startOf('day').toDate()
-    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
-
     const { destination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, pregnant } = req.body
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-
-    const entryCheck = await hdfIfExistDay(user._id, dateToday, dateTomorrow)
-    if(!entryCheck) return res.status(404).json({ errors:{ message:'user already has registered hdf this day' }})
 
     let allowed = true
     if(covidExposure || covidPositive || fever || cough || cold || soreThroat || diffBreathing || diarrhea) allowed = false
@@ -104,7 +100,7 @@ router.post("/generate", async (req, res) => {
             { new: true}
         )
     
-        if(newHdfData) return res.status(201).json({ success: { message:'user hdf form added'}})
+        if(newHdfData) return res.status(201).json({ success: { message:'user hdf form added' }})
         return res.status(400).json({ errors:{ message:'user hdf form add failed' }})
     } catch (error) {
         return res.sendStatus(500)
@@ -113,7 +109,6 @@ router.post("/generate", async (req, res) => {
 
 // HDF QR SCAN
 router.post("/scan/:hdfID", async (req, res) => {
-
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
@@ -137,7 +132,7 @@ router.post("/scan/:hdfID", async (req, res) => {
     if(!ifExist) return res.status(404).json({ errors:{ message:'user hdf info not found' }})
 
     const ifExpired = await hdfIfExpired(userUid, hdfUid)
-    if(ifExpired) return res.status(400).json({ errors:{ message:'hdf info already entered today'}})
+    if(ifExpired) return res.status(400).json({ errors:{ message:'hdf already used' }})
 
     let decrypted, school, gate, code = null
 
@@ -181,7 +176,6 @@ router.post("/scan/:hdfID", async (req, res) => {
 
 // DELETE HDF DATA IN A USER
 router.delete("/delete/:hdfID", async (req, res) => {
-    
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)

@@ -38,12 +38,12 @@ router.post("/user/login", async (req, res) => {
 
         if (process.env.NODE_ENV === "PRODUCTION"){
             return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 518400 * 1000), secure: true })
             .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000) , httpOnly: true, secure: true})
             .send('Cookies registered')
         } else {
             return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000) })
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 518400 * 1000) })
             .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 518400 * 1000) })
             .send('Cookies registered')
         }
@@ -55,7 +55,7 @@ router.post("/user/login", async (req, res) => {
 
 // REGISTER A USER.
 router.post("/user/register", async (req, res) => {
-    const { firstName, lastName, password, age, contactNumber, homeAddress, email, userType } = req.body
+    const { firstName, lastName, password, age, contactNumber, homeAddress, email, userType, department } = req.body
     let email_address = email.replace(/\s+/g, '')
     const emailCheck = emailValidator(email)
     if(emailCheck) return res.status(400).json({ errors:{ message:'email input must be a valid email address' }})
@@ -71,6 +71,7 @@ router.post("/user/register", async (req, res) => {
             contact_number: contactNumber,
             home_address: homeAddress,
             email_address,
+            department,
             user_type: userType
         })
 
@@ -107,11 +108,11 @@ router.post('/token', async (req, res) => {
 
         if (process.env.NODE_ENV === "PRODUCTION") {
             return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000), secure: true })
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 518400 * 1000), secure: true })
             .send('Access token generated')
         } else {
             return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 3600 * 1000) })
+            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 518400 * 1000) })
             .send('Access token generated')
         }
     } catch (error) {

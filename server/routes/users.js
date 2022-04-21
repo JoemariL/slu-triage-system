@@ -80,14 +80,15 @@ router.patch("/update", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const { age, contactNumber, homeAddress } = req.body
+    const { age, contactNumber, homeAddress, department } = req.body
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
     const userDetails = {
-        age: age,
+        age,
         contact_number: contactNumber,
         home_address: homeAddress,
+        department
     }
     const uid = user._id
     try {

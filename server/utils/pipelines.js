@@ -91,7 +91,7 @@ module.exports.getUserDetails = async(userID) => {
     ])
 }
 
-module.exports.getHdfStatistics = async(fromDate, toDate) => {
+module.exports.getHdfStatistics = async(fromDate, toDate, currentDate) => {
     return await USERS.aggregate([
         {
             $unwind: {
@@ -118,6 +118,9 @@ module.exports.getHdfStatistics = async(fromDate, toDate) => {
                     'school': '$hdf_data.entry_campus',
                     'gate': '$hdf_data.gate_info'
                 },
+                'date': {
+                    '$first': currentDate
+                },
                 'allowed': {
                     '$sum': {
                         '$cond': ['$hdf_data.allowed', 1, 0]
@@ -131,9 +134,24 @@ module.exports.getHdfStatistics = async(fromDate, toDate) => {
                 'total_entry': {
                     '$sum': 1
                 },
+                'students': {
+                    $sum: {
+                        '$cond': [{ $eq: ["$user_type", "STUDENT"]}, 1, 0]
+                    }
+                },
+                'employees': {
+                    $sum: {
+                        '$cond': [{ $eq: ["$user_type", "EMPLOYEE"]}, 1, 0]
+                    }
+                },
+                'visitors': {
+                    $sum: {
+                        '$cond': [{ $eq: ["$user_type", "VISITOR"]}, 1, 0]
+                    }
+                },
                 'users': {
                     '$push': {
-                        'id': '$_id', 
+                        'id': '$_id',
                         'first_name': '$first_name', 
                         'last_name': '$last_name', 
                         'contact_number': '$contact_number', 
@@ -141,6 +159,7 @@ module.exports.getHdfStatistics = async(fromDate, toDate) => {
                         'email_address': '$email_address', 
                         'hdf_data': '$hdf_data', 
                         'vaccination_details': '$vaccination_details',
+                        'department': '$department',
                         'user_type': '$user_type'
                     }
                 }
