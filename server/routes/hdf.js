@@ -13,6 +13,8 @@ const { objectIDValidator } = require('../utils/validator')
 const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
+const auth = require('../middleware/auth')
+const adminAuth = require('../middleware/adminAuth')
 
 // GET HDF DATA FOR THE DAY.
 router.get("/day", async (req, res) => {
@@ -59,7 +61,7 @@ router.get("/day-user", async (req, res) => {
 })
 
 // GENERATE HDF DATA FOR SPECIFIC USER
-router.post("/generate", async (req, res) => {
+router.post("/generate", auth, async (req, res) => {
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
@@ -77,7 +79,9 @@ router.post("/generate", async (req, res) => {
     let allowed = true
     if(covidExposure || covidPositive || fever || cough || cold || soreThroat || diffBreathing || diarrhea) allowed = false
 
+    const hdfID = new mongoose.Types.ObjectId()
     const hdfData = {
+        _id: hdfID,
         allowed,
         destination,
         covid_exposure: covidExposure,
@@ -99,8 +103,7 @@ router.post("/generate", async (req, res) => {
             { $push: { "hdf_data": hdfData }},
             { new: true}
         )
-    
-        if(newHdfData) return res.status(201).json({ success: { message:'user hdf form added' }})
+        if(newHdfData) return res.status(201).json({ _id: hdfID })
         return res.status(400).json({ errors:{ message:'user hdf form add failed' }})
     } catch (error) {
         return res.sendStatus(500)
@@ -172,45 +175,6 @@ router.post("/scan/:hdfID", async (req, res) => {
     } catch (error) {
         return res.sendStatus(500)
     } 
-})
-
-// DELETE HDF DATA IN A USER
-router.delete("/delete/:hdfID", async (req, res) => {
-    if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
-        res.clearCookie('accessToken')
-        return res.sendStatus(401)
-    }
-
-    const userUid = await extractID(req.cookies.accessToken)
-    const idCheck = objectIDValidator(userUid)
-    if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
-
-    const hdfUid = req.params.hdfID
-    const hdfCheck = objectIDValidator(hdfUid)
-    if (!hdfCheck) return res.status(400).json({ errors:{ message:'invalid hdf ID'}})
-
-    const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
-    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
-
-    const ifExist = await hdfIfExist(userUid, hdfUid)
-    if(!ifExist) return res.status(404).json({ errors:{ message:'user hdf info not found' }})
-
-    const uid = user._id
-    try {
-        const removedHdfData = await USERS.findByIdAndUpdate(
-            uid,
-            {
-                $pull : {
-                    hdf_data: { _id: mongoose.Types.ObjectId(hdfUid) }
-                }
-            }
-        )
-    
-        if(removedHdfData) return res.status(201).json({ success: { message:'user hdf detail deleted' }})
-        return res.status(400).json({ errors:{ message:'user hdf detail failed to delete' }}) 
-    } catch (error) {
-        return res.sendStatus(500)
-    }
 })
 
 module.exports = router
