@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-import "../../css/findQR.css";
-
+import "../../css/table.css";
 const Table = (props) => {
   let COLUMNS = props.COLUMNS;
   let DATA = props.DATA;
@@ -23,7 +22,7 @@ const Table = (props) => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th  {...column.getHeaderProps()}>{column.render("Header")}</th>
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
               ))}
             </tr>
           ))}

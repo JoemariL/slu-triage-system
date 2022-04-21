@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react"
-import "../css/dashboard.css";
-
+import React, { useEffect, useState } from "react";
 import { getHdfToday } from "../actions/commonActions";
+import DashboardModal from "../app/components/DashboardModal";
 
 function Dashboard() {
-  const [records, setRecords] = useState({})
+  const [openModal, setOpenModal] = useState(false);
+  const [records, setRecords] = useState({});
   useEffect(() => {
-    (async function(){
+    (async function () {
       const info = await getHdfToday();
-      setRecords(info)
-    })()
-  }, [])
+      setRecords(info);
+    })();
+  }, []);
 
-  console.log(records)
-  
+  console.log(records);
+
   return (
     <>
       <div className="container2">
@@ -22,7 +22,11 @@ function Dashboard() {
         </div>
 
         <div className="flex-container">
-          <div>
+          <div
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          >
             <h4>Gate 1</h4>
             <p>
               <span className="dot2"></span>Allowed: 1000
@@ -79,6 +83,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
+        {openModal && <DashboardModal closeModal={setOpenModal} />}
       </div>
     </>
   );

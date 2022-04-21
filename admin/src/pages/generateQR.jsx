@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/findQR.css";
 import TableComponent from "../app/components/table";
-
 import { getQR } from "../actions/adminActions";
 
 function GenerateQR() {
@@ -12,24 +10,6 @@ function GenerateQR() {
       setCampusInfo(info);
     })();
   }, []);
-
-  const data = [
-    {
-      campus: "Main",
-      gate: "Gate1",
-      qrlink: "qrlink.jpeg",
-    },
-    {
-      campus: "Bakakeng",
-      gate: "Gate2",
-      qrlink: "qrlink.jpeg",
-    },
-    {
-      campus: "Navy Base",
-      gate: "Gate1",
-      qrlink: "qrlink.jpeg",
-    },
-  ];
 
   const columns = [
     {

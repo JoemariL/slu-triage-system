@@ -10,6 +10,7 @@ import Users from "./pages/Users";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Reports from "./pages/Reports";
 import Layout from "./Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./app/components/Navbar";
@@ -17,7 +18,9 @@ import RequireAuth from "./context/RequireAuth";
 import NoAuth from "./context/NoAuth";
 import Admin from "./pages/Admin";
 import "./css/App.css";
-
+import "./css/modal.css";
+import "./css/dashboard.css";
+import "./css/table.css";
 function App() {
   return (
     <>
@@ -31,6 +34,7 @@ function App() {
               <Route path="/users" element={<Users />} />
               <Route path="/register" element={<Register />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/reports" element={<Reports />} />
             </Route>
           </Routes>
         </BrowserRouter>

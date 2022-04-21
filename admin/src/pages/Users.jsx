@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/users.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import TableComponent from "../app/components/table";
 import { getAllUser } from "../actions/adminActions";
 
@@ -13,31 +11,7 @@ function App() {
       setUserInfo(user);
     })();
   }, []);
-  console.log(userInfo)
-  const data = React.useMemo(
-    // Sample data ito
-    () => [
-      {
-        name: "Juan",
-        email: "juan@gmail.com",
-        lastActivity: "13:00",
-        action: "delete button, reset button",
-      },
-      {
-        name: "Benz",
-        email: "benz@gmail.com",
-        lastActivity: "9:00",
-        action: "delete button, reset button",
-      },
-      {
-        name: "JP",
-        email: "jp@gmail.com",
-        lastActivity: "5:00",
-        action: "delete button, reset button",
-      },
-    ],
-    []
-  );
+  console.log(userInfo);
 
   const columns = [
     {
@@ -54,7 +28,7 @@ function App() {
     },
     {
       Header: "Type",
-      accessor: "user_type"
+      accessor: "user_type",
     },
     {
       Header: "Last Activity",
@@ -62,16 +36,19 @@ function App() {
     },
     {
       Header: "Action",
-      accessor: ""
-    }
+      accessor: "",
+    },
   ];
 
   return (
     <>
-      {
-        !userInfo.length ? <div><h1>Empty</h1></div>
-        : userInfo.length && <TableComponent COLUMNS={columns} DATA={userInfo}/>
-      }
+      {!userInfo.length ? (
+        <div>
+          <h1>Empty</h1>
+        </div>
+      ) : (
+        userInfo.length && <TableComponent COLUMNS={columns} DATA={userInfo} />
+      )}
     </>
   );
 }
