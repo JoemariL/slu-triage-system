@@ -95,7 +95,7 @@ export const generateHdf = async (payload) => {
     diffBreathing: payload.diffBreathing,
     diarrhea: payload.diarrhea,
     pregnant: payload.pregnant,
-    destination: payload.destination,
+    destination: payload.deptDestination,
   });
   return API.post("/hdf/generate", body, config)
     .then(() => {
@@ -109,6 +109,7 @@ export const generateHdf = async (payload) => {
 export const scanQR = async (payload) => {
   const body = JSON.stringify({
     qrCode: payload.qrCode,
+    destination: payload.destination
   });
 
   return API.post("/hdf/scan", body, config)
