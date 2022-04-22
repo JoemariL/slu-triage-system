@@ -15,7 +15,7 @@ const HamburgerMenu = ({
   return (
     <div className="fixed min-h-screen w-full z-50 border-2 bg-white border-slate-100 lg:left-0 lg:w-1/3 lg:shadow-sm">
       <div className="p-3 flex flex-col gap-y-10">
-        <Formbar headerText="SLU Triage App." onReturnClick={onReturnClick} />
+        <Formbar onReturnClick={onReturnClick} />
 
         <hr />
 

@@ -16,7 +16,7 @@ const Button = ({
       <button
         className={classnames(
           "h-12 w-full",
-          disabled && "cursor-default opacity-70",
+          disabled && "cursor-default opacity-20",
           roundedFull ? "rounded-full" : "rounded",
           buttonStyle === "secondary"
             ? "bg-gray-600 text-white hover:bg-gray-400"

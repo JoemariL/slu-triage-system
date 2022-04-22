@@ -103,11 +103,9 @@ const VisitorVaccineModule = ({ onNext = () => {} }) => {
           )}
         >
           <div className="flex flex-col space-y-3">
-            <p>
-              WHEN IS YOUR &nbsp;
-              <span className="font-bold">LAST DOSE</span>
-              &nbsp; OF A COVID-19 VACCINE?
-            </p>
+            <span>
+              ENTER THE DATE OF YOUR MOST RECENT SHOT &nbsp; <em>- Optional</em>
+            </span>
             <Input
               id="vaccine_date"
               name="vaccine_date"
@@ -121,7 +119,9 @@ const VisitorVaccineModule = ({ onNext = () => {} }) => {
           </div>
 
           <div className="flex flex-col">
-            <span className="font-bold">VACCINATION SERIAL NO.</span>
+            <span>
+              ENTER YOUR VACCINATION CARD SERIAL NO. &nbsp; <em>- Optional</em>
+            </span>
             <Input
               id="vaccine_serial_no"
               name="vaccine_serial_no"

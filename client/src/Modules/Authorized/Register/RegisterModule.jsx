@@ -9,6 +9,16 @@ import {
 import { Select, Input, Button, Checkbox } from "../../../Components/commons";
 
 const userTypes = ["STUDENT", "EMPLOYEE"];
+const departmentNames = [
+  "SAMCIS",
+  "SAS",
+  "SEA",
+  "SNS",
+  "SOL",
+  "SOM",
+  "SON",
+  "STELA",
+];
 
 const RegisterModule = () => {
   const {
@@ -41,7 +51,7 @@ const RegisterModule = () => {
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      alert("Register successful!");
+      console.log("Register successful!");
       navigate("/login");
     }
   };
@@ -56,6 +66,16 @@ const RegisterModule = () => {
             asFormInput
             items={userTypes}
             subtitle="Please choose your appropriate type as user of this application."
+            onChange={changeHandler}
+          />
+        </div>
+
+        <div className="flex flex-col space-y-3">
+          <span className="text-lg">Select your department</span>
+          <Select
+            name="department"
+            asFormInput
+            items={departmentNames}
             onChange={changeHandler}
           />
         </div>

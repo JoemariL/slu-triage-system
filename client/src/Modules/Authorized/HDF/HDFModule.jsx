@@ -45,7 +45,7 @@ const HDFModule = () => {
 
     // TODO: Success message.
     if (response.hasOwnProperty("message")) {
-      alert(response?.message);
+      console.log(response?.message);
       setIsLoading(false);
     } else {
       setIsLoading(false);
