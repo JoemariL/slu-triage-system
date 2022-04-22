@@ -53,6 +53,37 @@ export const getHdfDay = async () => {
     });
 };
 
+export const updateProfile = async (payload) => {
+  const body = JSON.stringify({
+    age: payload.age,
+    contactNumber: payload.contactNumber,
+    homeAddress: payload.homeAddress,
+    department: payload.department
+  })
+  return API.patch("/user/update", body, config)
+    .then(() => {
+      return true
+    })
+    .catch((err) => {
+      return err.response?.data?.errors;
+    })
+}
+
+export const updatePassword = async (payload) => {
+  const body = JSON.stringify({
+    oldPassword: payload.oldPassword,
+    newPassword: payload.newPassword,
+    confirmNewPassword: payload.confirmNewPassword
+  })
+  return API.patch("/user/password", body, config)
+    .then(() =>{
+      return true
+    })
+    .catch((err) => {
+      return err.response?.data?.errors;
+    })
+}
+
 export const generateHdf = async (payload) => {
   const body = JSON.stringify({
     covidExposure: payload.covidExposure,
@@ -76,12 +107,11 @@ export const generateHdf = async (payload) => {
 };
 
 export const scanQR = async (payload) => {
-  const hdfID = payload.hdfID;
   const body = JSON.stringify({
     qrCode: payload.qrCode,
   });
 
-  return API.post(`/hdf/scan/${hdfID}`, body, config)
+  return API.post("/hdf/scan", body, config)
     .then(() => {
       return true;
     })
