@@ -28,6 +28,104 @@ module.exports.hdfIfExist = async (userID, hdfID) => {
     return true
 }
 
+module.exports.checkAvailableHdf = async (userID, fromDate, toDate) => {
+    return await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                'hdf_data.createdAt': {
+                    $gt: fromDate, $lt: toDate
+                }
+            }
+        },
+        {
+            $match: {
+                'hdf_data.entry_date': {
+                    $eq: null
+                }
+            }
+        },
+        {
+            '$replaceRoot': {
+                'newRoot': '$hdf_data'
+            }
+        }
+    ]).then((data) => {
+        const id = data.map((payload) => {
+            return payload._id
+        })
+
+        if(id.length != 0) {
+            return id[0]
+        } else {
+            return false
+        }
+    }).catch(() => {return false})
+}
+
+module.exports.getRepeatableHdfInfo = async (userID, fromDate, toDate) => {
+    return await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                'hdf_data.createdAt': {
+                    $gt: fromDate, $lt: toDate
+                }
+            }
+        },
+        {
+            $match: {
+                'hdf_data.entry_date': {
+                    $ne: null
+                }
+            }
+        },
+        {
+            '$replaceRoot': {
+                'newRoot': '$hdf_data'
+            }
+        }
+    ]).then((data) => {
+        const info = data.map((payload) => {
+            return {
+                covid_exposure: payload.covid_exposure,
+                covid_positive: payload.covid_positive,
+                allowed: payload.allowed,
+                fever: payload.fever,
+                cough: payload.cough,
+                sore_throat: payload.sore_throat,
+                diff_breathing: payload.diff_breathing,
+                diarrhea: payload.diarrhea,
+                pregnant: payload.pregnant,
+                others: payload.others
+            }
+        })
+        if(info.length != 0) {
+            return info[0]
+        } else {
+            return false
+        }
+    }).catch(() => { return false })
+}
+
 module.exports.getAllUsers = async() => {
     return await USERS.aggregate([
         {

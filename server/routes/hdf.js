@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo } = require('../utils/pipelines')
 const { decryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const auth = require('../middleware/auth')
@@ -111,20 +111,58 @@ router.post("/generate", auth, async (req, res) => {
 })
 
 // HDF QR SCAN
-router.post("/scan/:hdfID", async (req, res) => {
+router.post("/scan", async (req, res) => {
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
     }
 
+    const { destination } = req.body
+
     const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const hdfUid = req.params.hdfID
-    const hdfCheck = objectIDValidator(hdfUid)
-    if (!hdfCheck) return res.status(400).json({ errors:{ message:'invalid hdf ID'}})
+    let dateToday = moment().startOf('day').toDate()
+    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
 
+    let hdfUid = null
+    const availableId = await checkAvailableHdf(userUid, dateToday, dateTomorrow)
+    
+        if (availableId) {
+            hdfUid = availableId
+        } else {
+            const userHdf = await getHdfTodayUser(userUid, dateToday, dateTomorrow)
+            if(!userHdf.length) return res.status(404).json({ errors:{ message:'no hdf found' }})
+            const payload = await getRepeatableHdfInfo(userUid, dateToday, dateTomorrow)
+            const newID = new mongoose.Types.ObjectId()
+            const hdfData = {
+                _id: newID,
+                allowed: payload.allowed,
+                covid_exposure: payload.covid_exposure,
+                covid_positive: payload.covid_positive,
+                fever: payload.fever,
+                cough: payload.cough,
+                cold: payload.cold,
+                sore_throat: payload.sore_throat,
+                diff_breathing: payload.diff_breathing,
+                diarrhea: payload.diarrhea,
+                others: payload.others,
+                destination,
+                pregnant: payload.pregnant
+            }
+            try {
+                await USERS.findByIdAndUpdate(
+                    userUid,
+                    { $push: { "hdf_data": hdfData }},
+                    { new: true}
+                )
+                hdfUid = newID
+            } catch (error) {
+                return res.sendStatus(500)
+            }
+        }
+    
     const qrData = req.body.qrCode
     if(qrData === null) return res.status(400).json({ errors:{ message:'provide the qr code data' }})
 
