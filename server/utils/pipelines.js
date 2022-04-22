@@ -111,6 +111,7 @@ module.exports.getRepeatableHdfInfo = async (userID, fromDate, toDate) => {
                 allowed: payload.allowed,
                 fever: payload.fever,
                 cough: payload.cough,
+                cold: payload.cold,
                 sore_throat: payload.sore_throat,
                 diff_breathing: payload.diff_breathing,
                 diarrhea: payload.diarrhea,
