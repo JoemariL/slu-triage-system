@@ -23,12 +23,22 @@ function Result() {
       if (!user || user.length === 0) {
         setHdf({});
       } else {
-        setHdf(user[0]);
+        const hdfCampusInfo = user.map((payload) => {
+          return {
+            id: payload._id,
+            entry_campus: payload.entry_campus,
+            gate_info: payload.gate_info,
+            entry_date: payload.entry_date,
+            destination: payload.destination
+          }
+        })
+
+        setHdf(hdfCampusInfo)
         setHasHDF(true);
         setIsLoading(false);
       }
     })();
-  }, [auth]);
+  }, []);
 
   const handleDribble = () => {
     setDribble(!dribble);
@@ -43,7 +53,7 @@ function Result() {
     }
   };
 
-  const { allowed, entry_date, createdAt, entry_campus, gate_info } = hdf;
+  const { allowed } = hdf;
 
   return (
     <div className="relative text-xs ... sm:text-base">
@@ -82,17 +92,19 @@ function Result() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium whitespace-nowrap"
-                >
-                  CAMPUS
-                </th>
-                <td className="px-6 py-4">GATE</td>
-                <td className="px-6 py-4">DESTINATION</td>
-                <td className="px-6 py-4">DATE & TIME</td>
-              </tr>
+              {
+                hdf.length && hdf.map(payload => 
+                  <tr key={payload.id}>
+                    <th scope="row"className="px-6 py-4 font-medium whitespace-nowrap">
+                      { payload.entry_campus }
+                    </th>
+                    <td className="px-6 py-4">{ payload.gate_info }</td>
+                    <td className="px-6 py-4">{ payload.destination }</td>
+
+                    <td className="px-6 py-4">{ payload.entry_date }</td>
+                  </tr>
+                )
+              }
             </tbody>
           </table>
         </div>

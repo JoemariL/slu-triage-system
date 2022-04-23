@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../../actions/authActions";
 import useForm from "../../../hooks/useForm";
 
 import { Select, Input, Button, Checkbox } from "../../../Components/commons";
+import { getUserData, updateProfile, updatePassword } from '../../../actions/userActions'
 
 const userTypes = ["STUDENT", "EMPLOYEE"];
 const departmentNames = [
@@ -20,6 +21,80 @@ const departmentNames = [
 const UpdateProfileModule = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState({})
+
+  const [department, setDepartment] = useState("")
+  const [age, setAge] = useState("")
+  const [number, setNumber] = useState("")
+  const [address, setAddress] = useState("")
+
+  const [oldPassword, setOldPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+
+  useEffect(() => {
+    (async function () {
+      const user = await getUserData()
+      if(user) {
+        setUser(user)
+        setAge(user.age)
+        setNumber(user.contact_number)
+        setAddress(user.home_address)
+        setDepartment(user.department)
+      }
+    })()
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if(oldPassword.trim() != "") {
+        const profilePayload = {
+          age,
+          contactNumber: number,
+          homeAddress: address,
+          department: "SAMCIS"
+        }
+
+        const passwordPayload = {
+          oldPassword,
+          newPassword,
+          confirmNewPassword: confirmPassword
+        }
+
+        const profileResponse = await updateProfile(profilePayload)
+        const passwordResponse = await updatePassword(passwordPayload)
+        //TODO: Message here
+        if(profileResponse.hasOwnProperty("message")) {
+          alert('Profile Edit Fail')
+        } else {
+          alert('Profile Edit Success')
+        }
+
+        //TODO: Message here
+        if(passwordResponse.hasOwnProperty("message")) {
+          alert(passwordResponse.message)
+        } else {
+          alert('Password Edit Success')
+        }
+
+    } else {
+      const payload = {
+          age,
+          contactNumber: number,
+          homeAddress: address,
+          department: "SAMCIS"
+      }
+
+      const response = await updateProfile(payload)
+      //TODO: Message here
+      if(response.hasOwnProperty("message")) {
+        alert('Edit Fail')
+      } else {
+        alert('Edit Success')
+      }
+    }
+  }
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -27,7 +102,7 @@ const UpdateProfileModule = () => {
 
   return (
     <>
-      <form className="flex flex-col space-y-10">
+      <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-3">
           <span className="text-lg">You are a/an</span>
           <Select
@@ -45,7 +120,6 @@ const UpdateProfileModule = () => {
             name="department"
             asFormInput
             items={departmentNames}
-            disabled
           />
         </div>
 
@@ -63,6 +137,7 @@ const UpdateProfileModule = () => {
               name="firstName"
               type="text"
               disabled
+              value={ user.first_name ? user.first_name : "" }
             />
 
             <Input
@@ -71,6 +146,7 @@ const UpdateProfileModule = () => {
               name="lastName"
               type="text"
               disabled
+              value={ user.last_name ? user.last_name: "" }
             />
 
             <Input
@@ -78,6 +154,8 @@ const UpdateProfileModule = () => {
               id="age"
               name="age"
               type="text"
+              value={age}
+              onChange={(e) => { setAge(e.target.value) }}
             />
           </div>
         </div>
@@ -95,6 +173,8 @@ const UpdateProfileModule = () => {
               id="contactNumber"
               name="contactNumber"
               type="text"
+              value={number}
+              onChange={(e) => { setNumber(e.target.value) }}
             />
 
             <Input
@@ -102,6 +182,8 @@ const UpdateProfileModule = () => {
               id="address"
               name="address"
               type="text"
+              value={address}
+              onChange={(e) => { setAddress(e.target.value) }}
             />
           </div>
         </div>
@@ -121,6 +203,7 @@ const UpdateProfileModule = () => {
               type="text"
               subtitle="You can only use your university email: (@slu.edu.ph)."
               disabled
+              value={ user.email_address ? user.email_address: "" }
             />
           </div>
         </div>
@@ -139,6 +222,7 @@ const UpdateProfileModule = () => {
                 id="oldPassword"
                 name="oldPassword"
                 type={showPassword ? "text" : "password"}
+                onChange={(e) => { setOldPassword(e.target.value) }}
               />
             </div>
 
@@ -148,6 +232,7 @@ const UpdateProfileModule = () => {
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
+                onChange={(e) => { setNewPassword(e.target.value) }}
               />
 
               <Input
@@ -155,6 +240,7 @@ const UpdateProfileModule = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 type={showPassword ? "text" : "password"}
+                onChange={(e) => { setConfirmPassword(e.target.value) }}
               />
             </div>
 

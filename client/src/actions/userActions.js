@@ -75,7 +75,7 @@ export const updatePassword = async (payload) => {
     newPassword: payload.newPassword,
     confirmNewPassword: payload.confirmNewPassword
   })
-  return API.patch("/user/password", body, config)
+  return API.patch("/user/update/password", body, config)
     .then(() =>{
       return true
     })
