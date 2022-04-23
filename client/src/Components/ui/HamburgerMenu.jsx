@@ -6,6 +6,7 @@ const HamburgerMenu = ({
   onVisitorReviewClick = () => {},
   onReturnClick = () => {},
   onHomeClick = () => {},
+  onEditClick = () => {},
   onLogOutClick = () => {},
   onReturnIntro = () => {},
   loading = false,
@@ -17,8 +18,6 @@ const HamburgerMenu = ({
       <div className="p-3 flex flex-col gap-y-10">
         <Formbar onReturnClick={onReturnClick} />
 
-        <hr />
-
         <div className="flex flex-col justify-center space-y-5">
           {!visitor ? (
             <Menu position="vertical">
@@ -28,6 +27,14 @@ const HamburgerMenu = ({
                 hover
                 cursorPointer
                 onClick={onHomeClick}
+              />
+
+              <MenuItem
+                className="bg-slate-100"
+                label="UPDATE PROFILE"
+                hover
+                cursorPointer
+                onClick={onEditClick}
               />
             </Menu>
           ) : (

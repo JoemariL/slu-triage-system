@@ -68,16 +68,6 @@ function VisitorMain() {
       <div className="my-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
         <GuestResult
           entryStatus={allowed}
-          hdfTimeCreated={
-            createdAt
-              ? moment(createdAt).format("MMMM Do YYYY, h:mm:ss A")
-              : "--"
-          }
-          campusEntered={
-            entry_date
-              ? moment(entry_date).format("MMMM Do YYYY, h:mm:ss A")
-              : "--"
-          }
           campusName={entry_campus}
           gate={gate_info}
           loading={isLoading}

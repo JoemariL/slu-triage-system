@@ -30,7 +30,7 @@ const HDFView = ({
         <ListItem
           className={classnames(
             "justify-center text-center",
-            loading ? "blur-sm animate-pulse" : ""
+            // loading ? "blur-sm animate-pulse" : ""
           )}
           label={hasHDF ? (exposure === true ? "YES" : "NO") : "--"}
           subtitle="EXPOSURE"
@@ -39,7 +39,7 @@ const HDFView = ({
         <ListItem
           className={classnames(
             "justify-center text-center",
-            loading ? "blur-sm animate-pulse" : ""
+            // loading ? "blur-sm animate-pulse" : ""
           )}
           label={hasHDF ? (positive === true ? "YES" : "NO") : "--"}
           subtitle="POSITIVE"
@@ -50,9 +50,8 @@ const HDFView = ({
             label="FILL OUT HDF"
             buttonStyle="primary"
             type="button"
-            disabled={hasHDF || loading}
             roundedFull
-            onClick={!hasHDF ? onHDForm : undefined}
+            onClick={onHDForm}
           />
         </div>
       </div>
@@ -61,7 +60,7 @@ const HDFView = ({
         <div
           className={classnames(
             "flex flex-col space-y-3 select-none",
-            loading ? "blur-sm animate-pulse" : ""
+            // loading ? "blur-sm animate-pulse" : ""
           )}
         >
           <List position="vertical">
@@ -170,10 +169,6 @@ const HDFView = ({
 
       <p className="text-sm">
         Health Declaration Form will reset every 12:00 AM GMT +08. <br />
-        <span className="text-red-600">
-          *After filling out your HDF, you are not able to fill out again until
-          the reset time.
-        </span>
       </p>
     </div>
   );

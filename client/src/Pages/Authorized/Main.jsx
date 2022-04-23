@@ -25,7 +25,7 @@ function Main() {
         setIsLoading(false);
       }
     })();
-  }, [auth]);
+  }, []);
 
   useEffect(() => {
     (async function () {
@@ -64,7 +64,13 @@ function Main() {
           onReturnClick={handleDribble}
           onHomeClick={(e) => {
             e.preventDefault();
+            handleDribble();
             navigate("/main");
+          }}
+          onEditClick={(e) => {
+            e.preventDefault();
+            handleDribble();
+            navigate("/profile/update");
           }}
           onLogOutClick={logoutUser}
         />

@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { MdQrCodeScanner } from "react-icons/md";
 import { RiSyringeFill, RiHealthBookFill } from "react-icons/ri";
-import { Icon, Menu, MenuItem, Button, ListItem } from "../../commons";
+import { Icon, Menu, MenuItem, Button } from "../../commons";
 
 const Dashboard = ({
   onClickHDF = () => {},
@@ -16,16 +16,43 @@ const Dashboard = ({
 }) => {
   return (
     <div className="space-y-5">
-      <ListItem
-        className={classnames(loading ? "blur-sm animate-pulse" : "")}
-        label="NOTE"
-        subtitle="Fill out your Health Declartion Form and Vaccination Profile first in order to scan the QR codes displayed in the gates of the campus."
-      />
+      <div className="text-lg">
+        <Menu position="vertical">
+          <MenuItem
+            className={
+              status ? "select-none bg-blue-600" : "select-none  bg-red-600"
+            }
+            icon={
+              <Icon
+                background="rounded-full"
+                className={
+                  status ? "bg-blue-400 text-white" : "bg-red-400 text-white"
+                }
+                icon={
+                  status ? (
+                    <ImCheckmark className="h-4 w-4" />
+                  ) : (
+                    <ImCross className="h-4 w-4" />
+                  )
+                }
+              />
+            }
+            label={status ? "ENTRY ALLOWED" : "ENTRY NOT ALLOWED"}
+            textColor="white"
+          />
+        </Menu>
+      </div>
 
       <div className="rounded bg-slate-50 shadow-sm">
         <Menu position="vertical">
           <MenuItem
-            className={classnames(loading ? "blur-sm animate-pulse" : "")}
+            // className={classnames(loading ? "blur-sm animate-pulse" : "")}
+            label="NOTE"
+            subtitle="Fill out your Health Declartion Form and Vaccination Profile first in order to scan the QR codes displayed in the gates of the campus."
+          />
+
+          <MenuItem
+            // className={classnames(loading ? "blur-sm animate-pulse" : "")}
             icon={
               <Icon
                 background="rounded-full"
@@ -41,7 +68,7 @@ const Dashboard = ({
           />
 
           <MenuItem
-            className={classnames(loading ? "blur-sm animate-pulse" : "")}
+            // className={classnames(loading ? "blur-sm animate-pulse" : "")}
             icon={
               <Icon
                 background="rounded-full"
@@ -61,42 +88,10 @@ const Dashboard = ({
       {hasHDF && (
         <div
           className={classnames(
-            "flex flex-col space-y-10",
-            loading ? "blur-sm animate-pulse" : ""
+            "flex flex-col space-y-10"
+            // loading ? "blur-sm animate-pulse" : ""
           )}
         >
-          <Menu position="vertical">
-            <MenuItem label="YOUR ENTRY STATUS" />
-
-            <MenuItem
-              className={
-                status ? "select-none bg-blue-600" : "select-none  bg-red-600"
-              }
-              icon={
-                <Icon
-                  background="rounded-full"
-                  className={
-                    status ? "bg-blue-400 text-white" : "bg-red-400 text-white"
-                  }
-                  icon={
-                    status ? (
-                      <ImCheckmark className="h-4 w-4" />
-                    ) : (
-                      <ImCross className="h-4 w-4" />
-                    )
-                  }
-                />
-              }
-              label={status ? "ENTRY ALLOWED" : "ENTRY NOT ALLOWED"}
-              subtitle={
-                status
-                  ? "You are allowed to enter the campus. Strictly observe minimum public health standards & safety protocols."
-                  : "Your are not allowed to enter the campus. Please go and stay home."
-              }
-              textColor="white"
-            />
-          </Menu>
-
           <div className="bottom-0 grid grid-cols-2 gap-x-3">
             <Button
               buttonStyle="secondary"

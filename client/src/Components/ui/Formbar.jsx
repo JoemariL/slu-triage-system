@@ -9,7 +9,6 @@ const Formbar = ({
   disabled = false,
   fixedTop = false,
   staticTop = false,
-  children,
 }) => {
   return (
     <div
@@ -33,8 +32,6 @@ const Formbar = ({
         </button>
 
         <span className="text-lg font-bold">{headerText}</span>
-
-        {children}
       </div>
     </div>
   );

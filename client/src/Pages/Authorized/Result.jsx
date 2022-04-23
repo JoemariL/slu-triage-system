@@ -61,26 +61,41 @@ function Result() {
       <Appbar headerText="Result" onMenuClick={handleDribble} />
 
       <div className="py-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
-        <ResultView
-          entryStatus={allowed}
-          hdfTimeCreated={
-            createdAt
-              ? moment(createdAt).format("MMMM Do YYYY, h:mm:ss A")
-              : "--"
-          }
-          campusEntered={
-            entry_date
-              ? moment(entry_date).format("MMMM Do YYYY, h:mm:ss A")
-              : "--"
-          }
-          campusName={entry_campus}
-          gate={gate_info}
-          loading={isLoading}
-          onClickQR={(e) => {
-            e.preventDefault();
-            navigate("/qr-scanner");
-          }}
-        />
+        <ResultView entryStatus={allowed} loading={isLoading} />
+
+        <div className="relative overflow-x-auto shadow-sm">
+          <table className="w-full text-sm text-left">
+            <thead className="text-xs uppercase bg-slate-100">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Campus Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Gate
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Destination
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Date & Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium whitespace-nowrap"
+                >
+                  CAMPUS
+                </th>
+                <td className="px-6 py-4">GATE</td>
+                <td className="px-6 py-4">DESTINATION</td>
+                <td className="px-6 py-4">DATE & TIME</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
