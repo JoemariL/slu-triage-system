@@ -118,7 +118,6 @@ const GuestResult = ({
           label="SCAN QR CODE"
           roundedFull
           onClick={onClickQR}
-          disabled={campusName ? true : false}
         />
       </div>
     </div>

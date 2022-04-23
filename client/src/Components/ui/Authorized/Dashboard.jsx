@@ -104,7 +104,6 @@ const Dashboard = ({
               label="SCAN QR CODE"
               roundedFull
               onClick={onClickQR}
-              disabled={entryDate != null ? true : false}
             />
           </div>
         </div>
