@@ -19,3 +19,25 @@ module.exports.decryptJSON = (data) => {
     let bytes  = CryptoJS.AES.decrypt(data, cipher);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
 }
+
+module.exports.countDepartments = (data) => {
+    return data.map((payload) => {
+        let departmentList = {}
+        const dept = payload.users.map((data) => {
+            return data.department
+        })
+
+        for (var i = 0; i < dept.length; i++) {
+            if (typeof departmentList[dept[i]] == "undefined") {
+                departmentList[dept[i]] = 1;
+            } else {
+                departmentList[dept[i]]++;
+            }
+        }
+
+        return {
+            ...payload,
+            department_list: departmentList
+        }
+    })
+}

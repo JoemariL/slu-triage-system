@@ -6,6 +6,7 @@ const USERS = require('../models/users')
 const STATISTICS = require('../models/statistics')
 
 const { getVisitor, getExpiredHDF, getHdfStatistics } = require('./pipelines')
+const { countDepartments } = require('./functions')
 
 const autoDeleteVisitor = async () => {
     const date = moment().startOf('day').add(-15, 'days').toDate()
@@ -41,13 +42,18 @@ const autoGenerateReport = async () => {
 
     const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
     if(data.length != 0 || data != null) {
-        const stats = data.map(data => {
+        const result = countDepartments(data)
+        const stats = result.map(data => {
             return {
                 school: data._id.school,
                 gate: data._id.gate,
                 allowed: data.allowed,
                 not_allowed: data.not_allowed,
-                total_entry: data.total_entry
+                total_entry: data.total_entry,
+                students: data.students,
+                employees: data.employees,
+                visitors: data.visitors,
+                department_list: data.department_list
             }
         })
     
@@ -65,13 +71,6 @@ module.exports = () => {
         autoGenerateReport()
         autoDeleteVisitor()
         autoDeleteHDF()
-        console.log('scheduler check run.')
+        console.log('automated system check run')
     })
 }
-
-// module.exports = () => {
-//     schedule.scheduleJob('*/5 * * * * *', () => {
-//         autoGenerateReport()
-//         console.log('scheduler check run.')
-//     })
-// }

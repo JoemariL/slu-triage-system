@@ -11,7 +11,7 @@ const SCHOOL = require('../models/school')
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
 const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo } = require('../utils/pipelines')
-const { decryptJSON } = require('../utils/functions')
+const { decryptJSON, countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const auth = require('../middleware/auth')
 const adminAuth = require('../middleware/adminAuth')
@@ -25,9 +25,11 @@ router.get("/day", async (req, res) => {
     try {
         const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
-
-        return res.status(200).json(data) 
+        const result = countDepartments(data)
+    
+        return res.status(200).json(result) 
     } catch (error) {
+        console.log(error)
         return res.sendStatus(500)
     }
 })
