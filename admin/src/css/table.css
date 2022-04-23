@@ -8,7 +8,7 @@ table {
 
 table td,
 table th {
-  border: 1px solid #ddd;
+  border: 3px solid;
   padding: 8px;
 }
 
@@ -25,5 +25,8 @@ table th {
   padding-bottom: 12px;
   text-align: left;
   background-color: grey;
-  color: white;
+}
+
+.pagination {
+  justify-content: center;
 }
