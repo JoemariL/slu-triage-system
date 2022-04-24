@@ -54,7 +54,8 @@ const Input = ({
           className={classnames(
             "p-1.5 w-full rounded-full focus:outline-none",
             loading ? "blur-sm animate-pulse" : "",
-            error ? "bg-red-50" : ""
+            error ? "bg-red-50" : "",
+            disabled ? "bg-blue-50" : ""
           )}
           type={type}
           id={id}

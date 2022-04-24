@@ -16,32 +16,34 @@ const Dashboard = ({
 }) => {
   return (
     <div className="space-y-5">
-      <div className="text-lg">
-        <Menu position="vertical">
-          <MenuItem
-            className={
-              status ? "select-none bg-blue-600" : "select-none  bg-red-600"
-            }
-            icon={
-              <Icon
-                background="rounded-full"
-                className={
-                  status ? "bg-blue-400 text-white" : "bg-red-400 text-white"
-                }
-                icon={
-                  status ? (
-                    <ImCheckmark className="h-4 w-4" />
-                  ) : (
-                    <ImCross className="h-4 w-4" />
-                  )
-                }
-              />
-            }
-            label={status ? "ENTRY ALLOWED" : "ENTRY NOT ALLOWED"}
-            textColor="white"
-          />
-        </Menu>
-      </div>
+      {hasHDF && (
+        <div className="text-lg">
+          <Menu position="vertical">
+            <MenuItem
+              className={
+                status ? "select-none bg-blue-600" : "select-none  bg-red-600"
+              }
+              icon={
+                <Icon
+                  background="rounded-full"
+                  className={
+                    status ? "bg-blue-400 text-white" : "bg-red-400 text-white"
+                  }
+                  icon={
+                    status ? (
+                      <ImCheckmark className="h-4 w-4" />
+                    ) : (
+                      <ImCross className="h-4 w-4" />
+                    )
+                  }
+                />
+              }
+              label={status ? "ENTRY ALLOWED" : "ENTRY NOT ALLOWED"}
+              textColor="white"
+            />
+          </Menu>
+        </div>
+      )}
 
       <div className="rounded bg-slate-50 shadow-sm">
         <Menu position="vertical">

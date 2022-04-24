@@ -4,9 +4,12 @@ import { register } from "../../../actions/authActions";
 import useForm from "../../../hooks/useForm";
 
 import { Select, Input, Button, Checkbox } from "../../../Components/commons";
-import { getUserData, updateProfile, updatePassword } from '../../../actions/userActions'
+import {
+  getUserData,
+  updateProfile,
+  updatePassword,
+} from "../../../actions/userActions";
 
-const userTypes = ["STUDENT", "EMPLOYEE"];
 const departmentNames = [
   "SAMCIS",
   "SAS",
@@ -20,81 +23,81 @@ const departmentNames = [
 
 const UpdateProfileModule = () => {
   const [showPassword, setShowPassword] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
 
-  const [department, setDepartment] = useState("")
-  const [age, setAge] = useState("")
-  const [number, setNumber] = useState("")
-  const [address, setAddress] = useState("")
+  const [department, setDepartment] = useState("");
+  const [age, setAge] = useState("");
+  const [number, setNumber] = useState("");
+  const [address, setAddress] = useState("");
 
-  const [oldPassword, setOldPassword] = useState("")
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
     (async function () {
-      const user = await getUserData()
-      if(user) {
-        setUser(user)
-        setAge(user.age)
-        setNumber(user.contact_number)
-        setAddress(user.home_address)
-        setDepartment(user.department)
+      const user = await getUserData();
+      if (user) {
+        setUser(user);
+        setAge(user.age);
+        setNumber(user.contact_number);
+        setAddress(user.home_address);
+        setDepartment(user.department);
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if(oldPassword.trim() != "") {
-        const profilePayload = {
-          age,
-          contactNumber: number,
-          homeAddress: address,
-          department: "SAMCIS"
-        }
 
-        const passwordPayload = {
-          oldPassword,
-          newPassword,
-          confirmNewPassword: confirmPassword
-        }
+    if (oldPassword.trim() != "") {
+      const profilePayload = {
+        age,
+        contactNumber: number,
+        homeAddress: address,
+        department: "SAMCIS",
+      };
 
-        const profileResponse = await updateProfile(profilePayload)
-        const passwordResponse = await updatePassword(passwordPayload)
-        //TODO: Message here
-        if(profileResponse.hasOwnProperty("message")) {
-          alert('Profile Edit Fail')
-        } else {
-          alert('Profile Edit Success')
-        }
+      const passwordPayload = {
+        oldPassword,
+        newPassword,
+        confirmNewPassword: confirmPassword,
+      };
 
-        //TODO: Message here
-        if(passwordResponse.hasOwnProperty("message")) {
-          alert(passwordResponse.message)
-        } else {
-          alert('Password Edit Success')
-        }
+      const profileResponse = await updateProfile(profilePayload);
+      const passwordResponse = await updatePassword(passwordPayload);
+      //TODO: Message here
+      if (profileResponse.hasOwnProperty("message")) {
+        alert("Profile Edit Fail");
+      } else {
+        alert("Profile Edit Success");
+      }
 
+      //TODO: Message here
+      if (passwordResponse.hasOwnProperty("message")) {
+        alert(passwordResponse.message);
+      } else {
+        alert("Password Edit Success");
+      }
     } else {
       const payload = {
-          age,
-          contactNumber: number,
-          homeAddress: address,
-          department: "SAMCIS"
-      }
+        age,
+        contactNumber: number,
+        homeAddress: address,
+        department: "SAMCIS",
+      };
 
-      const response = await updateProfile(payload)
+      const response = await updateProfile(payload);
       //TODO: Message here
-      if(response.hasOwnProperty("message")) {
-        alert('Edit Fail')
+      if (response.hasOwnProperty("message")) {
+        alert("Edit Fail");
       } else {
-        alert('Edit Success')
+        alert("Edit Success");
       }
     }
-  }
+  };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -105,21 +108,17 @@ const UpdateProfileModule = () => {
       <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-3">
           <span className="text-lg">You are a/an</span>
-          <Select
-            name="userType"
-            asFormInput
-            items={userTypes}
-            subtitle="Please choose your appropriate type as user of this application."
-            disabled
-          />
+          <Input id="userType" name="userType" type="text" disabled />
         </div>
 
         <div className="flex flex-col space-y-3">
           <span className="text-lg">Department</span>
+          <Input id="department" name="department" type="text" disabled />
           <Select
             name="department"
             asFormInput
             items={departmentNames}
+            subtitle="Select your new department here to update."
           />
         </div>
 
@@ -137,7 +136,7 @@ const UpdateProfileModule = () => {
               name="firstName"
               type="text"
               disabled
-              value={ user.first_name ? user.first_name : "" }
+              value={user.first_name ? user.first_name : ""}
             />
 
             <Input
@@ -146,7 +145,7 @@ const UpdateProfileModule = () => {
               name="lastName"
               type="text"
               disabled
-              value={ user.last_name ? user.last_name: "" }
+              value={user.last_name ? user.last_name : ""}
             />
 
             <Input
@@ -155,7 +154,9 @@ const UpdateProfileModule = () => {
               name="age"
               type="text"
               value={age}
-              onChange={(e) => { setAge(e.target.value) }}
+              onChange={(e) => {
+                setAge(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -174,7 +175,9 @@ const UpdateProfileModule = () => {
               name="contactNumber"
               type="text"
               value={number}
-              onChange={(e) => { setNumber(e.target.value) }}
+              onChange={(e) => {
+                setNumber(e.target.value);
+              }}
             />
 
             <Input
@@ -183,7 +186,9 @@ const UpdateProfileModule = () => {
               name="address"
               type="text"
               value={address}
-              onChange={(e) => { setAddress(e.target.value) }}
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -203,7 +208,7 @@ const UpdateProfileModule = () => {
               type="text"
               subtitle="You can only use your university email: (@slu.edu.ph)."
               disabled
-              value={ user.email_address ? user.email_address: "" }
+              value={user.email_address ? user.email_address : ""}
             />
           </div>
         </div>
@@ -222,7 +227,9 @@ const UpdateProfileModule = () => {
                 id="oldPassword"
                 name="oldPassword"
                 type={showPassword ? "text" : "password"}
-                onChange={(e) => { setOldPassword(e.target.value) }}
+                onChange={(e) => {
+                  setOldPassword(e.target.value);
+                }}
               />
             </div>
 
@@ -232,7 +239,9 @@ const UpdateProfileModule = () => {
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                onChange={(e) => { setNewPassword(e.target.value) }}
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                }}
               />
 
               <Input
@@ -240,7 +249,9 @@ const UpdateProfileModule = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 type={showPassword ? "text" : "password"}
-                onChange={(e) => { setConfirmPassword(e.target.value) }}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                }}
               />
             </div>
 
