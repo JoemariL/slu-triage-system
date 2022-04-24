@@ -250,4 +250,13 @@ router.delete("/hdf/:userUid/:hdfID", async (req, res) => {
     }
 })
 
+router.get("/hdf/statistics", async (req, res) => {
+    try {
+        const stats = await STATISTICS.find()
+        return res.status(200).json(stats)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
 module.exports = router

@@ -73,7 +73,7 @@ router.post("/generate", auth, async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    const { destination, covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, pregnant } = req.body
+    const { covidExposure, covidPositive, fever, cough, cold, soreThroat, diffBreathing, diarrhea, others, pregnant } = req.body
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
@@ -85,7 +85,6 @@ router.post("/generate", auth, async (req, res) => {
     const hdfData = {
         _id: hdfID,
         allowed,
-        destination,
         covid_exposure: covidExposure,
         covid_positive: covidPositive,
         fever,
@@ -150,7 +149,6 @@ router.post("/scan", async (req, res) => {
                 diff_breathing: payload.diff_breathing,
                 diarrhea: payload.diarrhea,
                 others: payload.others,
-                destination,
                 pregnant: payload.pregnant
             }
             try {
@@ -199,6 +197,7 @@ router.post("/scan", async (req, res) => {
                     "hdf_data.$[element].entry_date": dateNow,
                     "hdf_data.$[element].entry_campus": school,
                     "hdf_data.$[element].gate_info": gate,
+                    "hdf_data.$[element].destination": destination,
                     "hdf_data.$[element].is_expired": true
                 }
             },
