@@ -29,11 +29,11 @@ function Result() {
             entry_campus: payload.entry_campus,
             gate_info: payload.gate_info,
             entry_date: payload.entry_date,
-            destination: payload.destination
-          }
-        })
+            destination: payload.destination,
+          };
+        });
 
-        setHdf(hdfCampusInfo)
+        setHdf(hdfCampusInfo);
         setHasHDF(true);
         setIsLoading(false);
       }
@@ -92,19 +92,21 @@ function Result() {
               </tr>
             </thead>
             <tbody>
-              {
-                hdf.length && hdf.map(payload => 
+              {hdf.length &&
+                hdf.map((payload) => (
                   <tr key={payload.id}>
-                    <th scope="row"className="px-6 py-4 font-medium whitespace-nowrap">
-                      { payload.entry_campus }
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium whitespace-nowrap"
+                    >
+                      {payload.entry_campus}
                     </th>
-                    <td className="px-6 py-4">{ payload.gate_info }</td>
-                    <td className="px-6 py-4">{ payload.destination }</td>
+                    <td className="px-6 py-4">{payload.gate_info}</td>
+                    <td className="px-6 py-4">{payload.destination}</td>
 
-                    <td className="px-6 py-4">{ payload.entry_date }</td>
+                    <td className="px-6 py-4">{payload.entry_date}</td>
                   </tr>
-                )
-              }
+                ))}
             </tbody>
           </table>
         </div>

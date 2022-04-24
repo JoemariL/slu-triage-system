@@ -20,7 +20,7 @@ const departmentNames = [
   "STELA",
 ];
 
-const RegisterModule = () => {
+const RegisterModule = ({ onSuccess = () => {} }) => {
   const {
     changeHandler,
     formValues,
@@ -51,8 +51,7 @@ const RegisterModule = () => {
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      console.log("Register successful!");
-      navigate("/login");
+      onSuccess();
     }
   };
 

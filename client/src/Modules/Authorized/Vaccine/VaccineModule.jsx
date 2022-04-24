@@ -62,10 +62,8 @@ const VaccineModule = () => {
       });
 
       if (response.hasOwnProperty("message")) {
-        console.log(response.message);
         setIsLoading(false);
       } else {
-        console.log("Your vaccine profile is updated!");
         setIsLoading(false);
         navigate("/vaccine");
       }

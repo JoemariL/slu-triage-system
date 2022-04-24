@@ -22,6 +22,7 @@ const departmentNames = [
 ];
 
 const UpdateProfileModule = () => {
+  const [updateDept, setUpdateDept] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -52,12 +53,14 @@ const UpdateProfileModule = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (oldPassword.trim() != "") {
+    setIsLoading(true);
+
+    if (oldPassword.trim() !== "") {
       const profilePayload = {
         age,
         contactNumber: number,
         homeAddress: address,
-        department: "SAMCIS",
+        department: department,
       };
 
       const passwordPayload = {
@@ -68,18 +71,19 @@ const UpdateProfileModule = () => {
 
       const profileResponse = await updateProfile(profilePayload);
       const passwordResponse = await updatePassword(passwordPayload);
+
       //TODO: Message here
       if (profileResponse.hasOwnProperty("message")) {
-        alert("Profile Edit Fail");
+        setIsLoading(false);
       } else {
-        alert("Profile Edit Success");
+        setIsLoading(false);
       }
 
       //TODO: Message here
       if (passwordResponse.hasOwnProperty("message")) {
-        alert(passwordResponse.message);
+        setIsLoading(false);
       } else {
-        alert("Password Edit Success");
+        setIsLoading(false);
       }
     } else {
       const payload = {
@@ -92,11 +96,15 @@ const UpdateProfileModule = () => {
       const response = await updateProfile(payload);
       //TODO: Message here
       if (response.hasOwnProperty("message")) {
-        alert("Edit Fail");
+        setIsLoading(false);
       } else {
-        alert("Edit Success");
+        setIsLoading(false);
       }
     }
+  };
+
+  const toggleUpdateDept = () => {
+    setUpdateDept(!updateDept);
   };
 
   const toggleShowPassword = () => {
@@ -108,20 +116,38 @@ const UpdateProfileModule = () => {
       <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-3">
           <span className="text-lg">You are a/an</span>
-          <Input id="userType" name="userType" type="text" disabled
-            value={ user.user_type ? user.user_type : "" }
+          <Input
+            id="userType"
+            name="userType"
+            type="text"
+            disabled
+            value={user.user_type ? user.user_type : ""}
           />
         </div>
 
         <div className="flex flex-col space-y-3">
           <span className="text-lg">Department</span>
-          <Input id="department" name="department" type="text" disabled value={department} />
-          <Select
-            name="department"
-            asFormInput
-            items={departmentNames}
-            subtitle="Select your new department here to update."
-            onChange={(e) => setDepartment(e.target.value)}
+          {updateDept ? (
+            <Select
+              name="department"
+              asFormInput
+              items={departmentNames}
+              subtitle="Select your new department here to update."
+              onChange={(e) => setDepartment(e.target.value)}
+            />
+          ) : (
+            <Input
+              id="department"
+              name="department"
+              type="text"
+              disabled
+              value={department}
+            />
+          )}
+
+          <Button
+            label={updateDept ? "Enter" : "Edit Department"}
+            onClick={toggleUpdateDept}
           />
         </div>
 
@@ -267,7 +293,7 @@ const UpdateProfileModule = () => {
           </div>
         </div>
 
-        <Button label="Save" type="submit" loading={isLoading} />
+        <Button label="Save Changes" type="submit" loading={isLoading} />
       </form>
     </>
   );

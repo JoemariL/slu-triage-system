@@ -63,7 +63,7 @@ function QRScanner() {
             }}
           />
 
-          <form className="mx-5 py-20 flex flex-col space-y-10 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+          <form className="mx-5 py-20 flex flex-col space-y-10 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96" onSubmit={nextStep}>
             <div>
               <span className="text-lg">
                 Where will you go within the campus?
