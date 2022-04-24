@@ -39,6 +39,7 @@ const LoginModule = () => {
     } else {
       setAuth({ access: response });
       navigate("/main", { replace: true });
+      window.location.reload();
     }
     isMounted.current = false;
   };
