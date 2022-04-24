@@ -95,7 +95,6 @@ export const generateHdf = async (payload) => {
     diffBreathing: payload.diffBreathing,
     diarrhea: payload.diarrhea,
     pregnant: payload.pregnant,
-    destination: payload.deptDestination,
   });
   return API.post("/hdf/generate", body, config)
     .then(() => {

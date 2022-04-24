@@ -15,6 +15,7 @@ function QRScanner() {
 
   const [step, setstep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [destination, setDestination] = useState("")
 
   useEffect(() => {
     (async function () {
@@ -25,13 +26,12 @@ function QRScanner() {
         localStorage.setItem("hdf", user[0]._id);
       }
     })();
-  }, [auth]);
+  }, []);
 
   const handleSubmitQR = async (qrCode) => {
-    const hdfID = localStorage.getItem("hdf");
     const payload = {
-      hdfID,
-      qrCode,
+      destination,
+      qrCode
     };
 
     const response = await scanQR(payload);
@@ -39,7 +39,6 @@ function QRScanner() {
     if (response.hasOwnProperty("message")) {
       console.log(response.message);
     } else {
-      localStorage.removeItem("hdf");
       navigate("/qr-scanner/success");
     }
   };
@@ -76,6 +75,8 @@ function QRScanner() {
                 type="text"
                 subtitle="D522 Lab, Registrar, etc."
                 required
+                value={destination}
+                onChange={(e) => { setDestination(e.target.value) }}
               />
             </div>
 

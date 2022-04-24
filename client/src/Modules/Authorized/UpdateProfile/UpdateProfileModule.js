@@ -86,7 +86,7 @@ const UpdateProfileModule = () => {
         age,
         contactNumber: number,
         homeAddress: address,
-        department: "SAMCIS",
+        department: department,
       };
 
       const response = await updateProfile(payload);
@@ -108,17 +108,20 @@ const UpdateProfileModule = () => {
       <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-3">
           <span className="text-lg">You are a/an</span>
-          <Input id="userType" name="userType" type="text" disabled />
+          <Input id="userType" name="userType" type="text" disabled
+            value={ user.user_type ? user.user_type : "" }
+          />
         </div>
 
         <div className="flex flex-col space-y-3">
           <span className="text-lg">Department</span>
-          <Input id="department" name="department" type="text" disabled />
+          <Input id="department" name="department" type="text" disabled value={department} />
           <Select
             name="department"
             asFormInput
             items={departmentNames}
             subtitle="Select your new department here to update."
+            onChange={(e) => setDepartment(e.target.value)}
           />
         </div>
 
