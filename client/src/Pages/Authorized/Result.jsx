@@ -16,6 +16,7 @@ function Result() {
   const [isLoading, setIsLoading] = useState(false);
   const [hdf, setHdf] = useState({});
   const [hasHDF, setHasHDF] = useState(false);
+  const [allowed, setIsAllowed] = useState(false)
 
   useEffect(() => {
     (async function () {
@@ -25,6 +26,7 @@ function Result() {
         setHdf({});
       } else {
         const hdfCampusInfo = user.map((payload) => {
+          setIsAllowed(payload.allowed)
           return {
             id: payload._id,
             entry_campus: payload.entry_campus,
@@ -54,7 +56,7 @@ function Result() {
     }
   };
 
-  const { allowed, entry_date } = hdf;
+  const { entry_date } = hdf;
 
   return (
     <div className="relative text-xs ... sm:text-base">
