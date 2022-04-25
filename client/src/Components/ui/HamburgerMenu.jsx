@@ -1,6 +1,5 @@
-import classnames from "classnames";
 import { Formbar } from ".";
-import { Menu, MenuItem, List, ListItem } from "../commons";
+import { Menu, MenuItem, ListItem } from "../commons";
 
 const HamburgerMenu = ({
   onVisitorReviewClick = () => {},
@@ -41,10 +40,10 @@ const HamburgerMenu = ({
             <Menu position="vertical">
               <MenuItem
                 className="bg-slate-100"
-                label="RETURN TO LOGIN SELECTION"
+                label="EDIT MY INFORMATION"
                 hover
                 cursorPointer
-                onClick={onReturnIntro}
+                onClick={onVisitorReviewClick}
               />
             </Menu>
           )}
@@ -55,16 +54,16 @@ const HamburgerMenu = ({
                 {disabled ? (
                   <ListItem
                     className="bg-slate-100"
-                    label="QR CODE SCANNED"
-                    subtitle="Your information is stored only for 14 days for COVID-19 tracking. After that time period, all your data and information are completely deleted."
+                    label="QR CODE ALREADY SCANNED!"
+                    subtitle="Your information is stored for only 14 days for COVID-19 tracking. After that time period, all your data and information are completely deleted."
                   />
                 ) : (
                   <MenuItem
                     className="bg-slate-100"
-                    label="EDIT MY INFORMATION"
+                    label="RETURN TO LOGIN SELECTION"
                     hover
                     cursorPointer
-                    onClick={onVisitorReviewClick}
+                    onClick={onReturnIntro}
                   />
                 )}
               </>
@@ -72,12 +71,6 @@ const HamburgerMenu = ({
 
             {!visitor && (
               <>
-                {/* <MenuItem
-                    className="bg-slate-100"
-                    label="USER SETTINGS"
-                    hover
-                    cursorPointer
-                  /> */}
                 <MenuItem
                   className="bg-slate-100"
                   label="LOG OUT"

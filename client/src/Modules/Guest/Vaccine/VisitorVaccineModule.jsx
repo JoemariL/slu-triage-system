@@ -99,13 +99,16 @@ const VisitorVaccineModule = ({ onNext = () => {} }) => {
         <div
           className={classnames(
             "space-y-5",
-            formValues?.vaccine_status === "NOT VACCINATED" ? "blur-sm" : ""
+            formValues?.vaccine_status === "NOT VACCINATED" && "sr-only"
           )}
         >
           <div className="flex flex-col space-y-3">
-            <span>
-              ENTER THE DATE OF YOUR MOST RECENT SHOT &nbsp; <em>- Optional</em>
-            </span>
+            <div className="inline-flex">
+              <span>DATE OF YOUR MOST RECENT VACCINE SHOT</span>
+              <span className="ml-auto">
+                <em>Optional</em>
+              </span>
+            </div>
             <Input
               id="vaccine_date"
               name="vaccine_date"
@@ -119,9 +122,12 @@ const VisitorVaccineModule = ({ onNext = () => {} }) => {
           </div>
 
           <div className="flex flex-col">
-            <span>
-              ENTER YOUR VACCINATION CARD SERIAL NO. &nbsp; <em>- Optional</em>
-            </span>
+            <div className="inline-flex">
+              <span>VACCINATION CARD SERIAL NO.</span>
+              <span className="ml-auto">
+                <em>Optional</em>
+              </span>
+            </div>
             <Input
               id="vaccine_serial_no"
               name="vaccine_serial_no"

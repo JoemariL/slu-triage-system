@@ -39,7 +39,7 @@ function VisitorMain() {
     setDribble(!dribble);
   };
 
-  const { allowed, createdAt, entry_date, gate_info, entry_campus } = hdf;
+  const { allowed, entry_date, gate_info, entry_campus } = hdf;
 
   return (
     <div className="relative text-xs ... sm:text-base">

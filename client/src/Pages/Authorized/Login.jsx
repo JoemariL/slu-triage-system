@@ -25,9 +25,9 @@ function Login() {
           <div className="flex flex-col space-y-2">
             <LoginModule />
             <Button
-              buttonStyle="secondary"
               label="Create an account"
               type="button"
+              secondary
               onClick={(e) => {
                 e.preventDefault();
                 navigate("/signup");

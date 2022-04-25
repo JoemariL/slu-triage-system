@@ -35,14 +35,14 @@ function HDF() {
             diff_breathing: payload.diff_breathing,
             diarrhea: payload.diarrhea,
             pregnant: payload.pregnant,
-            others: payload.others
-          }
-        })
+            others: payload.others,
+          };
+        });
 
         setHdf({
-          ...hdfStatus[0]
-        })
-        
+          ...hdfStatus[0],
+        });
+
         setHasHDF(true);
         setIsLoading(false);
       }
@@ -82,6 +82,11 @@ function HDF() {
           onHomeClick={(e) => {
             e.preventDefault();
             navigate("/main");
+          }}
+          onEditClick={(e) => {
+            e.preventDefault();
+            handleDribble();
+            navigate("/profile/update");
           }}
           onLogOutClick={logoutUser}
         />
