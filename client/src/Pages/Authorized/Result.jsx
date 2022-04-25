@@ -97,7 +97,7 @@ function Result() {
                       Destination
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Date & Time
+                      Time
                     </th>
                   </tr>
                 </thead>

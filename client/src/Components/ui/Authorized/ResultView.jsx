@@ -84,9 +84,9 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
                   </span>
 
                   <p>
-                    Please go and stay home; then consult online at &nbsp;
-                    <span className="underline underline-offset-2 decoration-blue-800">
-                      <strong>slu.medical.clinic@slu.edu.ph.</strong>
+                    Please go and stay home; then consult online at: &nbsp;
+                    <span className="font-bold underline underline-offset-2 decoration-blue-800">
+                      slu.medical.clinic@slu.edu.ph.
                     </span>
                   </p>
 
