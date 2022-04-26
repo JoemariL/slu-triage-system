@@ -54,6 +54,7 @@ const HDFView = ({
               type="button"
               roundedFull
               onClick={onHDForm}
+              disabled={hasHDF}
             />
           </div>
         </div>

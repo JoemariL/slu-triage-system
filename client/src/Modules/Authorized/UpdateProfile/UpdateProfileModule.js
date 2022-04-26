@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "../../../actions/authActions";
 import useForm from "../../../hooks/useForm";
 
 import { Select, Input, Button, Checkbox } from "../../../Components/commons";
@@ -145,10 +144,11 @@ const UpdateProfileModule = () => {
             />
           )}
 
-          <Button
-            label={updateDept ? "Enter" : "Edit Department"}
-            onClick={toggleUpdateDept}
-          />
+          {updateDept ? (
+            <Button label="Enter" onClick={toggleUpdateDept} />
+          ) : (
+            <Button label="Edit Department" onClick={toggleUpdateDept} />
+          )}
         </div>
 
         <hr />

@@ -5,27 +5,12 @@ import { FaSchool, FaCalendarAlt } from "react-icons/fa";
 import { GiGate } from "react-icons/gi";
 import { GoReport } from "react-icons/go";
 import { ImCheckmark, ImCross } from "react-icons/im";
-import { MdQrCodeScanner } from "react-icons/md";
 import { Button, Icon, List, ListItem } from "../../commons";
 import { Approved, Disapproved } from "../../../assets";
 
-const GuestResult = ({
-  hdfTimeCreated = "",
-  campusEntered = "",
-  campusName = "",
-  gate = "",
-  entryStatus = false,
-  loading = false,
-  onClickQR = () => {},
-  visitor = false,
-}) => {
+const GuestResult = ({ entryStatus = false, date = "" }) => {
   return (
-    <div
-      className={classnames(
-        "flex flex-col space-y-10",
-        loading ? "blur-sm animate-pulse" : ""
-      )}
-    >
+    <div className={classnames("flex flex-col space-y-10")}>
       <List position="vertical">
         <div className="text-lg">
           <ListItem
@@ -56,30 +41,35 @@ const GuestResult = ({
             textColor="white"
           />
         </div>
-        <div className="p-5 flex flex-col space-y-3 justify-center items-center bg-slate-100">
+
+        <div className="p-5 flex flex-row gap-x-10 items-center bg-slate-100">
           <img
-            className={classnames(
-              "h-auto w-24 rounded-full",
-              loading ? "blur-sm animate-pulse" : ""
-            )}
+            className="h-auto w-24 rounded-full"
             src={entryStatus ? Approved : Disapproved}
             alt="slu triage application result"
           />
-          <span className="font-bold">
-            {entryStatus
-              ? "ALLOWED TO ENTER THE CAMPUS!"
-              : "NOT ALLOWED TO ENTER THE CAMPUS!"}
-          </span>
+
+          <div className="flex flex-col space-y-1">
+            <p>
+              {entryStatus
+                ? "YOU ARE ALLOWED TO ENTER THE CAMPUS."
+                : "YOU ARE NOT ALLOWED TO ENTER THE CAMPUS."}
+            </p>
+
+            <p className="text-xl font-bold">{date}</p>
+          </div>
         </div>
 
-        <div className="p-5 flex flex-col space-y-3 justify-center items-center bg-slate-50">
+        <div className="p-5 flex flex-col space-y-3 bg-slate-50">
           {entryStatus ? (
             <>
               <div>
                 <article>
-                  <span>
-                    <strong>NOTE</strong>
-                  </span>
+                  <p>
+                    <span>
+                      <strong>NOTE</strong>
+                    </span>
+                  </p>
 
                   <p>
                     Strictly observe minimum public health standards and Saint
@@ -92,34 +82,19 @@ const GuestResult = ({
             <>
               <div className="flex flex-col space-y-10">
                 <article>
-                  <span>
-                    <strong>NOTE FOR VISITORS</strong>
-                  </span>
-
                   <p>
-                    <span className="underline underline-offset-2 decoration-blue-800">
-                      <strong>
-                        Proceed to holding area located at SILANG BUILDING
-                        LOBBY.
-                      </strong>
+                    <span>
+                      <strong>NOTE FOR VISITORS</strong>
                     </span>
-                    <br /> Observe minimum public health standards.
                   </p>
+
+                  <p>...</p>
                 </article>
               </div>
             </>
           )}
         </div>
       </List>
-
-      <div className="px-16">
-        <Button
-          icon={<MdQrCodeScanner className="h-6 w-6" />}
-          label="SCAN QR CODE"
-          roundedFull
-          onClick={onClickQR}
-        />
-      </div>
     </div>
   );
 };

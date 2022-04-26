@@ -64,9 +64,11 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
             <>
               <div>
                 <article>
-                  <span>
-                    <strong>NOTE</strong>
-                  </span>
+                  <p>
+                    <span>
+                      <strong>NOTE</strong>
+                    </span>
+                  </p>
 
                   <p>
                     Strictly observe minimum public health standards and Saint
@@ -79,9 +81,11 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
             <>
               <div className="flex flex-col space-y-10">
                 <article>
-                  <span>
-                    <strong>NOTE FOR STUDENTS & EMPLOYEES</strong>
-                  </span>
+                  <p>
+                    <span>
+                      <strong>NOTE FOR STUDENTS & EMPLOYEES</strong>
+                    </span>
+                  </p>
 
                   <p>
                     Please go and stay home; then consult online at: &nbsp;

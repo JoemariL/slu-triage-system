@@ -13,7 +13,7 @@ const VaccineView = ({
   return (
     <div
       className={classnames(
-        "flex flex-col space-y-10",
+        "flex flex-col space-y-10"
         // loading ? "blur-sm animate-pulse" : ""
       )}
     >
@@ -55,7 +55,6 @@ const VaccineView = ({
       <div className="px-16 col-span-2">
         <Button
           label="Manage"
-          buttonStyle="primary"
           type="button"
           roundedFull
           onClick={!loading ? onVaccineForm : undefined}
