@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf } = require('../utils/pipelines')
 const { decryptJSON, countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const auth = require('../middleware/auth')
@@ -58,6 +58,7 @@ router.get("/day-user", async (req, res) => {
         const hdf = userHdf.slice().sort((a, b) => b.createdAt - a.createdAt)
         return res.status(200).json(hdf)
     } catch (error) {
+        console.log(error)
         return res.sendStatus(500)
     }
 })
@@ -129,7 +130,9 @@ router.post("/scan", async (req, res) => {
 
     let hdfUid = null
     const availableId = await checkAvailableHdf(userUid, dateToday, dateTomorrow)
-    
+    const timeIntervalCheck = await checkTimeIntervalHdf(userUid, dateToday, dateTomorrow)
+    if(timeIntervalCheck !== "CLEAR") return res.status(400).json({ errors: { message: timeIntervalCheck }})
+
         if (availableId) {
             hdfUid = availableId
         } else {

@@ -11,7 +11,7 @@ const SCHOOL = require('../models/school')
 // UTILS IMPORT 
 require('dotenv').config({ path: '../.env'})
 const { objectIDValidator } = require('../utils/validator')
-const { decryptJSON } = require('../utils/functions')
+const { decryptJSON, generateRandomKey } = require('../utils/functions')
 const { generateVisitorToken } = require('../middleware/jwt-helper')
 const { extractID } = require('../middleware/jwt-helper')
 
@@ -52,12 +52,14 @@ router.post("/generate", async (req, res) => {
         createdAt
     }
     try {
+        const randomEmail = generateRandomKey(7)
         const user = new USERS({
             first_name,
             last_name,
             age,
             contact_number,
             home_address,
+            email_address: randomEmail,
             user_type: "VISITOR",
             vaccination_details,
             hdf_data,

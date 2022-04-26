@@ -72,6 +72,52 @@ module.exports.checkAvailableHdf = async (userID, fromDate, toDate) => {
     }).catch(() => {return false})
 }
 
+module.exports.checkTimeIntervalHdf = async (userID, fromDate, toDate) => {
+    const hdfQuery = await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                'hdf_data.createdAt': {
+                    $gt: fromDate, $lt: toDate
+                }
+            }
+        },
+        {
+            $match: {
+                'hdf_data.entry_date': {
+                    $ne: null
+                }
+            }
+        },
+        {
+            '$replaceRoot': {
+                'newRoot': '$hdf_data'
+            }
+        }
+    ]).sort({ createdAt: -1 })
+    const currentTime = moment(new Date())
+    if(hdfQuery.length != 0) {
+        const recentTimeHdf = moment(hdfQuery[0].createdAt)
+        const timeNext = currentTime.diff(recentTimeHdf, 'hours')
+        if(!timeNext) {
+            return `Time till next qr scan available: ${recentTimeHdf.add(1, 'hours').format('LTS')}`
+        } else {
+            return "CLEAR"
+        }
+    } else {
+        return "CLEAR"
+    }
+}   
+
 module.exports.getRepeatableHdfInfo = async (userID, fromDate, toDate) => {
     return await USERS.aggregate([
         {
