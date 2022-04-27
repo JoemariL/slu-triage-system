@@ -5,12 +5,9 @@ const cors = require('cors')
 const compression = require('compression')
 const cookieParser = require('cookie-parser')
 const http = require('http')
-const https = require('https')
-const fs = require('fs')
 
 // UTIL IMPORTS.
 require('dotenv').config()
-const auth = require('./middleware/auth')
 const connectDB = require('./config/database')
 const auto = require('./utils/automation')
 
@@ -18,9 +15,16 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
 
+let whitelist = [ "http://localhost:5000", "http://localhost:3000" ]
 app.use(cors({
     credentials: true,
-    origin: true,
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
 }))
 
 app.use(compression({
@@ -33,10 +37,6 @@ app.use(compression({
         return compression.filter(req, res)
     }
 })) 
-
-app.get("/", (req, res) => {
-    res.send('This is the Back End Server.')
-})
 
 // ROUTERS.
 const adminRouter = require('./routes/admin')
@@ -56,33 +56,17 @@ app.use("/hdf", userHdfRouter)
 
 // DATABASE CONNECTION AND SERVER INITIALIZATION.
 const port = process.env.PORT
-if(process.env.NODE_ENV === "PRODUCTION") {
-    app.set('trust proxy', 1)
-    const privateKey  = fs.readFileSync('certificate/server.key', 'utf8');
-    const certificate = fs.readFileSync('certificate/server.crt', 'utf8');
-    const credentials = { key: privateKey, cert: certificate };
-    const httpsServer = https.createServer(credentials, app)
-
-    connectDB().then(() => {
-        httpsServer.listen(port, '0.0.0.0', () => {
-            console.log("✈  Database connected!")
-            console.log(`🚀 server is running on port: ${port}!`)
-            auto()
-        })
-    }).catch(() => {
-        console.log('⁉  Failed to connect!')
-    })
-} else {
-    app.set('trust proxy', 1)
-    const httpServer = http.createServer(app)
-    connectDB().then(() => {
+app.set('trust proxy', 1)
+const httpServer = http.createServer(app)
+connectDB()
+    .then(() => {
         httpServer.listen(port, '0.0.0.0', () => {
             console.log("✈  Database connected!")
             console.log(`🚀 server is running on port: ${port}!`)
             auto()
         })
-    }).catch(() => {
+    })
+    .catch(() => {
         console.log('⁉  Failed to connect!')
     })
-}
 

@@ -34,7 +34,7 @@ router.get("/day", async (req, res) => {
 })
 
 // GET HDF DATA FOR SPECIFIC USER WITH-IN A DAY
-router.get("/day-user", async (req, res) => {
+router.get("/day-user", auth, async (req, res) => {
     let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
     let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
 
@@ -112,7 +112,7 @@ router.post("/generate", auth, async (req, res) => {
 })
 
 // HDF QR SCAN
-router.post("/scan", async (req, res) => {
+router.post("/scan", auth, async (req, res) => {
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
