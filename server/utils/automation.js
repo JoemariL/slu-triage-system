@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const schedule = require('node-schedule')
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 const USERS = require('../models/users')
 const STATISTICS = require('../models/statistics')
@@ -9,7 +9,7 @@ const { getVisitor, getExpiredHDF, getHdfStatistics } = require('./pipelines')
 const { countDepartments } = require('./functions')
 
 const autoDeleteVisitor = async () => {
-    const date = moment().startOf('day').add(-15, 'days').toDate()
+    const date = moment().tz('Asia/Manila').startOf('day').add(-15, 'days').toDate()
     const user = await getVisitor(date)
     if(user.length != 0 || user.length != null) {
         for(let i = 0; i < user.length; i++) {
@@ -19,7 +19,7 @@ const autoDeleteVisitor = async () => {
 }
 
 const autoDeleteHDF = async () => {
-    const date = moment().startOf('day').add(-15, 'days').toDate()
+    const date = moment().tz('Asia/Manila').startOf('day').add(-15, 'days').toDate()
     const user = await getExpiredHDF(date)
     if(user.length != 0 || user.length != null) {
         for(let i = 0; i < user.length; i++) {
@@ -36,9 +36,9 @@ const autoDeleteHDF = async () => {
 }
 
 const autoGenerateReport = async () => {
-    let dateToday = moment().startOf('day').toDate()
-    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
-    let dateNow = moment().format("MMM Do YYYY")
+    let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
+    let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
+    let dateNow = moment().tz('Asia/Manila').format("MMM Do YYYY")
 
     const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
     if(data.length != 0 || data != null) {
