@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require("mongoose")
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 // MODEL IMPORT 
 const USERS = require('../models/users')
@@ -18,10 +18,10 @@ const adminAuth = require('../middleware/adminAuth')
 
 // GET HDF DATA FOR THE DAY.
 router.get("/day", async (req, res) => {
-    let dateToday = moment().startOf('day').toDate()
-    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+    let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
+    let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
     let dateNow = moment().format("MMM Do YYYY")
-    
+
     try {
         const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
@@ -29,15 +29,14 @@ router.get("/day", async (req, res) => {
     
         return res.status(200).json(result) 
     } catch (error) {
-        console.log(error)
         return res.sendStatus(500)
     }
 })
 
 // GET HDF DATA FOR SPECIFIC USER WITH-IN A DAY
 router.get("/day-user", async (req, res) => {
-    let dateToday = moment().startOf('day').toDate()
-    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+    let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
+    let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
 
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
@@ -125,8 +124,8 @@ router.post("/scan", async (req, res) => {
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
-    let dateToday = moment().startOf('day').toDate()
-    let dateTomorrow = moment().startOf('day').add(1, 'days').toDate()
+    let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
+    let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
 
     let hdfUid = null
     const availableId = await checkAvailableHdf(userUid, dateToday, dateTomorrow)
@@ -189,7 +188,7 @@ router.post("/scan", async (req, res) => {
         return res.status(400).json({ errors:{ message:'no signature found or invalid qr code' }})
     }
 
-    let dateNow = moment().toDate()
+    let dateNow = moment().tz('Asia/Manila').toDate()
     const uid = user._id
     
     try {

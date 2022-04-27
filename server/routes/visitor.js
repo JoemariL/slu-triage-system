@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require("mongoose")
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 // MODEL IMPORT 
 const USERS = require('../models/users')

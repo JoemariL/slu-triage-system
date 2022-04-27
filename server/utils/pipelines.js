@@ -1,6 +1,6 @@
 // LIBRARY IMPORTS
 const mongoose = require("mongoose")
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 // MODEL IMPORTS
 const USERS = require('../models/users')
@@ -104,9 +104,9 @@ module.exports.checkTimeIntervalHdf = async (userID, fromDate, toDate) => {
             }
         }
     ]).sort({ createdAt: -1 })
-    const currentTime = moment(new Date())
+    const currentTime = moment(new Date()).tz('Asia/Manila')
     if(hdfQuery.length != 0) {
-        const recentTimeHdf = moment(hdfQuery[0].createdAt)
+        const recentTimeHdf = moment(hdfQuery[0].createdAt).tz('Asia/Manila')
         const timeNext = currentTime.diff(recentTimeHdf, 'hours')
         if(!timeNext) {
             return `Time till next qr scan available: ${recentTimeHdf.add(1, 'hours').format('LTS')}`
@@ -392,7 +392,7 @@ module.exports.hdfIfOver = async(userID, hdfID, dateFrom) => {
             }
         }
     ])
-    const beforeTime = moment(hdf[0].createdAt)
+    const beforeTime = moment(hdf[0].createdAt).tz('Asia/Manila')
     if(beforeTime.isBefore(dateFrom)) return true
     return false
 }
