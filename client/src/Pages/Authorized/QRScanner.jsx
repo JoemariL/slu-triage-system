@@ -5,7 +5,7 @@ import { QrReader } from "react-qr-reader";
 import useAuth from "../../hooks/useAuth";
 import { scanQR } from "../../actions/userActions";
 import { getHdfDay } from "../../actions/userActions";
-import { Formbar } from "../../Components/ui";
+import { Formbar, Error } from "../../Components/ui";
 import { Input, Button } from "../../Components/commons";
 
 function QRScanner() {
@@ -15,7 +15,10 @@ function QRScanner() {
 
   const [step, setstep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [destination, setDestination] = useState("")
+  const [error, setError] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+
+  const [destination, setDestination] = useState("");
 
   useEffect(() => {
     (async function () {
@@ -28,16 +31,21 @@ function QRScanner() {
     })();
   }, []);
 
+  const errorPopUp = () => {
+    setError(!error);
+  };
+
   const handleSubmitQR = async (qrCode) => {
     const payload = {
       destination,
-      qrCode
+      qrCode,
     };
 
     const response = await scanQR(payload);
     // TODO: Success message.
     if (response.hasOwnProperty("message")) {
-      console.log(response.message);
+      setErrMessage(response.message);
+      errorPopUp();
     } else {
       navigate("/qr-scanner/success");
     }
@@ -55,6 +63,14 @@ function QRScanner() {
     case 1:
       return (
         <div className="text-sm ... sm:text-base">
+          {error && (
+            <Error
+              header="QR SCAN ERROR!"
+              message={errMessage}
+              route="/login"
+            />
+          )}
+
           <Formbar
             fixedTop
             onReturnClick={(e) => {
@@ -63,7 +79,10 @@ function QRScanner() {
             }}
           />
 
-          <form className="mx-5 py-20 flex flex-col space-y-10 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96" onSubmit={nextStep}>
+          <form
+            className="mx-5 py-20 flex flex-col space-y-10 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96"
+            onSubmit={nextStep}
+          >
             <div>
               <span className="text-lg">
                 Where will you go within the campus?
@@ -76,15 +95,13 @@ function QRScanner() {
                 subtitle="D522 Lab, Registrar, etc."
                 required
                 value={destination}
-                onChange={(e) => { setDestination(e.target.value) }}
+                onChange={(e) => {
+                  setDestination(e.target.value);
+                }}
               />
             </div>
 
-            <Button
-              label="Next"
-              type="submit"
-              loading={isLoading}
-            />
+            <Button label="Next" type="submit" loading={isLoading} />
           </form>
         </div>
       );

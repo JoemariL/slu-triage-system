@@ -20,9 +20,11 @@ const departmentNames = [
   "STELA",
 ];
 
-const UpdateProfileModule = () => {
+const UpdateProfileModule = ({ onSuccess = () => {} }) => {
   const [updateDept, setUpdateDept] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
@@ -81,6 +83,9 @@ const UpdateProfileModule = () => {
       //TODO: Message here
       if (passwordResponse.hasOwnProperty("message")) {
         setIsLoading(false);
+        
+        setError(true);
+        setErrorMessage(passwordResponse?.message);
       } else {
         setIsLoading(false);
       }
@@ -145,9 +150,13 @@ const UpdateProfileModule = () => {
           )}
 
           {updateDept ? (
-            <Button label="Enter" onClick={toggleUpdateDept} />
+            <Button type="button" label="Enter" onClick={toggleUpdateDept} />
           ) : (
-            <Button label="Edit Department" onClick={toggleUpdateDept} />
+            <Button
+              type="button"
+              label="Edit Department"
+              onClick={toggleUpdateDept}
+            />
           )}
         </div>
 
@@ -259,6 +268,7 @@ const UpdateProfileModule = () => {
                 onChange={(e) => {
                   setOldPassword(e.target.value);
                 }}
+                error={error}
               />
             </div>
 
@@ -271,6 +281,7 @@ const UpdateProfileModule = () => {
                 onChange={(e) => {
                   setNewPassword(e.target.value);
                 }}
+                error={error}
               />
 
               <Input
@@ -281,7 +292,10 @@ const UpdateProfileModule = () => {
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                 }}
+                error={error}
               />
+
+              <span className="px-2 text-red-600">{errorMessage}</span>
             </div>
 
             <Checkbox

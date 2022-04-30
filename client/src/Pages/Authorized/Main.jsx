@@ -88,7 +88,6 @@ function Main() {
       <div className="my-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
         <div className={isLoading ? "blur-sm animate-pulse" : ""}>
           <Alert
-            header="INSTRUCTION"
             message="Fill out your Health Declaration Form first in order to scan the QR code."
             info
           />

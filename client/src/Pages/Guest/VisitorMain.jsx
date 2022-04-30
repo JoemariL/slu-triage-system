@@ -9,7 +9,7 @@ import {
   GuestResult,
   GuestProfile,
 } from "../../Components/ui";
-import { Button } from "../../Components/commons";
+import { Alert, Button } from "../../Components/commons";
 
 function VisitorMain() {
   const navigate = useNavigate();
@@ -68,6 +68,11 @@ function VisitorMain() {
         contactNumber={visitor.contact_number}
       />
       <div className="my-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+        <Alert
+          message="You are still required to bring your own Vaccination Card for verification."
+          info
+        />
+
         <GuestResult
           entryStatus={allowed}
           date={moment(entry_date).format("MMMM Do YYYY")}

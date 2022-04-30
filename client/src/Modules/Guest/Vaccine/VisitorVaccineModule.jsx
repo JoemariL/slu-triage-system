@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 import useForm from "../../../hooks/useForm";
 import { VisitorVaccineFormInitialState } from "./visitor-vaccine-form";
-import { Input, Button, RadioButton } from "../../../Components/commons";
+import { Alert, Input, Button, RadioButton } from "../../../Components/commons";
 
 const VisitorVaccineModule = ({ onNext = () => {} }) => {
   const { changeHandler, setFormValues, formValues } = useForm(
@@ -55,6 +55,13 @@ const VisitorVaccineModule = ({ onNext = () => {} }) => {
             <br />
             Setup or update your vaccine profile truthfully.
           </p>
+        </div>
+
+        <div>
+          <Alert
+            message="You are still required to bring your own Vaccination Card for verification."
+            info
+          />
         </div>
 
         <div className="flex flex-col space-y-5">
