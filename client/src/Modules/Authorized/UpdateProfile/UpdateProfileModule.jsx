@@ -88,6 +88,7 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
         setErrorMessage(passwordResponse?.message);
       } else {
         setIsLoading(false);
+        onSuccess();
       }
     } else {
       const payload = {
@@ -101,8 +102,12 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
       //TODO: Message here
       if (response.hasOwnProperty("message")) {
         setIsLoading(false);
+
+        setError(true);
+        setErrorMessage(profileResponse?.message);
       } else {
         setIsLoading(false);
+        onSuccess();
       }
     }
   };
