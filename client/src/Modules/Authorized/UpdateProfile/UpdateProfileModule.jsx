@@ -104,7 +104,7 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
         setIsLoading(false);
 
         setError(true);
-        setErrorMessage(profileResponse?.message);
+        setErrorMessage(response?.message);
       } else {
         setIsLoading(false);
         onSuccess();
