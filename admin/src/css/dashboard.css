@@ -20,21 +20,18 @@
   position: relative;
   height: auto;
   width: auto;
-  /* z-index: -1; */
 }
 
 .flex-container > div {
-  /* display: flex;
-  flex-wrap: wrap; */
   background-color: grey;
   border-style: solid;
-  /* width: 35%; */
   width: 600px;
   margin: 30px;
   text-align: center;
   line-height: 75px;
   font-size: 30px;
   height: auto;
+  position: relative;
 }
 
 .Breakdown {
@@ -89,4 +86,22 @@
   flex-direction: column;
   width: auto;
   align-items: center;
+}
+
+.crd-body {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dash-drop {
+  position: relative;
+  background-color: #fff;
+  min-width: 160px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.dash-drop h4:hover {
+  background-color: grey;
 }

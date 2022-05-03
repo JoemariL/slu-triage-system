@@ -58,8 +58,21 @@
       {
         "school": "Main Campus",
         "gate": "Gate 2",
-        "allowed": 500,
+        "allowed": 5000,
         "not_allowed": 700,
+        "total_entry": 500,
+        "students": 8000,
+        "employees": 500,
+        "visitors": 500,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Main Campus",
+        "gate": "Gate 2",
+        "allowed": 523,
+        "not_allowed": 500,
         "total_entry": 500,
         "students": 8000,
         "employees": 500,
