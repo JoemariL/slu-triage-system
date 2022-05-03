@@ -67,7 +67,7 @@ const autoGenerateReport = async () => {
 }
 
 module.exports = () => {
-    schedule.scheduleJob('0 0 * * *', () => {
+    schedule.scheduleJob('55 23 * * *', () => {
         autoGenerateReport()
         autoDeleteVisitor()
         autoDeleteHDF()

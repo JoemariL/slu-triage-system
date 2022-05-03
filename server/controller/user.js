@@ -16,8 +16,9 @@ const { emailValidator } = require('../utils/validator')
 // LOGIN USER.
 router.post("/user/login", async (req, res) => {
     const { email, password } = req.body
+    const verifiedEmail = email.toLowerCase();
 
-    const user = await USERS.findOne({ email_address: email })
+    const user = await USERS.findOne({ email_address: verifiedEmail })
     if(!user) return res.status(404).json({ errors: { message:'The email or password you entered is not connected to an account.' }})
     if(user.user_type === "VISITOR") return res.status(400).json({ errors: { message:'The email or password you entered is invalid.' }}) 
 
@@ -56,7 +57,7 @@ router.post("/user/login", async (req, res) => {
 // REGISTER A USER.
 router.post("/user/register", async (req, res) => {
     const { firstName, lastName, password, age, contactNumber, homeAddress, email, userType, department } = req.body
-    let email_address = email.replace(/\s+/g, '')
+    let email_address = email.replace(/\s+/g, '').toLowerCase();
     const emailCheck = emailValidator(email)
     if(emailCheck) return res.status(400).json({ errors:{ message:'email input must be a valid email address' }})
 

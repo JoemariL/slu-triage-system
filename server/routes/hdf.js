@@ -57,7 +57,6 @@ router.get("/day-user", auth, async (req, res) => {
         const hdf = userHdf.slice().sort((a, b) => b.createdAt - a.createdAt)
         return res.status(200).json(hdf)
     } catch (error) {
-        console.log(error)
         return res.sendStatus(500)
     }
 })

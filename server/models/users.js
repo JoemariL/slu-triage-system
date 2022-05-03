@@ -88,7 +88,8 @@ const userSchema = mongoose.Schema({
     email_address: {
         type: String,
         unique: true,
-        immutable: true
+        immutable: true,
+        lowercase: true
     },
     department: {
         type: String,
