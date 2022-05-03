@@ -2,11 +2,11 @@
   {
     "info": [
       {
-        "school": "Mary Heights",
-        "gate": "Gate 1",
+        "school": "Main Campus",
+        "gate": "Gate 3",
         "allowed": 4,
-        "not_allowed": 1,
-        "total_entry": 5,
+        "not_allowed": 9001,
+        "total_entry": 5000,
         "students": 3,
         "employees": 2,
         "visitors": 0,
@@ -17,11 +17,11 @@
         }
       },
       {
-        "school": "Main Campus",
+        "school": "Mary Heights",
         "gate": "Gate 1",
         "allowed": 1055,
-        "not_allowed": 31,
-        "total_entry": 25,
+        "not_allowed": 1,
+        "total_entry": 300,
         "students": 13,
         "employees": 22,
         "visitors": 10,
@@ -31,10 +31,10 @@
       },
       {
         "school": "Main Campus",
-        "gate": "Gate 2",
+        "gate": "Gate 1",
         "allowed": 14,
         "not_allowed": 150,
-        "total_entry": 30,
+        "total_entry": 500,
         "students": 13,
         "employees": 22,
         "visitors": 10,
@@ -43,11 +43,11 @@
         }
       },
       {
-        "school": "Main Campus",
+        "school": "Mary Heights",
         "gate": "Gate 2",
         "allowed": 1400,
         "not_allowed": 1000,
-        "total_entry": 30,
+        "total_entry": 5001,
         "students": 100,
         "employees": 500,
         "visitors": 1000,
@@ -57,10 +57,10 @@
       },
       {
         "school": "Main Campus",
-        "gate": "Gate 3",
+        "gate": "Gate 2",
         "allowed": 500,
         "not_allowed": 700,
-        "total_entry": 9000,
+        "total_entry": 500,
         "students": 8000,
         "employees": 500,
         "visitors": 500,
@@ -71,9 +71,22 @@
       {
         "school": "Main Campus",
         "gate": "Gate 3",
-        "allowed": 1400,
+        "allowed": 500,
+        "not_allowed": 700,
+        "total_entry": 500,
+        "students": 8500,
+        "employees": 500,
+        "visitors": 500,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Main Campus",
+        "gate": "Gate 4",
+        "allowed": 100,
         "not_allowed": 1000,
-        "total_entry": 3000,
+        "total_entry": 500,
         "students": 1000,
         "employees": 2500,
         "visitors": 1000,
@@ -83,13 +96,26 @@
       },
       {
         "school": "Navy Base",
-        "gate": "Gate 2",
-        "allowed": 1,
-        "not_allowed": 300,
-        "total_entry": 1800,
-        "students": 1000,
-        "employees": 500,
-        "visitors": 69,
+        "gate": "Gate 1",
+        "allowed": 100,
+        "not_allowed": 100,
+        "total_entry": 100,
+        "students": 100,
+        "employees": 100,
+        "visitors": 100,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Navy Base",
+        "gate": "Gate 4",
+        "allowed": 100,
+        "not_allowed": 1005,
+        "total_entry": 10056,
+        "students": 1003,
+        "employees": 1020,
+        "visitors": 1010,
         "department_list": {
           "LAW": 21
         }
