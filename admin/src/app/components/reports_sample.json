@@ -1,0 +1,102 @@
+[
+  {
+    "info": [
+      {
+        "school": "Mary Heights",
+        "gate": "Gate 1",
+        "allowed": 4,
+        "not_allowed": 1,
+        "total_entry": 5,
+        "students": 3,
+        "employees": 2,
+        "visitors": 0,
+        "department_list": {
+          "LAW": 2,
+          "SAMCIS": 23,
+          "SAS": 1
+        }
+      },
+      {
+        "school": "Main Campus",
+        "gate": "Gate 1",
+        "allowed": 1055,
+        "not_allowed": 31,
+        "total_entry": 25,
+        "students": 13,
+        "employees": 22,
+        "visitors": 10,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Main Campus",
+        "gate": "Gate 2",
+        "allowed": 14,
+        "not_allowed": 150,
+        "total_entry": 30,
+        "students": 13,
+        "employees": 22,
+        "visitors": 10,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Main Campus",
+        "gate": "Gate 2",
+        "allowed": 1400,
+        "not_allowed": 1000,
+        "total_entry": 30,
+        "students": 100,
+        "employees": 500,
+        "visitors": 1000,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Main Campus",
+        "gate": "Gate 3",
+        "allowed": 500,
+        "not_allowed": 700,
+        "total_entry": 9000,
+        "students": 8000,
+        "employees": 500,
+        "visitors": 500,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Main Campus",
+        "gate": "Gate 3",
+        "allowed": 1400,
+        "not_allowed": 1000,
+        "total_entry": 3000,
+        "students": 1000,
+        "employees": 2500,
+        "visitors": 1000,
+        "department_list": {
+          "LAW": 21
+        }
+      },
+      {
+        "school": "Navy Base",
+        "gate": "Gate 2",
+        "allowed": 1,
+        "not_allowed": 300,
+        "total_entry": 1800,
+        "students": 1000,
+        "employees": 500,
+        "visitors": 69,
+        "department_list": {
+          "LAW": 21
+        }
+      }
+    ],
+    "_id": "6263cbc820bd2f471477da0b",
+    "date": "Apr 21rd 2022",
+    "__v": 0
+  }
+]

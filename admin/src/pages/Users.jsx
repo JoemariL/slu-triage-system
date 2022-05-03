@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TableComponent from "../app/components/table";
 import { getAllUser } from "../actions/adminActions";
 
+
 function App() {
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
@@ -33,6 +34,10 @@ function App() {
     {
       Header: "Last Activity",
       accessor: "updatedAt",
+    },
+    {
+      Header: "Department",
+      accessor: "department",
     },
     {
       Header: "Action",
