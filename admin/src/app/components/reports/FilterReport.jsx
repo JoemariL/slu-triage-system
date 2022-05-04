@@ -15,6 +15,7 @@ const FilterReport = (props) => {
       students: 0,
       employees: 0,
       visitors: 0,
+      department_list: {},
     };
 
     sampleReport.forEach((entries) => {
@@ -34,6 +35,19 @@ const FilterReport = (props) => {
             gate[school["gate"]].students += school["students"];
             gate[school["gate"]].employees += school["employees"];
             gate[school["gate"]].visitors += school["visitors"];
+
+            //GATE COURSE CHECKER
+            for (let gateCourse in school["department_list"]) {
+              if (gateCourse in gate[school["gate"]]["department_list"]) {
+                gate[school["gate"]]["department_list"][gateCourse] +=
+                  school["department_list"][gateCourse];
+              } else {
+                gate[school["gate"]]["department_list"][gateCourse] =
+                  school["department_list"][gateCourse];
+              }
+            }
+
+            //ELSE
           } else {
             gate[school["gate"]] = {
               school: school["school"],
@@ -43,78 +57,434 @@ const FilterReport = (props) => {
               students: school["students"],
               visitors: school["visitors"],
               employees: school["employees"],
+              department_list: school["department_list"],
             };
+          }
+          //
+          //Course checker
+          for (var course in school["department_list"]) {
+            if (course in CampusTotal["department_list"]) {
+              CampusTotal["department_list"][course] +=
+                school["department_list"][course];
+            } else {
+              CampusTotal["department_list"][course] =
+                school["department_list"][course];
+            }
           }
           //   console.log(gate);
         });
     });
     return (
       <>
-        <h1>Saint Louis University</h1>
+        {/* <h1>Saint Louis University</h1>
         <h5>Total Entries: {CampusTotal.total_entry}</h5>
         <h5>Total Allowed: {CampusTotal.allowed}</h5>
         <h5>Total Rejected: {CampusTotal.not_allowed}</h5>
-        {gate["Gate 1"]?.allowed > 0 ? (
-          <>
-            {" "}
-            <h2>Gate 1 breakdown</h2>
-            <div className="breakdown">
-              <h5>Total entries: {gate["Gate 1"]?.total_entry}</h5>
-              <h5>Allowed: {gate["Gate 1"]?.allowed}</h5>
-              <h5>Not Allowed: {gate["Gate 1"]?.not_allowed}</h5>
-              <h5>Students: {gate["Gate 1"]?.students}</h5>
-              <h5>Employees: {gate["Gate 1"]?.employees}</h5>
-              <h5>Visitors: {gate["Gate 1"]?.visitors}</h5>
-            </div>{" "}
-          </>
-        ) : (
-          <></>
-        )}
-        {gate["Gate 2"]?.allowed > 0 ? (
-          <>
-            <h2>Gate 2 breakdown</h2>
-            <div className="breakdown">
-              <h5>Total entries: {gate["Gate 2"]?.total_entry}</h5>
-              <h5>Allowed: {gate["Gate 2"]?.allowed}</h5>
-              <h5>Not Allowed: {gate["Gate 2"]?.not_allowed}</h5>
-              <h5>Students: {gate["Gate 2"]?.students}</h5>
-              <h5>Employees: {gate["Gate 2"]?.employees}</h5>
-              <h5>Visitors: {gate["Gate 2"]?.visitors}</h5>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
-        {gate["Gate 3"]?.allowed > 0 ? (
-          <>
-            <h2>Gate 3 breakdown</h2>
-            <div className="breakdown">
-              <h5>Total entries: {gate["Gate 3"]?.total_entry}</h5>
-              <h5>Allowed: {gate["Gate 3"]?.allowed}</h5>
-              <h5>Not Allowed: {gate["Gate 3"]?.not_allowed}</h5>
-              <h5>Students: {gate["Gate 3"]?.students}</h5>
-              <h5>Employees: {gate["Gate 3"]?.employees}</h5>
-              <h5>Visitors: {gate["Gate 3"]?.visitors}</h5>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
-        {gate["Gate 4"]?.allowed > 0 ? (
-          <>
-            <h2>Gate 4 breakdown</h2>
-            <div className="breakdown">
-              <h5>Total entries: {gate["Gate 4"]?.total_entry}</h5>
-              <h5>Allowed: {gate["Gate 4"]?.allowed}</h5>
-              <h5>Not Allowed: {gate["Gate 4"]?.not_allowed}</h5>
-              <h5>Students: {gate["Gate 4"]?.students}</h5>
-              <h5>Employees: {gate["Gate 4"]?.employees}</h5>
-              <h5>Visitors: {gate["Gate 4"]?.visitors}</h5>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
+        <h5>SOL: {CampusTotal.department_list?.SOL}</h5> */}
+        {/*						 */}
+
+        <table>
+          <tr>
+            <th>Gate Number</th>
+            <th>Total Entries</th>
+            <th>Allowed</th>
+            <th>Rejected</th>
+            <th>STUDENTS</th>
+            <th>EMPLOYEES</th>
+            <th>VISITORS</th>
+            <th>SAMCIS</th>
+            <th>SOL</th>
+            <th>SOM</th>
+            <th>SEA</th>
+            <th>SON</th>
+            <th>STELA</th>
+          </tr>
+
+          {/*===================== GATE 1 ========================*/}
+          <tr>
+            <td>1</td>
+            <td>
+              {gate["Gate 1"]?.total_entry > 0 ? (
+                gate["Gate 1"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.allowed > 0 ? (
+                gate["Gate 1"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.not_allowed > 0 ? (
+                gate["Gate 1"]?.not_allowed
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.students > 0 ? gate["Gate 1"]?.students : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 1"]?.employees > 0 ? (
+                gate["Gate 1"]?.employees
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.visitors > 0 ? gate["Gate 1"]?.visitors : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 1"]?.department_list?.SAMCIS > 0 ? (
+                gate["Gate 1"]?.department_list?.SAMCIS
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.department_list?.SOL > 0 ? (
+                gate["Gate 1"]?.department_list?.SOL
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.department_list?.SOM > 0 ? (
+                gate["Gate 1"]?.department_list?.SOM
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.department_list?.SEA > 0 ? (
+                gate["Gate 1"]?.department_list?.SEA
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.department_list?.SON > 0 ? (
+                gate["Gate 1"]?.department_list?.SON
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 1"]?.department_list?.STELA > 0 ? (
+                gate["Gate 1"]?.department_list?.STELA
+              ) : (
+                <>0</>
+              )}
+            </td>
+          </tr>
+          {/*===================== GATE 2 ========================*/}
+          <tr>
+            <td>2</td>
+            <td>
+              {gate["Gate 2"]?.total_entry > 0 ? (
+                gate["Gate 2"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.allowed > 0 ? (
+                gate["Gate 2"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.not_allowed > 0 ? (
+                gate["Gate 2"]?.not_allowed
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.students > 0 ? gate["Gate 2"]?.students : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 2"]?.employees > 0 ? (
+                gate["Gate 2"]?.employees
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.visitors > 0 ? gate["Gate 2"]?.visitors : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 2"]?.department_list?.SAMCIS > 0 ? (
+                gate["Gate 2"]?.department_list?.SAMCIS
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.department_list?.SOL > 0 ? (
+                gate["Gate 2"]?.department_list?.SOL
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.department_list?.SOM > 0 ? (
+                gate["Gate 2"]?.department_list?.SOM
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.department_list?.SEA > 0 ? (
+                gate["Gate 2"]?.department_list?.SEA
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.department_list?.SON > 0 ? (
+                gate["Gate 2"]?.department_list?.SON
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 2"]?.department_list?.STELA > 0 ? (
+                gate["Gate 2"]?.department_list?.STELA
+              ) : (
+                <>0</>
+              )}
+            </td>
+          </tr>
+          {/*===================== GATE 3 ========================*/}
+          <tr>
+            <td>3</td>
+            <td>
+              {gate["Gate 3"]?.total_entry > 0 ? (
+                gate["Gate 3"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.allowed > 0 ? (
+                gate["Gate 3"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.not_allowed > 0 ? (
+                gate["Gate 3"]?.not_allowed
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.students > 0 ? gate["Gate 3"]?.students : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 3"]?.employees > 0 ? (
+                gate["Gate 3"]?.employees
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.visitors > 0 ? gate["Gate 3"]?.visitors : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 3"]?.department_list?.SAMCIS > 0 ? (
+                gate["Gate 3"]?.department_list?.SAMCIS
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.department_list?.SOL > 0 ? (
+                gate["Gate 3"]?.department_list?.SOL
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.department_list?.SOM > 0 ? (
+                gate["Gate 3"]?.department_list?.SOM
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.department_list?.SEA > 0 ? (
+                gate["Gate 3"]?.department_list?.SEA
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.department_list?.SON > 0 ? (
+                gate["Gate 3"]?.department_list?.SON
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 3"]?.department_list?.STELA > 0 ? (
+                gate["Gate 3"]?.department_list?.STELA
+              ) : (
+                <>0</>
+              )}
+            </td>
+          </tr>
+          {/*===================== GATE 4 ========================*/}
+          <tr>
+            <td>4</td>
+            <td>
+              {gate["Gate 4"]?.total_entry > 0 ? (
+                gate["Gate 4"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.allowed > 0 ? (
+                gate["Gate 4"]?.total_entry
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.not_allowed > 0 ? (
+                gate["Gate 4"]?.not_allowed
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.students > 0 ? gate["Gate 4"]?.students : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 4"]?.employees > 0 ? (
+                gate["Gate 4"]?.employees
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.visitors > 0 ? gate["Gate 4"]?.visitors : <>0</>}
+            </td>
+            <td>
+              {gate["Gate 4"]?.department_list?.SAMCIS > 0 ? (
+                gate["Gate 4"]?.department_list?.SAMCIS
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.department_list?.SOL > 0 ? (
+                gate["Gate 4"]?.department_list?.SOL
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.department_list?.SOM > 0 ? (
+                gate["Gate 4"]?.department_list?.SOM
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.department_list?.SEA > 0 ? (
+                gate["Gate 4"]?.department_list?.SEA
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.department_list?.SON > 0 ? (
+                gate["Gate 4"]?.department_list?.SON
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {gate["Gate 4"]?.department_list?.STELA > 0 ? (
+                gate["Gate 4"]?.department_list?.STELA
+              ) : (
+                <>0</>
+              )}
+            </td>
+          </tr>
+          {/*===================== TOTAL ========================*/}
+          <tr>
+            <td>
+              <h1>TOTAL</h1>
+            </td>
+            <td>
+              {CampusTotal?.total_entry > 0 ? CampusTotal?.total_entry : <>0</>}
+            </td>
+            <td>{CampusTotal?.allowed > 0 ? CampusTotal?.allowed : <>0</>}</td>
+            <td>
+              {CampusTotal?.not_allowed > 0 ? CampusTotal?.not_allowed : <>0</>}
+            </td>
+            <td>
+              {CampusTotal?.students > 0 ? CampusTotal?.students : <>0</>}
+            </td>
+            <td>
+              {CampusTotal?.employees > 0 ? CampusTotal?.employees : <>0</>}
+            </td>
+            <td>
+              {CampusTotal?.visitors > 0 ? CampusTotal?.visitors : <>0</>}
+            </td>
+            <td>
+              {CampusTotal?.department_list?.SAMCIS > 0 ? (
+                CampusTotal?.department_list?.SAMCIS
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {CampusTotal?.department_list?.SOL > 0 ? (
+                CampusTotal?.department_list?.SOL
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {CampusTotal?.department_list?.SOM > 0 ? (
+                CampusTotal?.department_list?.SOM
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {CampusTotal?.department_list?.SEA > 0 ? (
+                CampusTotal?.department_list?.SEA
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {CampusTotal?.department_list?.SON > 0 ? (
+                CampusTotal?.department_list?.SON
+              ) : (
+                <>0</>
+              )}
+            </td>
+            <td>
+              {CampusTotal?.department_list?.STELA > 0 ? (
+                CampusTotal?.department_list?.STELA
+              ) : (
+                <>0</>
+              )}
+            </td>
+          </tr>
+        </table>
       </>
     );
   };

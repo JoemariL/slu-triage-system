@@ -9,7 +9,7 @@
         "total_entry": 5000,
         "students": 3,
         "employees": 2,
-        "visitors": 0,
+        "visitors": 5,
         "department_list": {
           "SOL": 2,
           "SAMCIS": 23,

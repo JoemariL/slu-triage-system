@@ -25,8 +25,7 @@ function DashboardModal({
           </div>
           {/* ########################### MODAL TITLE ######################### */}
           <div className="modalTitle">
-            <h1>Main Campus Destination Overview</h1>
-            <h3>{gateNumber}</h3>
+            <h1>{gateNumber} Overview</h1>
           </div>
 
           {/* ########################### MODAL BODY ######################### */}
