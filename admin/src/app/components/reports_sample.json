@@ -3,7 +3,7 @@
     "info": [
       {
         "school": "Main Campus",
-        "gate": "Gate 3",
+        "gate": "Gate 1",
         "allowed": 4,
         "not_allowed": 9001,
         "total_entry": 5000,
@@ -11,14 +11,14 @@
         "employees": 2,
         "visitors": 0,
         "department_list": {
-          "LAW": 2,
+          "SOL": 2,
           "SAMCIS": 23,
           "SAS": 1
         }
       },
       {
-        "school": "Mary Heights",
-        "gate": "Gate 1",
+        "school": "Main Campus",
+        "gate": "Gate 2",
         "allowed": 1055,
         "not_allowed": 1,
         "total_entry": 300,
@@ -26,12 +26,13 @@
         "employees": 22,
         "visitors": 10,
         "department_list": {
-          "LAW": 21
+          "SOL": 21,
+          "SOM": 321
         }
       },
       {
         "school": "Main Campus",
-        "gate": "Gate 1",
+        "gate": "Gate 3",
         "allowed": 14,
         "not_allowed": 150,
         "total_entry": 500,
@@ -39,25 +40,30 @@
         "employees": 22,
         "visitors": 10,
         "department_list": {
-          "LAW": 21
+          "SOL": 21,
+          "SOM": 3000,
+          "SEA": 5,
+          "SON": 600,
+          "STELA": 1,
+          "SAMCIS": 321
         }
       },
       {
-        "school": "Mary Heights",
-        "gate": "Gate 2",
+        "school": "Main Campus",
+        "gate": "Gate 4",
         "allowed": 1400,
-        "not_allowed": 1000,
+        "not_allowed": 1,
         "total_entry": 5001,
         "students": 100,
         "employees": 500,
         "visitors": 1000,
         "department_list": {
-          "LAW": 21
+          "SOL": 32
         }
       },
       {
-        "school": "Main Campus",
-        "gate": "Gate 2",
+        "school": "Bakakeng Campus",
+        "gate": "Gate 1",
         "allowed": 5000,
         "not_allowed": 700,
         "total_entry": 500,
@@ -65,11 +71,13 @@
         "employees": 500,
         "visitors": 500,
         "department_list": {
-          "LAW": 21
+          "SOL": 80,
+          "SOM": 40,
+          "SAMCIS": 100
         }
       },
       {
-        "school": "Main Campus",
+        "school": "Bakakeng Campus",
         "gate": "Gate 2",
         "allowed": 523,
         "not_allowed": 500,
@@ -78,12 +86,13 @@
         "employees": 500,
         "visitors": 500,
         "department_list": {
-          "LAW": 21
+          "SOL": 20,
+          "SON": 30
         }
       },
       {
-        "school": "Main Campus",
-        "gate": "Gate 3",
+        "school": "Navy Base",
+        "gate": "Gate 1",
         "allowed": 500,
         "not_allowed": 700,
         "total_entry": 500,
@@ -91,12 +100,12 @@
         "employees": 500,
         "visitors": 500,
         "department_list": {
-          "LAW": 21
+          "SOL": 21
         }
       },
       {
-        "school": "Main Campus",
-        "gate": "Gate 4",
+        "school": "Navy Base",
+        "gate": "Gate 2",
         "allowed": 100,
         "not_allowed": 1000,
         "total_entry": 500,
@@ -104,33 +113,8 @@
         "employees": 2500,
         "visitors": 1000,
         "department_list": {
-          "LAW": 21
-        }
-      },
-      {
-        "school": "Navy Base",
-        "gate": "Gate 1",
-        "allowed": 100,
-        "not_allowed": 100,
-        "total_entry": 100,
-        "students": 100,
-        "employees": 100,
-        "visitors": 100,
-        "department_list": {
-          "LAW": 21
-        }
-      },
-      {
-        "school": "Navy Base",
-        "gate": "Gate 4",
-        "allowed": 100,
-        "not_allowed": 1005,
-        "total_entry": 10056,
-        "students": 1003,
-        "employees": 1020,
-        "visitors": 1010,
-        "department_list": {
-          "LAW": 21
+          "SOL": 42069,
+          "SON": 1
         }
       }
     ],

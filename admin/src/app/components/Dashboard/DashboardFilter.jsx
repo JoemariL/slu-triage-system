@@ -1,10 +1,13 @@
 import sampleReport from "../reports_sample.json";
-import React, { useEffect, useState } from "react";
-import DashboardModal from "../../components/DashboardModal";
+import React, { useState } from "react";
+import DashboardModal from "./DashboardModal";
 
 function DashboardFilter(props) {
   let School = props.schoolName;
   const [openModal, setOpenModal] = useState(false);
+  const [openModal2, setOpenModal2] = useState(false);
+  const [openModal3, setOpenModal3] = useState(false);
+  const [openModal4, setOpenModal4] = useState(false);
   let compiled_array = (sampleReport, filter_school) => {
     let gate = {};
 
@@ -16,6 +19,7 @@ function DashboardFilter(props) {
       students: 0,
       employees: 0,
       visitors: 0,
+      department_list: {},
     };
 
     sampleReport.forEach((entries) => {
@@ -35,6 +39,19 @@ function DashboardFilter(props) {
             gate[school["gate"]].students += school["students"];
             gate[school["gate"]].employees += school["employees"];
             gate[school["gate"]].visitors += school["visitors"];
+
+            //GATE COURSE CHECKER
+            for (let gateCourse in school["department_list"]) {
+              if (gateCourse in gate[school["gate"]]["department_list"]) {
+                gate[school["gate"]]["department_list"][gateCourse] +=
+                  school["department_list"][gateCourse];
+              } else {
+                gate[school["gate"]]["department_list"][gateCourse] =
+                  school["department_list"][gateCourse];
+              }
+            }
+
+            //ELSE
           } else {
             gate[school["gate"]] = {
               school: school["school"],
@@ -44,17 +61,24 @@ function DashboardFilter(props) {
               students: school["students"],
               visitors: school["visitors"],
               employees: school["employees"],
+              department_list: school["department_list"],
             };
           }
-          //   console.log(gate);
+          //
+          //Course checker
+          for (var course in school["department_list"]) {
+            if (course in CampusTotal["department_list"]) {
+              CampusTotal["department_list"][course] +=
+                school["department_list"][course];
+            } else {
+              CampusTotal["department_list"][course] =
+                school["department_list"][course];
+            }
+          }
         });
     });
     return (
       <>
-        {/* <h1>Saint Louis University</h1>
-        <h5>Total Entries: {CampusTotal.total_entry}</h5>
-        <h5>Total Allowed: {CampusTotal.allowed}</h5>
-        <h5>Total Rejected: {CampusTotal.not_allowed}</h5> */}
         <div className="container2">
           <div className="flex-container">
             <div
@@ -83,12 +107,12 @@ function DashboardFilter(props) {
                   </div>
                 </>
               ) : (
-                <>n/a</>
+                <>No Data Available</>
               )}
             </div>
             <div
               onClick={() => {
-                setOpenModal(true);
+                setOpenModal2(true);
               }}
             >
               {gate["Gate 2"]?.allowed > 0 ? (
@@ -112,12 +136,12 @@ function DashboardFilter(props) {
                   </div>
                 </>
               ) : (
-                <>n/a</>
+                <>No Data Available</>
               )}
             </div>
             <div
               onClick={() => {
-                setOpenModal(true);
+                setOpenModal3(true);
               }}
             >
               {gate["Gate 3"]?.allowed > 0 ? (
@@ -141,13 +165,13 @@ function DashboardFilter(props) {
                   </div>
                 </>
               ) : (
-                <>n/a</>
+                <>No Data Available</>
               )}
             </div>
             <div>
               <div
                 onClick={() => {
-                  setOpenModal(true);
+                  setOpenModal4(true);
                 }}
               >
                 {gate["Gate 4"]?.allowed > 0 ? (
@@ -171,59 +195,81 @@ function DashboardFilter(props) {
                     </div>
                   </>
                 ) : (
-                  <>n/a</>
+                  <>No Data Available</>
                 )}
               </div>
             </div>
           </div>
-          {openModal && <DashboardModal closeModal={setOpenModal} />}
+          {console.log(gate["Gate 1"].department_list?.SOL)}
+          {(openModal && (
+            <DashboardModal
+              closeModal={setOpenModal}
+              gateNumber="Gate 1"
+              SON={gate["Gate 1"]?.department_list?.SON}
+              SAMCIS={gate["Gate 1"]?.department_list?.SAMCIS}
+              SOL={gate["Gate 1"]?.department_list?.SOL}
+              SEA={gate["Gate 1"]?.department_list?.SEA}
+              SOM={gate["Gate 1"]?.department_list?.SOM}
+              STELA={gate["Gate 1"]?.department_list?.STELA}
+              Students={gate["Gate 1"]?.students}
+              Employees={gate["Gate 1"]?.employees}
+              Visitors={gate["Gate 1"]?.visitors}
+              Allowed={gate["Gate 1"]?.allowed}
+              Rejected={gate["Gate 1"]?.not_allowed}
+            />
+          )) ||
+            (openModal2 && (
+              <DashboardModal
+                closeModal={setOpenModal2}
+                gateNumber="Gate 2"
+                SON={gate["Gate 2"]?.department_list?.SON}
+                SAMCIS={gate["Gate 2"]?.department_list?.SAMCIS}
+                SOL={gate["Gate 2"]?.department_list?.SOL}
+                SEA={gate["Gate 2"]?.department_list?.SEA}
+                SOM={gate["Gate 2"]?.department_list?.SOM}
+                STELA={gate["Gate 2"]?.department_list?.STELA}
+                Students={gate["Gate 2"]?.students}
+                Employees={gate["Gate 2"]?.employees}
+                Visitors={gate["Gate 2"]?.visitors}
+                Allowed={gate["Gate 2"]?.allowed}
+                Rejected={gate["Gate 2"]?.not_allowed}
+              />
+            )) ||
+            (openModal3 && (
+              <DashboardModal
+                closeModal={setOpenModal3}
+                gateNumber="Gate 3"
+                SON={gate["Gate 3"]?.department_list?.SON}
+                SAMCIS={gate["Gate 3"]?.department_list?.SAMCIS}
+                SOL={gate["Gate 3"]?.department_list?.SOL}
+                SEA={gate["Gate 3"]?.department_list?.SEA}
+                SOM={gate["Gate 3"]?.department_list?.SOM}
+                STELA={gate["Gate 3"]?.department_list?.STELA}
+                Students={gate["Gate 3"]?.students}
+                Employees={gate["Gate 3"]?.employees}
+                Visitors={gate["Gate 3"]?.visitors}
+                Allowed={gate["Gate 3"]?.allowed}
+                Rejected={gate["Gate 3"]?.not_allowed}
+              />
+            )) ||
+            (openModal4 && (
+              <DashboardModal
+                closeModal={setOpenModal4}
+                gateNumber="Gate 4"
+                SON={gate["Gate 4"]?.department_list?.SON}
+                SAMCIS={gate["Gate 4"]?.department_list?.SAMCIS}
+                SOL={gate["Gate 4"]?.department_list?.SOL}
+                SEA={gate["Gate 4"]?.department_list?.SEA}
+                SOM={gate["Gate 4"]?.department_list?.SOM}
+                STELA={gate["Gate 4"]?.department_list?.STELA}
+                Students={gate["Gate 4"]?.students}
+                Employees={gate["Gate 4"]?.employees}
+                Visitors={gate["Gate 4"]?.visitors}
+                Allowed={gate["Gate 4"]?.allowed}
+                Rejected={gate["Gate 4"]?.not_allowed}
+              />
+            ))}
         </div>
-
-        {/* {gate["Gate 2"]?.allowed > 0 ? (
-          <>
-            <h2>Gate 2 breakdown</h2>
-            <div className="breakdown">
-              <h5>Total entries: {gate["Gate 2"]?.total_entry}</h5>
-              <h5>Allowed: {gate["Gate 2"]?.allowed}</h5>
-              <h5>Not Allowed: {gate["Gate 2"]?.not_allowed}</h5>
-              <h5>Students: {gate["Gate 2"]?.students}</h5>
-              <h5>Employees: {gate["Gate 2"]?.employees}</h5>
-              <h5>Visitors: {gate["Gate 2"]?.visitors}</h5>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
-        {gate["Gate 3"]?.allowed > 0 ? (
-          <>
-            <h2>Gate 3 breakdown</h2>
-            <div className="breakdown">
-              <h5>Total entries: {gate["Gate 3"]?.total_entry}</h5>
-              <h5>Allowed: {gate["Gate 3"]?.allowed}</h5>
-              <h5>Not Allowed: {gate["Gate 3"]?.not_allowed}</h5>
-              <h5>Students: {gate["Gate 3"]?.students}</h5>
-              <h5>Employees: {gate["Gate 3"]?.employees}</h5>
-              <h5>Visitors: {gate["Gate 3"]?.visitors}</h5>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
-        {gate["Gate 4"]?.allowed > 0 ? (
-          <>
-            <h2>Gate 4 breakdown</h2>
-            <div className="breakdown">
-              <h5>Total entries: {gate["Gate 4"]?.total_entry}</h5>
-              <h5>Allowed: {gate["Gate 4"]?.allowed}</h5>
-              <h5>Not Allowed: {gate["Gate 4"]?.not_allowed}</h5>
-              <h5>Students: {gate["Gate 4"]?.students}</h5>
-              <h5>Employees: {gate["Gate 4"]?.employees}</h5>
-              <h5>Visitors: {gate["Gate 4"]?.visitors}</h5>
-            </div>
-          </>
-        ) : (
-          <></>
-        )} */}
       </>
     );
   };

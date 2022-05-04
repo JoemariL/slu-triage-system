@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getHdfToday } from "../actions/commonActions";
-import DashboardModal from "../app/components/DashboardModal";
-import sampleReport from "../app/components/reports_sample.json";
+// import DashboardModal from "../app/components/DashboardModal";
+// import sampleReport from "../app/components/reports_sample.json";
 import DashboardFilter from "../app/components/Dashboard/DashboardFilter";
 import DashboardDropDown from "../app/components/Dashboard/Dropdown";
 
 function Dashboard() {
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
   const [records, setRecords] = useState({});
   const [selected1, setSelected1] = useState("Main Campus");
 
@@ -34,7 +34,7 @@ function Dashboard() {
           (selected1 === "Mary Heights" && (
             <>
               <h1 style={{ textAlign: "center" }}> Mary Heights Status</h1>
-              <DashboardFilter schoolName="Mary Heights" />
+              <DashboardFilter schoolName="Bakakeng Campus" />
             </>
           )) ||
           (selected1 === "Navy Base" && (
@@ -44,14 +44,8 @@ function Dashboard() {
             </>
           ))}
       </div>
-      {/* <h1>Mary Heights Status</h1>
-      <DashboardFilter schoolName="Mary Heights" />
-      <h1>Navy Base Status</h1>
-      <DashboardFilter schoolName="Navy Base" /> */}
     </>
   );
 }
-
-// return <>{compiled_array(sampleReport, "Main Campus")}</>;
 
 export default Dashboard;

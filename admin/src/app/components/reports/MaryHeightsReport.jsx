@@ -5,7 +5,7 @@ import React from "react";
 const BakakengReport = (props) => {
   return (
     <>
-      <FilterReport schoolName="Mary Heights" />
+      <FilterReport schoolName="Bakakeng Campus" />
     </>
   );
 };

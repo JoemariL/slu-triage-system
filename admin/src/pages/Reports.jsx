@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../css/reports.css";
 import ReportDropdown from "../app/components/reports/ReportDropdown";
-import sampleReport from "../app/components/reports_sample.json";
 import GeneralReport from "../app/components/reports/GeneralReport";
 import MainCampusReport from "../app/components/reports/MainCampusReport";
 import NavyBaseReport from "../app/components/reports/NavyBaseReport";
@@ -23,7 +22,7 @@ function Reports() {
         {/* <GeneralReport /> */}
         {(selected === "General" && <GeneralReport />) ||
           (selected === "Main Campus" && <MainCampusReport />) ||
-          (selected === "Mary Heights" && <MaryHeightsReport />) ||
+          (selected === "Bakakeng Campus" && <MaryHeightsReport />) ||
           (selected === "Navy Base" && <NavyBaseReport />)}
       </div>
     </>

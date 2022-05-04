@@ -3,17 +3,17 @@ import "../../../css/reports.css";
 
 function ReportDropdown({ selected, setSelected }) {
   const [isActive, setIsActive] = useState(false);
-  const options = ["General", "Main Campus", "Mary Heights", "Navy Base"];
+  const options = ["General", "Main Campus", "Bakakeng Campus", "Navy Base"];
 
   return (
     <>
-      <div class="dropdown">
-        <div class="dropbtn" onClick={(e) => setIsActive(!isActive)}>
+      <div className="dropdown">
+        <div className="dropbtn" onClick={(e) => setIsActive(!isActive)}>
           {selected}
         </div>
 
         {isActive && (
-          <div class="dropdown-content">
+          <div className="dropdown-content">
             {options.map((option) => (
               <h4
                 onClick={(e) => {
