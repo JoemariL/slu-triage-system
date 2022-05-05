@@ -59,7 +59,8 @@ router.post("/user/register", async (req, res) => {
     const { firstName, lastName, password, age, contactNumber, homeAddress, email, userType, department } = req.body
     let email_address = email.replace(/\s+/g, '').toLowerCase();
     const emailCheck = emailValidator(email)
-    if(emailCheck) return res.status(400).json({ errors:{ message:'email input must be a valid email address' }})
+    if(age < 1) return res.status(400).json({ errors: { message: 'Please enter a valid age.' }})
+    if(emailCheck) return res.status(400).json({ errors:{ message:'Please enter a valid email address.' }})
 
     let hashedPassword = await bcrypt.hash(password, 12)
 
@@ -83,7 +84,7 @@ router.post("/user/register", async (req, res) => {
     } catch (error) {
         switch(error.code) {
             case 11000: 
-                return res.status(400).json({ errors:{ message:'email already taken'}})
+                return res.status(400).json({ errors:{ message:'Email already taken.'}})
             default:  
                 return res.sendStatus(500)
         }

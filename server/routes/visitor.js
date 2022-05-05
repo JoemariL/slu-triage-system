@@ -35,10 +35,10 @@ router.post("/generate", async (req, res) => {
     try {
         decrypted = decryptJSON(qrCode)
         if(decrypted.hasOwnProperty('raw_code')) school = decrypted.school, gate = decrypted.gate, code = decrypted.raw_code
-        let check = await SCHOOL.findOne({ raw_code: code})
-        if(!check) return res.status(404).json({ errors:{ message:'qr code information not found' }})
+        let check = await SCHOOL.findOne({ generated_code: qrCode})
+        if(!check) return res.status(404).json({ errors:{ message:'QR code information not found.' }})
     } catch (error) {
-        return res.status(400).json({ errors:{ message:'no signature found or invalid qr code' }})
+        return res.status(400).json({ errors:{ message:'no QR signature found or invalid QR code.' }})
     }
     let dateNow = moment().toDate()
 
@@ -47,6 +47,14 @@ router.post("/generate", async (req, res) => {
         entry_campus: school,
         gate_info: gate,
         allowed,
+        covid_exposure,
+        covid_positive,
+        fever,
+        cough,
+        cold,
+        sore_throat,
+        diff_breathing,
+        diarrhea,
         destination,
         is_expired: true,
         createdAt

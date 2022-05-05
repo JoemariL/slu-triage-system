@@ -183,7 +183,14 @@ module.exports.getAllUsers = async() => {
         {
             $unset: ["password", "createdAt", "__v"]
         }
-    ])
+    ]).then((data) => {
+        return data.map((profile) => {
+            return {
+                ...profile,
+                updatedAt: moment(profile.updatedAt).format('LLL')
+            }
+        })
+    })
 }
 
 module.exports.hdfIfExpired = async (userID, hdfID) => {

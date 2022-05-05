@@ -15,7 +15,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-let whitelist = [ "http://localhost:5000", "http://localhost:3000" ]
+const whitelist = process.env.WHITELIST.split(' ')
 app.use(cors({
     credentials: true,
     origin: function (origin, callback) {

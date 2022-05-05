@@ -34,7 +34,6 @@ router.get("/get-all-users", async (req, res) => {
         if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
         return res.status(200).json(userData)
     } catch (error) {
-        console.log(error)
         return res.sendStatus(500)
     }
 })
@@ -150,8 +149,9 @@ router.post("/generateQr", async (req, res) => {
     let concat = `${school} ${gate}`
     let matches = concat.match(/\b(\w)/g)
     let qrData = matches.join('')
+    let date = new Date()
 
-    let payload = {school, gate, raw_code: qrData}
+    let payload = {school, gate, raw_code: qrData, date}
     let encrypt = encryptJSON(payload)
 
     const check = await SCHOOL.find({ raw_code: qrData })
@@ -189,6 +189,37 @@ router.delete("/removeQr/:qrID", async (req, res) => {
         const deleteQR = await SCHOOL.deleteOne({ _id: qr._id })
         if(deleteQR) return res.status(200).json({ success:{ message:'qr info deleted' }})
         return res.status(400).json({ errors:{ message:'qr info deletion error' }})
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+router.post("/refresh-qr/:qrID", async (req, res) => {
+    const qrUid = req.params.qrID
+    const idCheck = objectIDValidator(qrUid)
+    if (!idCheck) return res.status(400).json({ errors: { message:'invalid qr id' }})
+
+    const qr = await SCHOOL.findById(qrUid)
+    if(!qr) return res.status(404).json({ errors:{ message:'qr info not found' }})
+
+    try {
+        let school = qr.school
+        let gate = qr.gate
+
+        let concat = `${school} ${gate}`
+        let matches = concat.match(/\b(\w)/g)
+        let qrData = matches.join('')
+        let date = new Date()
+    
+        let payload = {school, gate, raw_code: qrData, date}
+        let encrypt = encryptJSON(payload)
+
+        await SCHOOL.findByIdAndUpdate(
+            qr._id,
+            { $set: { "generated_code": encrypt }},
+            { new: true }
+        )
+        return res.sendStatus(200)
     } catch (error) {
         return res.sendStatus(500)
     }

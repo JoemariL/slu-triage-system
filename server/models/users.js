@@ -22,6 +22,7 @@ const hdfData = mongoose.Schema({
     },
     destination: {
         type: String,
+        uppercase: true,
         default: null
     },
     covid_exposure: {

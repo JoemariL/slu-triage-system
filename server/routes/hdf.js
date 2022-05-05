@@ -181,10 +181,10 @@ router.post("/scan", auth, async (req, res) => {
     try{
         decrypted = decryptJSON(qrData)
         if(decrypted.hasOwnProperty('raw_code')) school = decrypted.school, gate = decrypted.gate, code = decrypted.raw_code
-        let check = await SCHOOL.findOne({ raw_code: code})
-        if(!check) return res.status(404).json({ errors:{ message:'qr code information not found' }})
+        let check = await SCHOOL.findOne({ generated_code: qrData })
+        if(!check) return res.status(404).json({ errors:{ message:'QR code information not found.' }})
     } catch (error) {
-        return res.status(400).json({ errors:{ message:'no signature found or invalid qr code' }})
+        return res.status(400).json({ errors:{ message:'no QR signature found or invalid QR code.' }})
     }
 
     let dateNow = moment().tz('Asia/Manila').toDate()
