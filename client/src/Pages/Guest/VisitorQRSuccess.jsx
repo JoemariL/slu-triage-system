@@ -17,7 +17,7 @@ function VisitorQRSuccess() {
           />
         </div>
 
-        <div className="px-2">
+        <div className="px-10">
           <p className="text-center">
             <span className="text-xl font-bold underline underline-offset-2 decoration-blue-900">
               QR CODE SCANNED SUCCESSFULLY!
