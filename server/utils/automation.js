@@ -56,13 +56,15 @@ const autoGenerateReport = async () => {
                 department_list: data.department_list
             }
         })
-    
-        const newStats = new STATISTICS({
-            date: dateNow,
-            info: stats
-        })
-    
-        await newStats.save()
+
+        const duplicateCheck = await STATISTICS.find({ date: dateNow })
+        if(duplicateCheck.length === 0) {
+            const newStats = new STATISTICS({
+                date: dateNow,
+                info: stats
+            })
+            await newStats.save()
+        }
     }
 }
 
