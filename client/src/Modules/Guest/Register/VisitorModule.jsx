@@ -36,6 +36,7 @@ const VisitorModule = ({ onNext = () => {} }) => {
 
           <div>
             <Input
+              label="First Name"
               placeholder="Enter your First Name"
               id="first_name"
               name="first_name"
@@ -47,6 +48,7 @@ const VisitorModule = ({ onNext = () => {} }) => {
             />
 
             <Input
+              label="Last Name"
               placeholder="Enter your Last Name"
               id="last_name"
               name="last_name"
@@ -58,10 +60,11 @@ const VisitorModule = ({ onNext = () => {} }) => {
             />
 
             <Input
+              label="Age"
               placeholder="Enter your Age"
               id="age"
               name="age"
-              type="text"
+              type="number"
               value={formValues?.age ? formValues.age : ""}
               required
               error={inputTouched.age && formErrors.age}
@@ -77,6 +80,7 @@ const VisitorModule = ({ onNext = () => {} }) => {
 
           <div>
             <Input
+              label="Contact Number"
               placeholder="Enter your Contact Number"
               id="contact_number"
               name="contact_number"
@@ -90,6 +94,7 @@ const VisitorModule = ({ onNext = () => {} }) => {
             />
 
             <Input
+              label="Local Address"
               placeholder="Enter Local Address"
               id="home_address"
               name="home_address"

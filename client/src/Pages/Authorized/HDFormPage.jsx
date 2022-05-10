@@ -9,15 +9,14 @@ function HDFormPage() {
   return (
     <div className="text-sm ... sm:text-base">
       <Formbar
-        headerText="Fill out your HDF"
-        fixedTop
+        header="Fill out your Health Declaration Form"
         onReturnClick={(e) => {
           e.preventDefault();
           navigate("/hdf");
         }}
       />
 
-      <div className="mx-5 py-20 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+      <div className="p-5 ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
         <HDFModule />
       </div>
     </div>

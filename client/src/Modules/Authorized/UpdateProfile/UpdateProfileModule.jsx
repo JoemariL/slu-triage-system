@@ -1,21 +1,76 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useForm from "../../../hooks/useForm";
-
-import { Select, Input, Button, Checkbox } from "../../../Components/commons";
+import {
+  Select,
+  Input,
+  Button,
+  Checkbox,
+  List,
+  ListItem,
+} from "../../../Components/commons";
 import {
   getUserData,
   updateProfile,
   updatePassword,
 } from "../../../actions/userActions";
 
-const departmentNames = [
+const studentDept = [
   "SAMCIS",
   "SAS",
   "SEA",
   "SNS",
   "SOL",
   "SOM",
+  "SON",
+  "STELA",
+];
+const employeeDept = [
+  "Office of the President",
+  "Office of the VPAA",
+  "Office of the VPAdmin",
+  "Office of the VPFinance",
+  "Office of the VPHospAffairs",
+  "Office of the VPMI",
+  "Athletics and Fitness Center",
+  "CPMSD",
+  "Center fo CICM Studies",
+  "CCA",
+  "Extension Office",
+  "Dental Clinic",
+  "ERMCAA",
+  "Finance Office",
+  "Guidance Center",
+  "HR",
+  "Residence Halls",
+  "Medical Clinic",
+  "Museum of ICA",
+  "Sacred Heart Medical Center",
+  "Internal Audit",
+  "Legal Affairs",
+  "IDQA",
+  "Student Affairs (OSA)",
+  "EISSIF",
+  "PEAC",
+  "Inclusive Education",
+  "Post Office",
+  "Security Office",
+  "Registrar (URO)",
+  "Parish Office",
+  "Printing Operations",
+  "Sunflower",
+  "TMDD",
+  "University Libraries",
+  "UnRIC",
+  "SAMCIS",
+  "SAS",
+  "SEA",
+  "LES",
+  "LHS-Senior High",
+  "LHS-Junior High",
+  "SOL",
+  "SOM",
+  "SNS",
   "SON",
   "STELA",
 ];
@@ -73,17 +128,15 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
       const profileResponse = await updateProfile(profilePayload);
       const passwordResponse = await updatePassword(passwordPayload);
 
-      //TODO: Message here
       if (profileResponse.hasOwnProperty("message")) {
         setIsLoading(false);
       } else {
         setIsLoading(false);
       }
 
-      //TODO: Message here
       if (passwordResponse.hasOwnProperty("message")) {
         setIsLoading(false);
-        
+
         setError(true);
         setErrorMessage(passwordResponse?.message);
       } else {
@@ -99,7 +152,6 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
       };
 
       const response = await updateProfile(payload);
-      //TODO: Message here
       if (response.hasOwnProperty("message")) {
         setIsLoading(false);
 
@@ -121,99 +173,98 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
   };
 
   return (
-    <>
-      <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
+    <div className="space-y-5">
+      <hr />
+      <List position="vertical">
+        <ListItem
+          label={`${user.first_name} ${user.last_name}`}
+          subtitle="Name"
+        />
+
+        <ListItem label={user.email_address} subtitle="Email Address" />
+
+        <ListItem label={user.user_type} subtitle="User Type" />
+      </List>
+      <hr />
+
+      <form className="flex flex-col space-y-5" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-3">
-          <span className="text-lg">You are a/an</span>
+          <span className="text-md font-bold text-gray-500">DEPARTMENT</span>
+          {updateDept ? (
+            <div className="space-y-5">
+              {user.user_type === "STUDENT" && (
+                <>
+                  <Select
+                    name="department"
+                    asFormInput
+                    items={studentDept}
+                    subtitle="Select your new department here to update."
+                    onChange={(e) => setDepartment(e.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    label="Enter Change"
+                    onClick={toggleUpdateDept}
+                  />
+                </>
+              )}
+
+              {user.user_type === "EMPLOYEE" && (
+                <>
+                  <Select
+                    name="department"
+                    asFormInput
+                    items={employeeDept}
+                    subtitle="Select your new office here to update."
+                    onChange={(e) => setDepartment(e.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    label="Enter Change"
+                    onClick={toggleUpdateDept}
+                  />
+                </>
+              )}
+            </div>
+          ) : (
+            <List position="vertical">
+              <div className="inline-flex items-center">
+                <ListItem label={department} subtitle="Department" />
+
+                <div
+                  className="ml-auto font-bold text-blue-900 cursor-pointer hover:underline"
+                  onClick={toggleUpdateDept}
+                >
+                  <span>Edit</span>
+                </div>
+              </div>
+            </List>
+          )}
+        </div>
+
+        <hr />
+
+        <div className="flex flex-col space-y-5">
+          <span className="text-md font-bold text-gray-500">AGE</span>
           <Input
-            id="userType"
-            name="userType"
+            id="age"
+            name="age"
             type="text"
-            disabled
-            value={user.user_type ? user.user_type : ""}
+            value={age}
+            onChange={(e) => {
+              setAge(e.target.value);
+            }}
           />
         </div>
 
-        <div className="flex flex-col space-y-3">
-          <span className="text-lg">Department</span>
-          {updateDept ? (
-            <Select
-              name="department"
-              asFormInput
-              items={departmentNames}
-              subtitle="Select your new department here to update."
-              onChange={(e) => setDepartment(e.target.value)}
-            />
-          ) : (
-            <Input
-              id="department"
-              name="department"
-              type="text"
-              disabled
-              value={department}
-            />
-          )}
-
-          {updateDept ? (
-            <Button type="button" label="Enter" onClick={toggleUpdateDept} />
-          ) : (
-            <Button
-              type="button"
-              label="Edit Department"
-              onClick={toggleUpdateDept}
-            />
-          )}
-        </div>
-
         <hr />
 
         <div className="flex flex-col space-y-5">
-          <span className="text-md font-bold text-gray-500">
-            BASIC USER INFORMATION
-          </span>
+          <span className="text-md font-bold text-gray-500">CONTACT</span>
 
           <div>
             <Input
-              placeholder="Enter your First Name"
-              id="firstName"
-              name="firstName"
-              type="text"
-              disabled
-              value={user.first_name ? user.first_name : ""}
-            />
-
-            <Input
-              placeholder="Enter your Last Name"
-              id="lastName"
-              name="lastName"
-              type="text"
-              disabled
-              value={user.last_name ? user.last_name : ""}
-            />
-
-            <Input
-              placeholder="Enter your Age"
-              id="age"
-              name="age"
-              type="text"
-              value={age}
-              onChange={(e) => {
-                setAge(e.target.value);
-              }}
-            />
-          </div>
-        </div>
-
-        <hr />
-
-        <div className="flex flex-col space-y-5">
-          <span className="text-md font-bold text-gray-500">
-            BASIC CONTACT INFORMATION
-          </span>
-
-          <div>
-            <Input
-              placeholder="Enter your Contact Number"
+              label="Contact Number"
               id="contactNumber"
               name="contactNumber"
               type="text"
@@ -224,7 +275,7 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
             />
 
             <Input
-              placeholder="Enter Local Address"
+              label="Local Address"
               id="address"
               name="address"
               type="text"
@@ -234,87 +285,69 @@ const UpdateProfileModule = ({ onSuccess = () => {} }) => {
               }}
             />
           </div>
-        </div>
 
-        <hr />
+          <hr />
 
-        <div className="flex flex-col space-y-5">
-          <span className="text-md font-bold text-gray-500">
-            ACCOUNT INFORMATION
-          </span>
+          <div className="flex flex-col space-y-5">
+            <span className="text-md font-bold text-gray-500">
+              CHANGE PASSWORD
+            </span>
 
-          <div className="space-y-3">
-            <Input
-              placeholder="Enter your Email Address"
-              id="email"
-              name="email"
-              type="text"
-              subtitle="You can only use your university email: (@slu.edu.ph)."
-              disabled
-              value={user.email_address ? user.email_address : ""}
-            />
+            <div className="flex flex-col">
+              <div>
+                <Input
+                  label="Enter your Old Password"
+                  id="oldPassword"
+                  name="oldPassword"
+                  type={showPassword ? "text" : "password"}
+                  onChange={(e) => {
+                    setOldPassword(e.target.value);
+                  }}
+                  error={error}
+                />
+              </div>
+
+              <div>
+                <Input
+                  label="Enter your New Password"
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  onChange={(e) => {
+                    setNewPassword(e.target.value);
+                  }}
+                  error={error}
+                />
+
+                <Input
+                  label="Confirm your New Password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showPassword ? "text" : "password"}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                  }}
+                  error={error}
+                />
+
+                <span className="px-2 text-red-600">{errorMessage}</span>
+              </div>
+
+              <Checkbox
+                name="visiblePassword"
+                id="visiblePassword"
+                label="Show password"
+                onChange={toggleShowPassword}
+              />
+            </div>
           </div>
         </div>
 
-        <hr />
-
-        <div className="flex flex-col space-y-5">
-          <span className="text-md font-bold text-gray-500">
-            CHANGE PASSWORD
-          </span>
-
-          <div className="flex flex-col space-y-3">
-            <div>
-              <Input
-                placeholder="Enter your Old Password"
-                id="oldPassword"
-                name="oldPassword"
-                type={showPassword ? "text" : "password"}
-                onChange={(e) => {
-                  setOldPassword(e.target.value);
-                }}
-                error={error}
-              />
-            </div>
-
-            <div>
-              <Input
-                placeholder="Enter your New Password"
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                onChange={(e) => {
-                  setNewPassword(e.target.value);
-                }}
-                error={error}
-              />
-
-              <Input
-                placeholder="Confirm your New Password"
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showPassword ? "text" : "password"}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
-                error={error}
-              />
-
-              <span className="px-2 text-red-600">{errorMessage}</span>
-            </div>
-
-            <Checkbox
-              name="visiblePassword"
-              id="visiblePassword"
-              label="Show password"
-              onChange={toggleShowPassword}
-            />
-          </div>
-        </div>
+        <br />
 
         <Button label="Save Changes" type="submit" loading={isLoading} />
       </form>
-    </>
+    </div>
   );
 };
 

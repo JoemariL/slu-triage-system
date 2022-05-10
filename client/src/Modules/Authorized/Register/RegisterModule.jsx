@@ -9,13 +9,62 @@ import {
 import { Select, Input, Button, Checkbox } from "../../../Components/commons";
 
 const userTypes = ["STUDENT", "EMPLOYEE"];
-const departmentNames = [
+const studentDept = [
   "SAMCIS",
   "SAS",
   "SEA",
   "SNS",
   "SOL",
   "SOM",
+  "SON",
+  "STELA",
+];
+const employeeDept = [
+  "Office of the President",
+  "Office of the VPAA",
+  "Office of the VPAdmin",
+  "Office of the VPFinance",
+  "Office of the VPHospAffairs",
+  "Office of the VPMI",
+  "Athletics and Fitness Center",
+  "CPMSD",
+  "Center fo CICM Studies",
+  "CCA",
+  "Extension Office",
+  "Dental Clinic",
+  "ERMCAA",
+  "Finance Office",
+  "Guidance Center",
+  "HR",
+  "Residence Halls",
+  "Medical Clinic",
+  "Museum of ICA",
+  "Sacred Heart Medical Center",
+  "Internal Audit",
+  "Legal Affairs",
+  "IDQA",
+  "Student Affairs (OSA)",
+  "EISSIF",
+  "PEAC",
+  "Inclusive Education",
+  "Post Office",
+  "Security Office",
+  "Registrar (URO)",
+  "Parish Office",
+  "Printing Operations",
+  "Sunflower",
+  "TMDD",
+  "University Libraries",
+  "UnRIC",
+  "SAMCIS",
+  "SAS",
+  "SEA",
+  "LES",
+  "LHS-Senior High",
+  "LHS-Junior High",
+  "SOL",
+  "SOM",
+  "SNS",
   "SON",
   "STELA",
 ];
@@ -59,7 +108,9 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
     <>
       <form className="flex flex-col space-y-10" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-3">
-          <span className="text-lg">What are you?</span>
+          <p className="text-lg">
+            What are you? <span className="text-red-600">*</span>
+          </p>
           <Select
             name="userType"
             asFormInput
@@ -69,15 +120,37 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
           />
         </div>
 
-        <div className="flex flex-col space-y-3">
-          <span className="text-lg">Select your department</span>
-          <Select
-            name="department"
-            asFormInput
-            items={departmentNames}
-            onChange={changeHandler}
-          />
-        </div>
+        {formValues.userType === "STUDENT" && (
+          <div className="flex flex-col space-y-3">
+            <p className="text-lg">
+              Select your Department (Student){" "}
+              <span className="text-red-600">*</span>
+            </p>
+            <Select
+              name="department"
+              asFormInput
+              items={studentDept}
+              onChange={changeHandler}
+              subtitle="You are currently selecting a department as a STUDENT."
+            />
+          </div>
+        )}
+
+        {formValues.userType === "EMPLOYEE" && (
+          <div className="flex flex-col space-y-3">
+            <p className="text-lg">
+              Select your Office (Employee){" "}
+              <span className="text-red-600">*</span>
+            </p>
+            <Select
+              name="department"
+              asFormInput
+              items={employeeDept}
+              onChange={changeHandler}
+              subtitle="You are currently selecting an office as an EMPLOYEE."
+            />
+          </div>
+        )}
 
         <hr />
 
@@ -88,6 +161,7 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
 
           <div>
             <Input
+              label="First Name"
               placeholder="Enter your First Name"
               id="firstName"
               name="firstName"
@@ -98,6 +172,7 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
             />
 
             <Input
+              label="Last Name"
               placeholder="Enter your Last Name"
               id="lastName"
               name="lastName"
@@ -108,10 +183,12 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
             />
 
             <Input
+              label="Age"
               placeholder="Enter your Age"
               id="age"
               name="age"
-              type="text"
+              type="number"
+              minLength="4"
               required
               error={inputTouched.age && formErrors.age}
               onChange={changeHandler}
@@ -128,6 +205,7 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
 
           <div>
             <Input
+              label="Contact Number"
               placeholder="Enter your Contact Number"
               id="contactNumber"
               name="contactNumber"
@@ -138,6 +216,7 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
             />
 
             <Input
+              label="Local Address"
               placeholder="Enter Local Address"
               id="address"
               name="address"
@@ -158,6 +237,7 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
 
           <div className="space-y-3">
             <Input
+              label="Email Address"
               placeholder="Enter your Email Address"
               id="email"
               name="email"
@@ -171,6 +251,7 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
             <div className="flex flex-col space-y-3">
               <div>
                 <Input
+                  label="Password"
                   placeholder="Enter your Password"
                   id="password"
                   name="password"
@@ -181,6 +262,7 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
                 />
 
                 <Input
+                  label="Confirm Password"
                   placeholder="Confirm your Password"
                   id="confirmPassword"
                   name="confirmPassword"

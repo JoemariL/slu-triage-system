@@ -1,18 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { ImCross } from "react-icons/im";
 import { Button, Icon } from "../../Components/commons";
 
-const Success = ({ route = "", header = "", message = "" }) => {
-  const navigate = useNavigate();
-
+const Success = ({ header = "", message = "", onClick = () => {} }) => {
   return (
     <div className="fixed min-h-screen w-full z-50 flex flex-col justify-center items-center gap-y-5 border-2 bg-white border-slate-100">
       <div>
         <Icon
-          background="rounded-full"
+          roundedFull
           className="bg-red-400 text-white"
-          icon={<ImCross className="h-10 w-10" />}
+          icon={<ImCross className="h-8 w-8" />}
         />
       </div>
 
@@ -27,15 +24,7 @@ const Success = ({ route = "", header = "", message = "" }) => {
       </div>
 
       <div className="my-10 px-24 w-full">
-        <Button
-          type="button"
-          label="Return"
-          roundedFull
-          onClick={(e) => {
-            e.preventDefault();
-            navigate(route);
-          }}
-        />
+        <Button type="button" label="Return" roundedFull onClick={onClick} />
       </div>
     </div>
   );

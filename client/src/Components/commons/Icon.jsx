@@ -2,18 +2,16 @@ import classnames from "classnames";
 
 const Icon = ({
   className = "",
-  background = "rounded" || "rounded-full" || "none",
+  rounded = false,
+  roundedFull = false,
   icon,
 }) => {
   return (
     <div
       className={classnames(
         "p-2 flex flex-row justify-center items-center",
-        background === "rounded"
-          ? "rounded"
-          : background === "none"
-          ? ""
-          : "rounded-full",
+        rounded && "rounded",
+        roundedFull && "rounded-full",
         className
       )}
     >

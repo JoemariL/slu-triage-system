@@ -29,7 +29,7 @@ const HDFView = ({
   } else {
     return (
       <div className="flex flex-col space-y-5">
-        <div className="p-5 grid grid-rows-3 grid-cols-2 gap-x-3 gap-y-5 bg-gradient-to-b from-slate-100">
+        <div className="p-5 grid grid-rows-3 grid-cols-2 gap-x-3 gap-y-5 rounded bg-gradient-to-b from-slate-100">
           <ListItem
             className="col-span-2 justify-center text-center"
             label="COVID-19 TRACK"
@@ -70,7 +70,7 @@ const HDFView = ({
                 <ListItem
                   icon={
                     <Icon
-                      className="bg-red-400 text-white"
+                      className="rounded-full bg-red-400 text-white"
                       icon={<MdSick className="h-4 w-4" />}
                     />
                   }
@@ -82,7 +82,7 @@ const HDFView = ({
                 <ListItem
                   icon={
                     <Icon
-                      className="bg-green-400 text-white"
+                      className="rounded-full bg-green-400 text-white"
                       icon={<FaHeadSideCough className="h-4 w-4" />}
                     />
                   }
@@ -94,7 +94,7 @@ const HDFView = ({
                 <ListItem
                   icon={
                     <Icon
-                      className="bg-blue-400 text-white"
+                      className="rounded-full bg-blue-400 text-white"
                       icon={<RiTempColdFill className="h-4 w-4" />}
                     />
                   }
@@ -106,7 +106,7 @@ const HDFView = ({
                 <ListItem
                   icon={
                     <Icon
-                      className="bg-yellow-400 text-white"
+                      className="rounded-full bg-yellow-400 text-white"
                       icon={<IoSadSharp className="h-4 w-4" />}
                     />
                   }
@@ -119,7 +119,7 @@ const HDFView = ({
                 <ListItem
                   icon={
                     <Icon
-                      className="bg-gray-400 text-white"
+                      className="rounded-full bg-gray-400 text-white"
                       icon={<FaTired className="h-4 w-4" />}
                     />
                   }
@@ -132,7 +132,7 @@ const HDFView = ({
                 <ListItem
                   icon={
                     <Icon
-                      className="bg-lime-400 text-white"
+                      className="rounded-full bg-lime-400 text-white"
                       icon={<FaToiletPaper className="h-4 w-4" />}
                     />
                   }
@@ -147,7 +147,7 @@ const HDFView = ({
                 className="bg-cyan-600"
                 icon={
                   <Icon
-                    className="bg-cyan-400 text-white"
+                    className="rounded-full bg-cyan-400 text-white"
                     icon={<MdOutlinePregnantWoman className="h-4 w-4" />}
                   />
                 }
@@ -165,9 +165,16 @@ const HDFView = ({
           </div>
         )}
 
-        <p className="text-sm">
-          Health Declaration Form will reset every 12:00 AM GMT +08. <br />
-        </p>
+        <div>
+          <p className="text-sm">
+            Health Declaration Form will reset every 12:00 AM GMT +08.
+          </p>
+
+          <p className="text-sm text-red-600">
+            * You will have to wait the reset time before you can fill out
+            again.
+          </p>
+        </div>
       </div>
     );
   }

@@ -15,42 +15,36 @@ const Dashboard = ({
     );
   } else {
     return (
-      <div className="space-y-5">
-        <div className="rounded border-2 bg-slate-50 shadow-sm">
-          <Menu position="vertical">
-            <MenuItem
-              icon={
-                <Icon
-                  background="rounded-full"
-                  className="bg-red-400 text-white"
-                  icon={<RiHealthBookFill className="h-4 w-4" />}
-                />
-              }
-              label="Health Declaration Form"
-              subtitle="View or fill out your Health Declaration Form."
-              hover
-              cursorPointer
-              onClick={onClickHDF}
-            />
+      <div className="rounded bg-slate-100">
+        <Menu position="vertical">
+          <MenuItem
+            icon={
+              <Icon
+                className="text-red-400"
+                icon={<RiHealthBookFill className="h-8 w-8" />}
+              />
+            }
+            label="HEALTH DECLARATION FORM"
+            subtitle="View or fill out your Health Declaration Form"
+            hover
+            cursorPointer
+            onClick={onClickHDF}
+          />
 
-            <hr />
-
-            <MenuItem
-              icon={
-                <Icon
-                  background="rounded-full"
-                  className="bg-indigo-400 text-white"
-                  icon={<RiSyringeFill className="h-4 w-4" />}
-                />
-              }
-              label="Vaccination Profile"
-              subtitle="Manage your vaccination profile."
-              hover
-              cursorPointer
-              onClick={onClickVacc}
-            />
-          </Menu>
-        </div>
+          <MenuItem
+            icon={
+              <Icon
+                className="text-indigo-400"
+                icon={<RiSyringeFill className="h-8 w-8" />}
+              />
+            }
+            label="VACCINATION PROFILE"
+            subtitle="Manage your vaccination profile"
+            hover
+            cursorPointer
+            onClick={onClickVacc}
+          />
+        </Menu>
       </div>
     );
   }

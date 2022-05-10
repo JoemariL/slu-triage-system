@@ -16,10 +16,13 @@ const Input = ({
   onChange = () => {},
   focus = false,
   loading = false,
-  error,
+  disabled = false,
   required = false,
   iconRight,
-  disabled = false,
+  pattern,
+  min,
+  max,
+  error,
 }) => {
   const ref = useRef();
   const [isFocused, setIsFocused] = useState(false);
@@ -41,7 +44,9 @@ const Input = ({
 
   return (
     <div className={classnames("grid grid-row-4 space-y-2", className)}>
-      <span>{label}</span>
+      <span>
+        {label} {required && <span className="text-red-600">*</span>}
+      </span>
       <div
         className={classnames(
           "h-12 px-2 inline-flex items-center border-2 rounded border-gray-300 bg-white focus-within:border-blue-800",
@@ -61,6 +66,8 @@ const Input = ({
           id={id}
           name={name}
           placeholder={placeholder}
+          min={min}
+          max={max}
           minLength={minLength}
           maxLength={maxLength}
           defaultValue={defaultValue}
@@ -71,6 +78,7 @@ const Input = ({
           onChange={onChange}
           required={required}
           disabled={disabled}
+          pattern={pattern}
           autoComplete="off"
         />
         {iconRight}

@@ -12,6 +12,10 @@ export const VisitorFormValidations = [
   ({ last_name }) =>
     isRequired(last_name) || { last_name: "Last name is required." },
   ({ age }) => isRequired(age) || { age: "Age is required" },
+  ({ age }) =>
+    isValidAge(age) && {
+      age: "You should be at least 5 years old to register.",
+    },
   ({ age }) => isValidNumber(age) && { age: "The age you entered is invalid." },
   ({ contact_number }) =>
     isRequired(contact_number) || {
@@ -23,6 +27,10 @@ export const VisitorFormValidations = [
 
 const isRequired = (value) => {
   return value != null && value.trim().length > 0;
+};
+
+const isValidAge = (value) => {
+  return value < 5;
 };
 
 const isValidNumber = (value) => {

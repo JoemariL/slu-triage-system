@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImCheckmark } from "react-icons/im";
 import { Button, Icon } from "../../Components/commons";
 
 function UserQRSuccess() {
   const navigate = useNavigate();
+  const [showComponent, setShowComponent] = useState(false);
+
+  useEffect(() => {
+    setInterval(() => {
+      navigate("/main");
+    }, 5000);
+  }, [navigate, showComponent]);
 
   return (
     <div className="min-h-screen w-full bg-white">
       <div className="min-h-screen flex flex-col justify-center items-center gap-y-5">
         <div>
           <Icon
-            background="rounded-full"
+            roundedFull
             className="bg-green-400 text-white"
-            icon={<ImCheckmark className="h-10 w-10" />}
+            icon={<ImCheckmark className="h-8 w-8" />}
           />
         </div>
 
@@ -25,6 +32,8 @@ function UserQRSuccess() {
             <br />
             Your Health Declaration Form is now sent to the Triage Team of Saint
             Louis University.
+            <br />
+            You will be redirected to the homepage in 5 seconds...
           </p>
         </div>
 

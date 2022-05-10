@@ -18,16 +18,6 @@ export const getUserData = async () => {
     });
 };
 
-export const getRefreshToken = async () => {
-  return API.post("/controller/token", config)
-    .then(() => {
-      return true;
-    })
-    .catch((err) => {
-      return err.response?.data?.errors;
-    });
-};
-
 export const updateVaccine = async (payload) => {
   const body = JSON.stringify({
     vaccineStatus: payload.vaccine_status,

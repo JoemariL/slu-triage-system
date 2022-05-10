@@ -6,13 +6,13 @@ const Profile = ({ userFullName = "", userEmail = "", loading = false }) => {
   return (
     <div
       className={classnames(
-        "w-full p-5 inline-flex items-center gap-x-5 bg-slate-100 rounded",
+        "w-full p-5 inline-flex items-center gap-x-3 bg-slate-100",
         loading && "blur-sm animate-pulse"
       )}
     >
       <Icon
-        background="rounded"
-        className="bg-blue-900 text-white"
+        roundedFull
+        className="bg-blue-900 text-white shadow-sm"
         icon={<FaUserAlt className="h-4 w-4" />}
       />
       <div className="flex flex-col">

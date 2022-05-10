@@ -43,7 +43,7 @@ const HDFModule = () => {
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      navigate("/result");
+      navigate("/result", { replace: true });
     }
   };
 
@@ -62,7 +62,8 @@ const HDFModule = () => {
           <p>
             In the past weeks, have you had any known &nbsp;
             <span className="text-lg">EXPOSURE</span>
-            &nbsp; to confirmed COVID-19 patient?
+            &nbsp; to confirmed COVID-19 patient?&nbsp;
+            <span className="text-red-600">*</span>
           </p>
 
           <div className="flex flex-row space-x-5" onChange={handleRadio}>
@@ -71,12 +72,14 @@ const HDFModule = () => {
               id="covidExposure"
               value={true}
               label="YES"
+              required
             />
             <RadioButton
               name="covidExposure"
               id="covidExposure"
               value={false}
               label="NO"
+              required
             />
           </div>
         </div>
@@ -85,7 +88,8 @@ const HDFModule = () => {
           <p>
             Have you tested &nbsp;
             <span className="text-lg">POSITIVE</span>
-            &nbsp; for COVID-19 in the last 30 days?
+            &nbsp; for COVID-19 in the last 30 days?&nbsp;
+            <span className="text-red-600">*</span>
           </p>
 
           <div className="flex flex-row space-x-5" onChange={handleRadio}>
@@ -94,12 +98,14 @@ const HDFModule = () => {
               id="covidPositive"
               value={true}
               label="YES"
+              required
             />
             <RadioButton
               name="covidPositive"
               id="covidPositive"
               value={false}
               label="NO"
+              required
             />
           </div>
         </div>
@@ -109,8 +115,8 @@ const HDFModule = () => {
         <div className="flex flex-col space-y-5">
           <p>
             <span className="text-lg font-bold">MEDICAL HISTORY</span> <br />
-            Have you been sicked or experienced any of the following in the last
-            14 days?
+            Please tick if you are currently experiencing or had any of the
+            following for the last 7 days.
           </p>
 
           <div className="flex flex-col space-y-3" onChange={handleCheck}>
@@ -139,7 +145,9 @@ const HDFModule = () => {
         </div>
 
         <div className="flex flex-col space-y-3">
-          <span className="text-lg">Are you pregnant?</span>
+          <p>
+            Are you pregnant?&nbsp;<span className="text-red-600">*</span>
+          </p>
 
           <div className="flex flex-row space-x-5" onChange={handleRadio}>
             <RadioButton
@@ -147,18 +155,21 @@ const HDFModule = () => {
               id="pregnant"
               value={true}
               label="YES"
+              required
             />
             <RadioButton
               name="pregnant"
               id="pregnant"
               value={false}
               label="NO"
+              required
             />
             <RadioButton
               name="pregnant"
               id="pregnant"
               value="NOT APPLICABLE"
               label="NOT APPLICABLE"
+              required
             />
           </div>
         </div>

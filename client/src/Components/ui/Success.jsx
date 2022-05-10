@@ -10,9 +10,9 @@ const Success = ({ route = "", header = "", message = "" }) => {
     <div className="fixed min-h-screen w-full z-50 flex flex-col justify-center items-center gap-y-5 border-2 bg-white border-slate-100">
       <div>
         <Icon
-          background="rounded-full"
+          roundedFull
           className="bg-green-400 text-white"
-          icon={<ImCheckmark className="h-10 w-10" />}
+          icon={<ImCheckmark className="h-8 w-8" />}
         />
       </div>
 

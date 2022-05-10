@@ -1,18 +1,11 @@
 import classnames from "classnames";
 
-const Menu = ({
-  children,
-  position = "vertical" || "horizontal",
-  loading = false,
-}) => {
+const Menu = ({ children, position = "vertical" || "horizontal" }) => {
   return (
     <div
       className={classnames(
         "rounded-md",
-        position === "vertical"
-          ? "flex flex-col"
-          : "flex flex-row items-center",
-        loading ? "blur-sm animate-pulse" : ""
+        position === "vertical" ? "flex flex-col" : "flex flex-row items-center"
       )}
     >
       {children}

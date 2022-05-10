@@ -66,7 +66,7 @@ const Select = ({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Listbox.Options className="absolute w-full mt-2 z-2 rounded border-2 border-gray-300 bg-white">
+                <Listbox.Options className="absolute w-full mt-2 z-10 rounded border-2 border-gray-300 bg-white">
                   {items.map((item) => (
                     <Listbox.Option
                       className="p-2 rounded cursor-pointer select-none hover:bg-blue-700 hover:text-white"

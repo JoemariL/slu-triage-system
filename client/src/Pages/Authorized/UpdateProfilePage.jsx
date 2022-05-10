@@ -23,15 +23,14 @@ function UpdateProfilePage() {
       )}
 
       <Formbar
-        headerText="Update profile"
-        fixedTop
+        header="Update your account"
         onReturnClick={(e) => {
           e.preventDefault();
-          navigate("/");
+          navigate("/login");
         }}
       />
 
-      <div className="mx-5 py-20 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+      <div className="p-5 ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
         <UpdateProfileModule onSuccess={successPopUp} />
       </div>
     </div>

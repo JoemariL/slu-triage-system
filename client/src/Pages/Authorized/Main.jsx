@@ -4,20 +4,30 @@ import { MdQrCodeScanner } from "react-icons/md";
 import useAuth from "../../hooks/useAuth";
 import { logout } from "../../actions/authActions";
 import { getUserData, getHdfDay } from "../../actions/userActions";
-import { Appbar, HamburgerMenu, Dashboard, Profile } from "../../Components/ui";
+import { Appheader, Appmenu, Dashboard, Profile } from "../../Components/ui";
 import { Alert, Button } from "../../Components/commons";
 
 function Main() {
   const navigate = useNavigate();
 
+  // react hooks
   const { auth, setAuth } = useAuth();
 
-  const [dribble, setDribble] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // initializations
   const [user, setUser] = useState({});
   const [hdf, setHdf] = useState({});
+
+  // render states
+  const [dribble, setDribble] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasHDF, setHasHDF] = useState(false);
 
+  // render handlers
+  const handleDribble = () => {
+    setDribble(!dribble);
+  };
+
+  // use effects
   useEffect(() => {
     (async function () {
       setIsLoading(true);
@@ -43,10 +53,7 @@ function Main() {
     })();
   }, [auth]);
 
-  const handleDribble = () => {
-    setDribble(!dribble);
-  };
-
+  // handlers
   const logoutUser = async (e) => {
     e.preventDefault();
     const response = await logout();
@@ -56,12 +63,14 @@ function Main() {
     }
   };
 
+  // variables
   const { first_name, last_name, email_address } = user;
+  const { allowed } = hdf;
 
   return (
-    <div className="relative text-xs ... sm:text-base">
+    <div className="relative text-xs bg-slate-100 ... sm:text-base">
       {dribble && (
-        <HamburgerMenu
+        <Appmenu
           onReturnClick={handleDribble}
           onHomeClick={(e) => {
             e.preventDefault();
@@ -74,10 +83,11 @@ function Main() {
             navigate("/profile/update");
           }}
           onLogOutClick={logoutUser}
+          loading={isLoading}
         />
       )}
 
-      <Appbar headerText="Dashboard" onMenuClick={handleDribble} />
+      <Appheader header="Dashboard" onMenuClick={handleDribble} />
 
       <Profile
         userFullName={`${first_name} ${last_name}`}
@@ -85,10 +95,10 @@ function Main() {
         loading={isLoading}
       />
 
-      <div className="my-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+      <div className="py-10 px-5 space-y-5 rounded-t-3xl bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
         <div className={isLoading ? "blur-sm animate-pulse" : ""}>
           <Alert
-            message="Fill out your Health Declaration Form first in order to scan the QR code."
+            message="Fill out your Health Declaration Form first in order to scan the QR Code."
             info
           />
         </div>
@@ -109,16 +119,29 @@ function Main() {
           {hasHDF && (
             <div className="flex flex-col space-y-10">
               <div className="bottom-0 grid grid-cols-2 gap-x-3">
-                <Button
-                  secondary
-                  label="VIEW RESULT"
-                  roundedFull
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/result");
-                  }}
-                  disabled={isLoading}
-                />
+                {hdf.allowed ? (
+                  <Button
+                    className="bg-blue-600"
+                    label="VIEW RESULT"
+                    roundedFull
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/result");
+                    }}
+                    disabled={isLoading}
+                  />
+                ) : (
+                  <Button
+                    className="bg-red-600"
+                    label="VIEW RESULT"
+                    roundedFull
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/result");
+                    }}
+                    disabled={isLoading}
+                  />
+                )}
                 <Button
                   icon={<MdQrCodeScanner className="h-6 w-6" />}
                   label="SCAN QR CODE"
@@ -127,8 +150,15 @@ function Main() {
                     e.preventDefault();
                     navigate("/qr-scanner");
                   }}
-                  disabled={isLoading}
+                  disabled={isLoading || !allowed}
                 />
+              </div>
+
+              <div className="px-2">
+                <span>
+                  After you scan a QR Code, there will be an interval of 1 hour
+                  before you are able to scan again.
+                </span>
               </div>
             </div>
           )}

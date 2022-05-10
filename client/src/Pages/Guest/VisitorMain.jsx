@@ -4,8 +4,8 @@ import { MdQrCodeScanner } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { getVisitor } from "../../actions/visitorActions";
 import {
-  Appbar,
-  HamburgerMenu,
+  Appheader,
+  GuestAppmenu,
   GuestResult,
   GuestProfile,
 } from "../../Components/ui";
@@ -44,38 +44,48 @@ function VisitorMain() {
   const { allowed, entry_date } = hdf;
 
   return (
-    <div className="relative text-xs ... sm:text-base">
+    <div className="relative text-sm bg-slate-100 ... sm:text-base">
       {dribble && (
-        <HamburgerMenu
+        <GuestAppmenu
           onReturnClick={handleDribble}
-          disabled={entry_date}
-          onReturnIntro={(e) => {
+          // onEditClick={(e) => {
+          //   e.preventDefault();
+          //   navigate("/visitor/fillout");
+          // }}
+
+          onDeleteInfo={(e) => {
+            e.preventDefault();
+            localStorage.removeItem("userInfo");
+            localStorage.removeItem("userVaccine");
+            localStorage.removeItem("userHDF");
+            navigate("/", { replace: true })
+          }}
+
+          onLogOutClick={(e) => {
             e.preventDefault();
             navigate("/");
           }}
-          onVisitorReviewClick={(e) => {
-            e.preventDefault();
-            navigate("/visitor/fillout");
-          }}
-          visitor
+          disabled={entry_date}
         />
       )}
 
-      <Appbar headerText="Dashboard" onMenuClick={handleDribble} />
+      <Appheader header="Visitor Dashboard" onMenuClick={handleDribble} />
 
       <GuestProfile
         userFullName={`${visitor.first_name} ${visitor.last_name}`}
         contactNumber={visitor.contact_number}
       />
-      <div className="my-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+
+      <div className="py-10 px-5 rounded-t-3xl space-y-5 bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
         <Alert
-          message="You are still required to bring your own Vaccination Card for verification."
+          message="You are still required to bring your own VACCINATION CARD for verification."
           info
         />
 
         <GuestResult
           entryStatus={allowed}
-          date={moment(entry_date).format("MMMM Do YYYY")}
+          dateD={moment(entry_date).format("dddd,")}
+          dateMY={moment(entry_date).format("MMMM Do YYYY")}
         />
 
         <div className="px-16">
@@ -87,6 +97,7 @@ function VisitorMain() {
               e.preventDefault();
               navigate("/visitor/qr-scanner");
             }}
+            disabled={!allowed}
           />
         </div>
       </div>

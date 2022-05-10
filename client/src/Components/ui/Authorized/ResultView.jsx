@@ -1,9 +1,13 @@
-import classnames from "classnames";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { Icon, List, ListItem } from "../../commons";
 import { Approved, Disapproved } from "../../../assets";
 
-const ResultView = ({ entryStatus = false, date = "" }) => {
+const ResultView = ({
+  entryStatus = false,
+  dateD = "",
+  dateMY = "",
+  date = "",
+}) => {
   return (
     <div className="flex flex-col space-y-10">
       <List position="vertical">
@@ -13,7 +17,7 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
               className="select-none bg-blue-600"
               icon={
                 <Icon
-                  background="rounded-full"
+                  roundedFull
                   className="bg-blue-400 text-white"
                   icon={<ImCheckmark className="h-4 w-4" />}
                 />
@@ -27,7 +31,7 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
               className="select-none  bg-red-600"
               icon={
                 <Icon
-                  background="rounded-full"
+                  roundedFull
                   className="bg-red-400 text-white"
                   icon={<ImCross className="h-4 w-4" />}
                 />
@@ -46,14 +50,24 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
             alt="slu triage application result"
           />
 
-          <div className="flex flex-col space-y-1">
-            <p>
-              {entryStatus
-                ? "YOU ARE ALLOWED TO ENTER THE CAMPUS."
-                : "YOU ARE NOT ALLOWED TO ENTER THE CAMPUS."}
-            </p>
-
-            <p className="text-xl font-bold">{date}</p>
+          <div className="flex flex-col space-y-5">
+            {entryStatus ? (
+              <>
+                <p>YOU ARE ALLOWED TO ENTER THE CAMPUS.</p>
+                <div className="w-fit p-3 flex flex-col bg-blue-600 text-white rounded md:flex-row md:space-x-1">
+                  <p className="text-xl font-bold">{dateD}</p>
+                  <p className="text-xl font-bold">{dateMY}</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <p>YOU ARE NOT ALLOWED TO ENTER THE CAMPUS.</p>
+                <div className="w-fit p-3 flex flex-col bg-red-600 text-white rounded md:flex-row md:space-x-1">
+                  <p className="text-xl font-bold">{dateD}</p>
+                  <p className="text-xl font-bold">{dateMY}</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -63,7 +77,7 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
           {entryStatus ? (
             <>
               <div>
-                <article>
+                <article className="text-justify">
                   <p>
                     <span>
                       <strong>NOTE</strong>
@@ -80,7 +94,7 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
           ) : (
             <>
               <div className="flex flex-col space-y-10">
-                <article>
+                <article className="text-justify">
                   <p>
                     <span>
                       <strong>NOTE FOR STUDENTS & EMPLOYEES</strong>
@@ -93,6 +107,8 @@ const ResultView = ({ entryStatus = false, date = "" }) => {
                       slu.medical.clinic@slu.edu.ph.
                     </span>
                   </p>
+
+                  <br />
 
                   <p>Observe minimum public health standards.</p>
                 </article>

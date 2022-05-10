@@ -8,16 +8,24 @@ import { Input, Button } from "../../../Components/commons";
 const LoginModule = () => {
   const navigate = useNavigate();
 
+  // react hooks
   const { setAuth } = useAuth();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-
+  // initializations
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // render states
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const isMounted = useRef(false);
 
+  // render handlers
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  // input handlers
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -26,16 +34,11 @@ const LoginModule = () => {
     setPassword(e.target.value);
   };
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     isMounted.current = true;
     const response = await login(email, password);
 
-    // TODO: SUCCESS, ERROR, LOADING.
     if (response.hasOwnProperty("message")) {
       setError(response?.message);
     } else {
@@ -57,7 +60,6 @@ const LoginModule = () => {
             type="email"
             onChange={handleEmail}
             error={error}
-            required
           />
 
           <Input
@@ -75,7 +77,6 @@ const LoginModule = () => {
               </button>
             }
             onChange={handlePassword}
-            required
           />
         </div>
 

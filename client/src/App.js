@@ -19,6 +19,7 @@ import {
   Result,
 } from "./Pages/Authorized";
 import {
+  VisitorAgreement,
   VisitorFormPage,
   VisitorMain,
   VisitorQR,
@@ -34,6 +35,11 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route element={<NoAuth />}>
               <Route exact path="/" element={<Introduction />} />
+              <Route
+                exact
+                path="/visitor/user-agreement"
+                element={<VisitorAgreement />}
+              />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Register />} />
               <Route

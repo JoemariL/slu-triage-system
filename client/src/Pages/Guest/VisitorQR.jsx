@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import classnames from "classnames";
 import { QrReader } from "react-qr-reader";
 import { addVisitor } from "../../actions/visitorActions";
 import { Button } from "../../Components/commons";
 
 function VisitorQR() {
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const userVaccine = JSON.parse(localStorage.getItem("userVaccine"));
@@ -29,16 +26,13 @@ function VisitorQR() {
   };
 
   return (
-    <div
-      className={classnames(
-        "relative text-sm ... sm:text-base",
-        isLoading ? "blur-sm animate-pulse" : ""
-      )}
-    >
-      <div className="mx-5 py-10 ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
-        <div className="py-5 px-5 rounded bg-slate-100">
+    <div className="relative text-sm bg-slate-100 ... sm:text-base">
+      <div className="py-10 px-5 flex flex-col space-y-10 rounded-t-3xl bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
+        <div>
           <div className="text-center">
-            <span>Align QR Code to scan.</span>
+            <span className="font-bold underline underline-offset-2 decoration-blue-800">
+              ALIGN QR CODE TO SCAN
+            </span>
           </div>
 
           <QrReader
@@ -49,12 +43,13 @@ function VisitorQR() {
                 handleSubmitQR(result?.text);
               }
             }}
+            videoStyle={{ width: "100vw" }}
           />
         </div>
 
-        <div className="p-16">
+        <div className="px-16">
           <Button
-            buttonStyle="secondary"
+            secondary
             label="Cancel"
             type="button"
             onClick={(e) => {

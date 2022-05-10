@@ -10,7 +10,7 @@ import {
 import { Input, Button, RadioButton } from "../../../Components/commons";
 import { getUserData } from "../../../actions/userActions";
 
-const VaccineModule = () => {
+const VaccineModule = ({ onSuccess = () => {}, onError = () => {} }) => {
   const { changeHandler, formValues, setFormValues } = useForm(
     VaccineFormInitialState,
     VaccineFormValidations
@@ -47,12 +47,11 @@ const VaccineModule = () => {
       const response = await updateVaccine({ vaccine_status });
 
       if (response.hasOwnProperty("message")) {
-        alert(response.message);
         setIsLoading(false);
+        onError();
       } else {
-        alert("Your vaccine profile is updated!");
         setIsLoading(false);
-        navigate("/vaccine");
+        onSuccess();
       }
     } else {
       const response = await updateVaccine({
@@ -63,9 +62,10 @@ const VaccineModule = () => {
 
       if (response.hasOwnProperty("message")) {
         setIsLoading(false);
+        onError();
       } else {
         setIsLoading(false);
-        navigate("/vaccine");
+        onSuccess();
       }
     }
   };
@@ -82,7 +82,9 @@ const VaccineModule = () => {
         </div>
 
         <div className="flex flex-col space-y-5">
-          <span className="font-bold">VACCINATION STATUS</span>
+          <p className="font-bold">
+            VACCINATION STATUS&nbsp;<span className="text-red-600">*</span>
+          </p>
 
           <div className="flex flex-col space-y-3" onChange={changeHandler}>
             <RadioButton
@@ -93,6 +95,7 @@ const VaccineModule = () => {
               checked={
                 formValues?.vaccine_status === "FULLY VACCINATED" ? true : false
               }
+              required
             />
             <RadioButton
               name="vaccine_status"
@@ -104,6 +107,7 @@ const VaccineModule = () => {
                   ? true
                   : false
               }
+              required
             />
             <RadioButton
               name="vaccine_status"
@@ -113,6 +117,7 @@ const VaccineModule = () => {
               checked={
                 formValues?.vaccine_status === "NOT VACCINATED" ? true : false
               }
+              required
             />
           </div>
         </div>
@@ -120,25 +125,27 @@ const VaccineModule = () => {
         <div
           className={classnames(
             "space-y-5",
-            formValues?.vaccine_status === "NOT VACCINATED" ? "blur-sm" : ""
+            formValues?.vaccine_status === "NOT VACCINATED" ? "sr-only" : ""
           )}
         >
           <div className="flex flex-col space-y-3">
-            <span>ENTER THE DATE OF YOUR MOST RECENT SHOT</span>
             <Input
+              label="DATE OF YOUR MOST RECENT SHOT"
               id="vaccine_date"
               name="vaccine_date"
               type="date"
+              max={new Date().toISOString().slice(0, 10)}
               onChange={changeHandler}
               disabled={
                 formValues?.vaccine_status === "NOT VACCINATED" ? true : false
               }
+              required
             />
           </div>
 
           <div className="flex flex-col">
-            <span>ENTER YOUR VACCINATION CARD SERIAL NO.</span>
             <Input
+              label="VACCINATION CARD SERIAL NO."
               id="vaccine_serial_no"
               name="vaccine_serial_no"
               type="text"

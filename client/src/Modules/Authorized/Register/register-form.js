@@ -18,6 +18,10 @@ export const RegisterFormValidations = [
     isRequired(lastName) || { lastName: "Last name is required." },
   ({ age }) => isRequired(age) || { age: "Age is required" },
   ({ age }) => isValidNumber(age) && { age: "The age you entered is invalid." },
+  ({ age }) =>
+    isValidAge(age) && {
+      age: "You should be at least 5 years old to register.",
+    },
   ({ contactNumber }) =>
     isRequired(contactNumber) || {
       contactNumber: "Contact number is required.",
@@ -25,10 +29,10 @@ export const RegisterFormValidations = [
   ({ address }) =>
     isRequired(address) || { address: "Local address is required." },
   ({ email }) => isRequired(email) || { email: "Email address is required." },
-  ({ email }) =>
-    isValidEmail(email) && {
+  ({ userType, email }) =>
+    isValidEmail(userType, email) && {
       email:
-        "The email you entered is invalid. Please use the university email: (@slu.edu.ph).",
+        "The email you entered is invalid. Please use the university email: (@slu.edu.ph). If you are a STUDENT, use your ID NUMBER.",
     },
   ({ password }) =>
     isRequired(password) || { password: "Password is required." },
@@ -47,8 +51,15 @@ const isValidNumber = (value) => {
   if (value) return !pattern.test(value);
 };
 
-const isValidEmail = (value) => {
-  const pattern = /^[a-zA-Z0-9.]+@slu\.edu.ph$/;
+const isValidAge = (value) => {
+  return value < 5;
+};
+
+const isValidEmail = (userType, value) => {
+  const pattern =
+    userType === "EMPLOYEE"
+      ? /^[a-zA-Z0-9.]+@slu\.edu.ph$/
+      : /^([0-9]{6,7})+@slu\.edu.ph$/;
   if (value) return !pattern.test(value);
 };
 

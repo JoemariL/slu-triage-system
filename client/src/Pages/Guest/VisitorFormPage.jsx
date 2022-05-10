@@ -23,17 +23,16 @@ function VisitorFormPage() {
   switch (step) {
     case 1:
       return (
-        <div className="text-sm ... sm:text-base">
+        <div className="text-sm bg-slate-100 ... sm:text-base">
           <Formbar
-            headerText="Guest / Basic Information"
-            fixedTop
+            header="Guest / Basic Information"
             onReturnClick={(e) => {
               e.preventDefault();
-              navigate("/visitor/main");
+              navigate("/visitor/main", { replace: true });
             }}
           />
 
-          <div className="mx-5 py-20 flex flex-col space-y-10 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+          <div className="p-5 rounded-t-3xl space-y-10 bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
             <VisitorModule onNext={nextStep} />
             <div className="mx-16 bg-gray-200 rounded-full h-2.5">
               <div
@@ -49,17 +48,16 @@ function VisitorFormPage() {
       );
     case 2:
       return (
-        <div className="text-sm ... sm:text-base">
+        <div className="text-sm bg-slate-100 ... sm:text-base">
           <Formbar
-            headerText="Guest / Vaccination Information"
-            fixedTop
+            header="Guest / Vaccine Information"
             onReturnClick={(e) => {
               e.preventDefault();
               prevStep();
             }}
           />
 
-          <div className="mx-5 py-20 flex flex-col space-y-10 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+          <div className="p-5 rounded-t-3xl space-y-10 bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
             <VisitorVaccineModule onNext={nextStep} />
             <div className="mx-16 bg-gray-200 rounded-full h-2.5 ">
               <div
@@ -75,17 +73,16 @@ function VisitorFormPage() {
       );
     case 3:
       return (
-        <div className="text-sm ... sm:text-base">
+        <div className="text-sm bg-slate-100 ... sm:text-base">
           <Formbar
-            headerText="Guest / Health Declaration Form"
-            fixedTop
+            header="Guest / Health Declaration Form"
             onReturnClick={(e) => {
               e.preventDefault();
               prevStep();
             }}
           />
 
-          <div className="mx-5 py-20 flex flex-col space-y-10 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+          <div className="p-5 rounded-t-3xl space-y-10 bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
             <VisitorHDFModule />
             <div className="mx-16 bg-gray-200 rounded-full h-2.5">
               <div

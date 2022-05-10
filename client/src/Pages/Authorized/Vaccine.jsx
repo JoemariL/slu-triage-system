@@ -4,18 +4,28 @@ import moment from "moment";
 import useAuth from "../../hooks/useAuth";
 import { getUserData } from "../../actions/userActions";
 import { logout } from "../../actions/authActions";
-import { Appbar, HamburgerMenu, VaccineView } from "../../Components/ui";
+import { Appheader, Appmenu, VaccineView } from "../../Components/ui";
+import { Alert } from "../../Components/commons";
 
 function Vaccine() {
   const navigate = useNavigate();
-
+  // react hooks
   const { auth, setAuth } = useAuth();
 
+  // initializations
+  const [vaccine, setVaccine] = useState({});
+
+  // render states
   const [dribble, setDribble] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [vaccine, setVaccine] = useState({});
   const [hasVaccine, setHasVaccine] = useState(false);
 
+  // render handlers
+  const handleDribble = () => {
+    setDribble(!dribble);
+  };
+
+  // use effects
   useEffect(() => {
     (async function () {
       setIsLoading(true);
@@ -31,10 +41,6 @@ function Vaccine() {
     })();
   }, [auth]);
 
-  const handleDribble = () => {
-    setDribble(!dribble);
-  };
-
   const logoutUser = async (e) => {
     e.preventDefault();
     const response = await logout();
@@ -49,10 +55,11 @@ function Vaccine() {
   return (
     <div className="relative text-sm ... sm:text-base">
       {dribble && (
-        <HamburgerMenu
+        <Appmenu
           onReturnClick={handleDribble}
           onHomeClick={(e) => {
             e.preventDefault();
+            handleDribble();
             navigate("/main");
           }}
           onEditClick={(e) => {
@@ -61,16 +68,25 @@ function Vaccine() {
             navigate("/profile/update");
           }}
           onLogOutClick={logoutUser}
+          loading={isLoading}
         />
       )}
 
-      <Appbar headerText="Vaccination Profile" onMenuClick={handleDribble} />
+      <Appheader header="Vaccination Profile" onMenuClick={handleDribble} />
 
-      <div className="my-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+      <div className="py-10 px-5 space-y-10 bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
+        {!hasVaccine && (
+          <div className={isLoading ? "blur-sm animate-pulse" : ""}>
+            <Alert message="Please set up you Vaccination Profile." warning />
+          </div>
+        )}
+
         <VaccineView
           hasVaccine={hasVaccine}
           vaccineStatus={vaccine_status}
-          vaccineDate={moment(vaccine_date).format("MMMM Do YYYY")}
+          vaccineDate={
+            vaccine_date ? moment(vaccine_date).format("MMMM Do YYYY") : ""
+          }
           vaccineSerial={vaccine_serial_no}
           loading={isLoading}
           onVaccineForm={(e) => {

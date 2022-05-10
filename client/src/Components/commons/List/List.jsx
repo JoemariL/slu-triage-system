@@ -9,10 +9,7 @@ const List = ({
     <div
       className={classnames(
         "rounded-md",
-        position === "vertical"
-          ? "flex flex-col"
-          : "flex flex-row items-center",
-        loading ? "blur-sm animate-pulse" : ""
+        position === "vertical" ? "flex flex-col" : "flex flex-row items-center"
       )}
     >
       {children}

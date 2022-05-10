@@ -65,7 +65,9 @@ const VisitorVaccineModule = ({ onNext = () => {} }) => {
         </div>
 
         <div className="flex flex-col space-y-5">
-          <span className="font-bold">VACCINATION STATUS</span>
+          <p className="font-bold">
+            VACCINATION STATUS&nbsp;<span className="text-red-600">*</span>
+          </p>
 
           <div className="flex flex-col space-y-3" onChange={changeHandler}>
             <RadioButton
@@ -110,37 +112,27 @@ const VisitorVaccineModule = ({ onNext = () => {} }) => {
           )}
         >
           <div className="flex flex-col space-y-3">
-            <div className="inline-flex">
-              <span>DATE OF YOUR MOST RECENT VACCINE SHOT</span>
-              <span className="ml-auto">
-                <em>Optional</em>
-              </span>
-            </div>
             <Input
+              label="DATE OF YOUR MOST RECENT VACCINE SHOT"
               id="vaccine_date"
               name="vaccine_date"
               type="date"
-              required
+              max={new Date().toISOString().slice(0, 10)}
               onChange={changeHandler}
               disabled={
                 formValues?.vaccine_status === "NOT VACCINATED" ? true : false
               }
+              required
             />
           </div>
 
           <div className="flex flex-col">
-            <div className="inline-flex">
-              <span>VACCINATION CARD SERIAL NO.</span>
-              <span className="ml-auto">
-                <em>Optional</em>
-              </span>
-            </div>
             <Input
+              label="VACCINATION CARD SERIAL NO."
               id="vaccine_serial_no"
               name="vaccine_serial_no"
               type="text"
               value={formValues?.vaccine_serial_no}
-              required
               onChange={changeHandler}
               disabled={
                 formValues?.vaccine_status === "NOT VACCINATED" ? true : false

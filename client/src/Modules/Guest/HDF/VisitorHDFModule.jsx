@@ -119,7 +119,8 @@ const VisitorHDFModule = () => {
           <p>
             In the past weeks, have you had any known &nbsp;
             <span className="text-lg">EXPOSURE</span>
-            &nbsp; to confirmed COVID-19 patient?
+            &nbsp; to confirmed COVID-19 patient? &nbsp;
+            <span className="text-red-600">*</span>
           </p>
 
           <div className="flex flex-row space-x-5" onChange={handleRadio}>
@@ -129,6 +130,7 @@ const VisitorHDFModule = () => {
               value={true}
               label="YES"
               checked={formValues?.covid_exposure === true}
+              required
             />
             <RadioButton
               name="covid_exposure"
@@ -136,6 +138,7 @@ const VisitorHDFModule = () => {
               value={false}
               label="NO"
               checked={formValues?.covid_exposure === false}
+              required
             />
           </div>
         </div>
@@ -144,7 +147,8 @@ const VisitorHDFModule = () => {
           <p>
             Have you tested &nbsp;
             <span className="text-lg">POSITIVE</span>
-            &nbsp; for COVID-19 in the last 30 days?
+            &nbsp; for COVID-19 in the last 30 days? &nbsp;
+            <span className="text-red-600">*</span>
           </p>
 
           <div className="flex flex-row space-x-5" onChange={handleRadio}>
@@ -154,6 +158,7 @@ const VisitorHDFModule = () => {
               value={true}
               label="YES"
               checked={formValues?.covid_positive === true}
+              required
             />
             <RadioButton
               name="covid_positive"
@@ -161,6 +166,7 @@ const VisitorHDFModule = () => {
               value={false}
               label="NO"
               checked={formValues?.covid_positive === false}
+              required
             />
           </div>
         </div>
@@ -170,8 +176,8 @@ const VisitorHDFModule = () => {
         <div className="flex flex-col space-y-5">
           <p>
             <span className="text-lg font-bold">MEDICAL HISTORY</span> <br />
-            Have you been sicked or experienced any of the following in the last
-            14 days?
+            Please tick if you are currently experiencing or had any of the
+            following for the last 7 days.
           </p>
 
           <div className="flex flex-col space-y-3" onChange={handleCheck}>
@@ -221,7 +227,9 @@ const VisitorHDFModule = () => {
         </div>
 
         <div className="flex flex-col space-y-3">
-          <span className="text-lg">Are you pregnant?</span>
+          <p>
+            Are you pregnant?&nbsp;<span className="text-red-600">*</span>
+          </p>
 
           <div className="flex flex-row space-x-5" onChange={handleRadio}>
             <RadioButton
@@ -230,6 +238,7 @@ const VisitorHDFModule = () => {
               value={true}
               label="YES"
               checked={formValues?.pregnant === true}
+              required
             />
             <RadioButton
               name="pregnant"
@@ -237,6 +246,7 @@ const VisitorHDFModule = () => {
               value={false}
               label="NO"
               checked={formValues?.pregnant === false}
+              required
             />
             <RadioButton
               name="pregnant"
@@ -247,6 +257,7 @@ const VisitorHDFModule = () => {
                 formValues?.pregnant === null ||
                 formValues?.pregnant === undefined
               }
+              required
             />
           </div>
         </div>
@@ -254,11 +265,8 @@ const VisitorHDFModule = () => {
         <hr />
 
         <div className="flex flex-col space-y-3">
-          <span className="text-lg">
-            What is your department or destination?
-          </span>
-
           <Input
+            label="What is your department or destination?"
             placeholder="Please enter your department or destination"
             id="destination"
             name="destination"

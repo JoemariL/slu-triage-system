@@ -3,18 +3,28 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { logout } from "../../actions/authActions";
 import { getHdfDay } from "../../actions/userActions";
-import { Appbar, HamburgerMenu, HDFView } from "../../Components/ui";
+import { Appheader, Appmenu, HDFView } from "../../Components/ui";
 
 function HDF() {
   const navigate = useNavigate();
 
+  // react hooks
   const { auth, setAuth } = useAuth();
 
+  // initializations
+  const [hdf, setHdf] = useState({});
+
+  // render states
   const [dribble, setDribble] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [hdf, setHdf] = useState({});
   const [hasHDF, setHasHDF] = useState(false);
 
+  // render handlers
+  const handleDribble = () => {
+    setDribble(!dribble);
+  };
+
+  // use effects
   useEffect(() => {
     (async function () {
       setIsLoading(true);
@@ -49,10 +59,6 @@ function HDF() {
     })();
   }, []);
 
-  const handleDribble = () => {
-    setDribble(!dribble);
-  };
-
   const logoutUser = async (e) => {
     e.preventDefault();
     const response = await logout();
@@ -75,12 +81,13 @@ function HDF() {
   } = hdf;
 
   return (
-    <div className="relative text-sm ... sm:text-base">
+    <div className="relative text-sm bg-slate-100 ... sm:text-base">
       {dribble && (
-        <HamburgerMenu
+        <Appmenu
           onReturnClick={handleDribble}
           onHomeClick={(e) => {
             e.preventDefault();
+            handleDribble();
             navigate("/main");
           }}
           onEditClick={(e) => {
@@ -89,15 +96,13 @@ function HDF() {
             navigate("/profile/update");
           }}
           onLogOutClick={logoutUser}
+          loading={isLoading}
         />
       )}
 
-      <Appbar
-        headerText="Health Declaration Form"
-        onMenuClick={handleDribble}
-      />
+      <Appheader header="Health Declaration Form" onMenuClick={handleDribble} />
 
-      <div className="my-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+      <div className="py-10 px-5 space-y-5 bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
         <HDFView
           exposure={covid_exposure}
           positive={covid_positive}

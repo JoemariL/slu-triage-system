@@ -5,19 +5,29 @@ import { BiLoaderAlt } from "react-icons/bi";
 import useAuth from "../../hooks/useAuth";
 import { logout } from "../../actions/authActions";
 import { getHdfDay } from "../../actions/userActions";
-import { Appbar, HamburgerMenu, ResultView } from "../../Components/ui";
+import { Appheader, Appmenu, ResultView } from "../../Components/ui";
 
 function Result() {
   const navigate = useNavigate();
 
+  // react hooks
   const { auth, setAuth } = useAuth();
 
+  // initializations
+  const [hdf, setHdf] = useState({});
+
+  // render states
   const [dribble, setDribble] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [hdf, setHdf] = useState({});
+  const [allowed, setIsAllowed] = useState(false);
   const [hasHDF, setHasHDF] = useState(false);
-  const [allowed, setIsAllowed] = useState(false)
 
+  // render handlers
+  const handleDribble = () => {
+    setDribble(!dribble);
+  };
+
+  // use effects
   useEffect(() => {
     (async function () {
       setIsLoading(true);
@@ -26,7 +36,7 @@ function Result() {
         setHdf({});
       } else {
         const hdfCampusInfo = user.map((payload) => {
-          setIsAllowed(payload.allowed)
+          setIsAllowed(payload.allowed);
           return {
             id: payload._id,
             entry_campus: payload.entry_campus,
@@ -43,10 +53,6 @@ function Result() {
     })();
   }, []);
 
-  const handleDribble = () => {
-    setDribble(!dribble);
-  };
-
   const logoutUser = async (e) => {
     e.preventDefault();
     const response = await logout();
@@ -61,18 +67,26 @@ function Result() {
   return (
     <div className="relative text-xs ... sm:text-base">
       {dribble && (
-        <HamburgerMenu
+        <Appmenu
           onReturnClick={handleDribble}
           onHomeClick={(e) => {
             e.preventDefault();
+            handleDribble();
             navigate("/main");
           }}
+          onEditClick={(e) => {
+            e.preventDefault();
+            handleDribble();
+            navigate("/profile/update");
+          }}
           onLogOutClick={logoutUser}
+          loading={isLoading}
         />
       )}
 
-      <Appbar headerText="Result" onMenuClick={handleDribble} />
-      <div className="py-10 mx-5 space-y-5 ... ease-in-out duration-300 sm:mx-20 md:mx-36 lg:mx-60 xl:mx-96">
+      <Appheader header="Your Result" onMenuClick={handleDribble} />
+
+      <div className="py-10 px-5 space-y-5 bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
         {isLoading ? (
           <div className="w-full flex flex-col items-center">
             <BiLoaderAlt className="h-8 w-8 text-blue-600 animate-spin" />
@@ -82,7 +96,8 @@ function Result() {
             <ResultView
               entryStatus={allowed}
               loading={isLoading}
-              date={moment(entry_date).format("MMMM Do YYYY")}
+              dateD={moment(entry_date).format("dddd,")}
+              dateMY={moment(entry_date).format("MMMM Do YYYY")}
             />
 
             <div className="relative overflow-x-auto shadow-sm">
@@ -90,16 +105,13 @@ function Result() {
                 <thead className="text-xs uppercase bg-slate-100">
                   <tr>
                     <th scope="col" className="px-6 py-3">
-                      Campus Name
+                      Time
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Gate
+                      Campus & Gate
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Destination
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Time
                     </th>
                   </tr>
                 </thead>
@@ -107,19 +119,26 @@ function Result() {
                   {hdf.length &&
                     hdf.map((payload) => (
                       <tr key={payload.id}>
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium whitespace-nowrap"
-                        >
-                          {payload.entry_campus}
-                        </th>
-                        <td className="px-6 py-4">{payload.gate_info}</td>
-                        <td className="px-6 py-4">{payload.destination}</td>
-
                         <td className="px-6 py-4">
                           {payload.entry_date
                             ? moment(payload.entry_date).format("h:mm:ss a")
                             : ""}
+                        </td>
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium whitespace-nowrap"
+                        >
+                          <div className="flex flex-col">
+                            <span className="font-bold truncate">
+                              {payload.entry_campus}
+                            </span>
+                            <span className="truncate">
+                              {payload.gate_info}
+                            </span>
+                          </div>
+                        </th>
+                        <td className="px-6 py-4 truncate">
+                          {payload.destination}
                         </td>
                       </tr>
                     ))}
