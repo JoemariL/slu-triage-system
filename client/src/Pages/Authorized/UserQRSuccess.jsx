@@ -10,6 +10,7 @@ function UserQRSuccess() {
   useEffect(() => {
     setInterval(() => {
       navigate("/main");
+      window.location.reload();
     }, 5000);
   }, [navigate, showComponent]);
 
@@ -45,6 +46,7 @@ function UserQRSuccess() {
             onClick={(e) => {
               e.preventDefault();
               navigate("/main");
+              window.location.reload();
             }}
           />
         </div>
