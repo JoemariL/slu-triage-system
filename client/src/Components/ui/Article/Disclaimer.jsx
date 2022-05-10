@@ -6,9 +6,9 @@ const Disclaimer = ({ title = "", message = "", onClick = () => {} }) => {
           <hr />
           <p className="font-bold">Disclaimer</p>
           <p>
-            This application is still in BETA. Don't store sensitive data during
-            testing. By using the application, you assume full responsibility
-            for all risks concerning your personal data.
+            This application is still in BETA. Don't store more sensitive data
+            than you need during testing. By using the application, you assume
+            full responsibility for all risks concerning your personal data.
           </p>
           <hr />
         </article>
