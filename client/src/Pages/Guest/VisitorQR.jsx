@@ -43,7 +43,7 @@ function VisitorQR() {
                 handleSubmitQR(result?.text);
               }
             }}
-            videoStyle={{ width: "100vw" }}
+            videoStyle={{ width: "100%" }}
           />
         </div>
 

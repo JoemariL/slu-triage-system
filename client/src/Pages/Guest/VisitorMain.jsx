@@ -58,9 +58,8 @@ function VisitorMain() {
             localStorage.removeItem("userInfo");
             localStorage.removeItem("userVaccine");
             localStorage.removeItem("userHDF");
-            navigate("/", { replace: true })
+            navigate("/", { replace: true });
           }}
-
           onLogOutClick={(e) => {
             e.preventDefault();
             navigate("/");

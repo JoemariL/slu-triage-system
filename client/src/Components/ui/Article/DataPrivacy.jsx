@@ -49,13 +49,13 @@ const DataPrivacy = () => {
 
         <p>
           <strong>Where are these stored and who has access.</strong> The data
-          collected and processed throught the SLU Online Triage System are
+          collected and processed through the SLU Online Triage System are
           stored at the servers of the Technology Management System (TMDD).
           These data will be handled only by the SLU Triage Team. These are also
           shared to authorized personnel of SLU, the CoViD-19 Response Team,
           Barangay Health Emergency Response Team (BHERT), Department of Health
           (DOH), Baguio City Health Services Office (BCHSO), and the Department
-          of Interior and Local Governement (DILG) to facilitate contact tracing
+          of Interior and Local Government (DILG) to facilitate contact tracing
           and health monitoring.
         </p>
 
@@ -74,9 +74,9 @@ const DataPrivacy = () => {
         </p>
 
         <p>
-          By using this website and, you consent to the collection, storage,
+          By using this website, you consent to the collection, storage,
           processing and sharing of your personal information through the Online
-          Triage System for the abovementioned purposes. Should you have any
+          Triage System for the above mentioned purposes. Should you have any
           questions regarding your personal information, contact&nbsp;
           <span className="underline underline-offset-2 text-blue-600 decoration-blue-600">
             privacy@slu.edu.ph.
