@@ -21,7 +21,6 @@ const GuestAppmenu = ({
             className="ml-auto rounded-full bg-slate-100 focus:outline-none hover:bg-white"
             type="button"
             onClick={onReturnClick}
-            disabled={disabled}
           >
             <Icon icon={<IoReturnDownBackOutline className="h-6 w-6" />} />
           </button>
