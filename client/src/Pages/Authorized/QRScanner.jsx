@@ -125,7 +125,7 @@ function QRScanner() {
           />
 
           <div className="py-10 px-5 flex flex-col space-y-10 rounded-t-3xl bg-white ... ease-in-out duration-300 sm:px-20 md:px-36 lg:px-60 xl:px-96">
-            <div>
+            <div className="space-y-2">
               <div className="text-center">
                 <span className="font-bold underline underline-offset-2 decoration-blue-800">
                   ALIGN QR CODE TO SCAN
