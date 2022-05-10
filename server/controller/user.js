@@ -10,7 +10,7 @@ const TOKEN = require('../models/token')
 // UTILS IMPORT
 require('dotenv').config({ path: '../.env'})
 const auth = require('../middleware/auth')
-const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../middleware/jwt-helper')
+const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt-helper')
 const { emailValidator } = require('../utils/validator')
 
 // LOGIN USER.
@@ -88,37 +88,6 @@ router.post("/user/register", async (req, res) => {
             default:  
                 return res.sendStatus(500)
         }
-    }
-})
-
-router.post('/token', async (req, res) => {
-    try {
-        if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) return res.sendStatus(204)
-        
-        const token = req.cookies.refreshToken
-        
-        // checks if the refresh token exists in the database
-        const refreshToken = await TOKEN.find({ token })
-        if(refreshToken.length === 0) {
-            res.clearCookie('refreshToken').clearCookie('accessToken')
-            return res.sendStatus(401)
-        }
-
-        const tokenInfo = await verifyRefreshToken(refreshToken[0].token, token)
-        if(!tokenInfo) return res.sendStatus(403)
-        const accessToken = await generateAccessToken(tokenInfo)
-
-        if (process.env.NODE_ENV === "PRODUCTION") {
-            return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 518400 * 1000), secure: true })
-            .send('Access token generated')
-        } else {
-            return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 518400 * 1000) })
-            .send('Access token generated')
-        }
-    } catch (error) {
-        return res.sendStatus(404)
     }
 })
 

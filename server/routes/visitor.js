@@ -24,6 +24,7 @@ router.post("/generate", async (req, res) => {
 
     let allowed = true
     if(covid_exposure || covid_positive || fever || cough || cold || sore_throat || diff_breathing || diarrhea) allowed = false
+    if(!allowed) return res.status(400).json({ errors: { message: 'You are not allowed to scan qr code.' }})
 
     const vaccination_details = {
         vaccine_status,

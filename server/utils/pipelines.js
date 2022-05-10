@@ -220,6 +220,33 @@ module.exports.hdfIfExpired = async (userID, hdfID) => {
     return false
 }
 
+module.exports.hdfIfNotAllowed = async (userID, hdfID) => {
+    const hdf = await USERS.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$hdf_data"
+            }
+        },
+        {
+            $replaceRoot: {
+                newRoot: "$hdf_data"
+            }
+        },
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(hdfID)
+            }
+        }
+    ])
+    if(hdf[0].allowed) return true
+    return false
+}
+
 module.exports.getUserDetails = async(userID) => {
     return await USERS.aggregate([
         {

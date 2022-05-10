@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfNotAllowed, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf } = require('../utils/pipelines')
 const { decryptJSON, countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const auth = require('../middleware/auth')
@@ -165,16 +165,19 @@ router.post("/scan", auth, async (req, res) => {
         }
     
     const qrData = req.body.qrCode
-    if(qrData === null) return res.status(400).json({ errors:{ message:'provide the qr code data' }})
+    if(qrData === null) return res.status(400).json({ errors:{ message:'Provide the qr code data' }})
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
     const ifExist = await hdfIfExist(userUid, hdfUid)
-    if(!ifExist) return res.status(404).json({ errors:{ message:'user hdf info not found' }})
+    if(!ifExist) return res.status(404).json({ errors:{ message:'User hdf info not found' }})
 
     const ifExpired = await hdfIfExpired(userUid, hdfUid)
-    if(ifExpired) return res.status(400).json({ errors:{ message:'hdf already used' }})
+    if(ifExpired) return res.status(400).json({ errors:{ message:'Hdf already used' }})
+
+    const ifNotAllowed = await hdfIfNotAllowed(userUid, hdfUid)
+    if(!ifNotAllowed) return res.status(400).json({ errors:{ message:'You are not allowed to scan qr code.' }})
 
     let decrypted, school, gate, code = null
 
@@ -184,7 +187,7 @@ router.post("/scan", auth, async (req, res) => {
         let check = await SCHOOL.findOne({ generated_code: qrData })
         if(!check) return res.status(404).json({ errors:{ message:'QR code information not found.' }})
     } catch (error) {
-        return res.status(400).json({ errors:{ message:'no QR signature found or invalid QR code.' }})
+        return res.status(400).json({ errors:{ message:'No QR signature found or invalid QR code.' }})
     }
 
     let dateNow = moment().tz('Asia/Manila').toDate()
