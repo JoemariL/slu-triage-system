@@ -65,6 +65,7 @@ function HDF() {
     if (response) {
       setAuth({ access: null });
       navigate("/login", { replace: true });
+      window.location.reload();
     }
   };
 
