@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { FaSignInAlt } from "react-icons/fa";
+import { useState } from "react";
 import "../index.css";
 import "../css/login.css";
 import { useNavigate } from "react-router-dom";

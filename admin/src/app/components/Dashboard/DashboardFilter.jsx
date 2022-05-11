@@ -8,6 +8,25 @@ function DashboardFilter(props) {
   const [openModal2, setOpenModal2] = useState(false);
   const [openModal3, setOpenModal3] = useState(false);
   const [openModal4, setOpenModal4] = useState(false);
+
+  let parse_date = (sample_date) => {
+    let parse_date = Date.parse(sample_date);
+    let date = new Date(parse_date);
+    return date;
+  };
+
+  let get_date_today = () => {
+    var nowDate = new Date();
+    var date =
+      nowDate.getMonth() +
+      1 +
+      "/" +
+      nowDate.getDate() +
+      "/" +
+      nowDate.getFullYear();
+    return new Date(date);
+  };
+
   let compiled_array = (sampleReport, filter_school) => {
     let gate = {};
 
@@ -22,61 +41,66 @@ function DashboardFilter(props) {
       department_list: {},
     };
 
-    sampleReport.forEach((entries) => {
-      entries.info
-        .filter((entries) => entries.school === filter_school)
-        .forEach((school) => {
-          CampusTotal["allowed"] += school["allowed"];
-          CampusTotal["not_allowed"] += school["not_allowed"];
-          CampusTotal["total_entry"] += school["total_entry"];
-          CampusTotal["students"] += school["students"];
-          CampusTotal["employees"] += school["employees"];
-          CampusTotal["visitors"] += school["visitors"];
-          if (gate[school["gate"]]) {
-            gate[school["gate"]].allowed += school["allowed"];
-            gate[school["gate"]].not_allowed += school["not_allowed"];
-            gate[school["gate"]].total_entry += school["total_entry"];
-            gate[school["gate"]].students += school["students"];
-            gate[school["gate"]].employees += school["employees"];
-            gate[school["gate"]].visitors += school["visitors"];
+    sampleReport
+      .filter(
+        (sampleReport) =>
+          parse_date(sampleReport.date).getTime() === get_date_today().getTime()
+      )
+      .forEach((entries) => {
+        entries.info
+          .filter((entries) => entries.school === filter_school)
+          .forEach((school) => {
+            CampusTotal["allowed"] += school["allowed"];
+            CampusTotal["not_allowed"] += school["not_allowed"];
+            CampusTotal["total_entry"] += school["total_entry"];
+            CampusTotal["students"] += school["students"];
+            CampusTotal["employees"] += school["employees"];
+            CampusTotal["visitors"] += school["visitors"];
+            if (gate[school["gate"]]) {
+              gate[school["gate"]].allowed += school["allowed"];
+              gate[school["gate"]].not_allowed += school["not_allowed"];
+              gate[school["gate"]].total_entry += school["total_entry"];
+              gate[school["gate"]].students += school["students"];
+              gate[school["gate"]].employees += school["employees"];
+              gate[school["gate"]].visitors += school["visitors"];
 
-            //GATE COURSE CHECKER
-            for (let gateCourse in school["department_list"]) {
-              if (gateCourse in gate[school["gate"]]["department_list"]) {
-                gate[school["gate"]]["department_list"][gateCourse] +=
-                  school["department_list"][gateCourse];
+              //GATE COURSE CHECKER
+              for (let gateCourse in school["department_list"]) {
+                if (gateCourse in gate[school["gate"]]["department_list"]) {
+                  gate[school["gate"]]["department_list"][gateCourse] +=
+                    school["department_list"][gateCourse];
+                } else {
+                  gate[school["gate"]]["department_list"][gateCourse] =
+                    school["department_list"][gateCourse];
+                }
+              }
+
+              //ELSE
+            } else {
+              gate[school["gate"]] = {
+                school: school["school"],
+                allowed: school["allowed"],
+                not_allowed: school["not_allowed"],
+                total_entry: school["total_entry"],
+                students: school["students"],
+                visitors: school["visitors"],
+                employees: school["employees"],
+                department_list: school["department_list"],
+              };
+            }
+            //
+            //Course checker
+            for (var course in school["department_list"]) {
+              if (course in CampusTotal["department_list"]) {
+                CampusTotal["department_list"][course] +=
+                  school["department_list"][course];
               } else {
-                gate[school["gate"]]["department_list"][gateCourse] =
-                  school["department_list"][gateCourse];
+                CampusTotal["department_list"][course] =
+                  school["department_list"][course];
               }
             }
-
-            //ELSE
-          } else {
-            gate[school["gate"]] = {
-              school: school["school"],
-              allowed: school["allowed"],
-              not_allowed: school["not_allowed"],
-              total_entry: school["total_entry"],
-              students: school["students"],
-              visitors: school["visitors"],
-              employees: school["employees"],
-              department_list: school["department_list"],
-            };
-          }
-          //
-          //Course checker
-          for (var course in school["department_list"]) {
-            if (course in CampusTotal["department_list"]) {
-              CampusTotal["department_list"][course] +=
-                school["department_list"][course];
-            } else {
-              CampusTotal["department_list"][course] =
-                school["department_list"][course];
-            }
-          }
-        });
-    });
+          });
+      });
     return (
       <>
         <div className="container2">
@@ -200,7 +224,6 @@ function DashboardFilter(props) {
               </div>
             </div>
           </div>
-          {console.log(gate["Gate 1"].department_list?.SOL)}
           {(openModal && (
             <DashboardModal
               closeModal={setOpenModal}

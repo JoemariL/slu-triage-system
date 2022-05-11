@@ -1,6 +1,3 @@
-import React from "react";
-import * as AIcons from "react-icons/ai";
-
 export const NavbarData = [
   {
     title: "Home",
