@@ -23,6 +23,31 @@ function GenerateQR() {
     {
       Header: "QR",
       accessor: "generated_code",
+      Cell: ({ cell }) => (
+        <button onClick={(e) => { 
+          e.preventDefault()
+          console.log(cell)
+        }}>
+          Click Me!
+        </button>
+      )
+    },
+    {
+      Header: "Actions",
+      Cell: row => {
+        return (
+          <div>
+            <button onClick={(e) => {
+              e.preventDefault()
+              console.log('Regenerate QR')
+            }}>Regenerate QR</button>
+            <button onClick={(e) => {
+              e.preventDefault()
+              console.log('Delete QR')
+            }}>Delete QR</button>
+          </div> 
+        )
+      }
     },
   ];
 
