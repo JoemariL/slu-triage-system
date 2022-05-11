@@ -281,7 +281,7 @@ router.delete("/hdf/:userUid/:hdfID", async (req, res) => {
     }
 })
 
-router.get("/hdf/statistics", async (req, res) => {
+router.get("/hdf/reports", async (req, res) => {
     try {
         const stats = await STATISTICS.find()
         return res.status(200).json(stats)

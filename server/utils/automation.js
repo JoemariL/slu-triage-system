@@ -8,6 +8,9 @@ const STATISTICS = require('../models/statistics')
 const { getVisitor, getExpiredHDF, getHdfStatistics } = require('./pipelines')
 const { countDepartments } = require('./functions')
 
+require('dotenv').config({ path: '../.env'})
+const nodeInstance = process.env.NODE_APP_INSTANCE
+
 const autoDeleteVisitor = async () => {
     const date = moment().tz('Asia/Manila').startOf('day').add(-15, 'days').toDate()
     const user = await getVisitor(date)
@@ -38,7 +41,7 @@ const autoDeleteHDF = async () => {
 const autoGenerateReport = async () => {
     let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
     let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
-    let dateNow = moment().tz('Asia/Manila').format("MMM Do YYYY")
+    let dateNow = moment().tz('Asia/Manila').format("L")
 
     const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
     if(data.length != 0 || data != null) {
@@ -57,22 +60,28 @@ const autoGenerateReport = async () => {
             }
         })
 
-        const duplicateCheck = await STATISTICS.find({ date: dateNow })
-        if(duplicateCheck.length === 0) {
-            const newStats = new STATISTICS({
-                date: dateNow,
-                info: stats
-            })
-            await newStats.save()
-        }
+        const newStats = new STATISTICS({
+            date: dateNow,
+            info: stats
+        })
+        await newStats.save()
     }
 }
 
-module.exports = () => {
+// This can be configured depending on the processing cores of the server.
+if(nodeInstance === '0') {
+    module.exports = () => {
+        schedule.scheduleJob('55 23 * * *', () => {
+            autoGenerateReport()
+            console.log('automated report generated.')
+        })
+    }
+} else {
+    module.exports = () => {
     schedule.scheduleJob('55 23 * * *', () => {
-        autoGenerateReport()
         autoDeleteVisitor()
         autoDeleteHDF()
-        console.log('automated system check run')
-    })
+        console.log('automated system check run.')
+        })
+    }
 }

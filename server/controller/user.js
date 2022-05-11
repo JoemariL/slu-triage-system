@@ -66,12 +66,12 @@ router.post("/user/register", async (req, res) => {
 
     try {
         let newUser = new USERS({
-            first_name: firstName,
-            last_name: lastName,
+            first_name: firstName.trim(),
+            last_name: lastName.trim(),
             password: hashedPassword,
             age,
-            contact_number: contactNumber,
-            home_address: homeAddress,
+            contact_number: contactNumber.trim(),
+            home_address: homeAddress.trim(),
             email_address,
             department,
             user_type: userType

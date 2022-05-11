@@ -14,6 +14,7 @@ const auth = require('../middleware/auth')
 
 // GET A USER PROFILE. 
 router.get("/get", auth, async (req, res) => {
+    //console.log(req.socket.remoteAddress)
     
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
@@ -86,9 +87,9 @@ router.patch("/update", auth, async (req, res) => {
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
     const userDetails = {
-        age,
-        contact_number: contactNumber,
-        home_address: homeAddress,
+        age: age.trim(),
+        contact_number: contactNumber.trim(),
+        home_address: homeAddress.trim(),
         department
     }
     const uid = user._id

@@ -20,7 +20,7 @@ const adminAuth = require('../middleware/adminAuth')
 router.get("/day", async (req, res) => {
     let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
     let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
-    let dateNow = moment().format("MMM Do YYYY")
+    let dateNow = moment().format("L")
 
     try {
         const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
@@ -28,6 +28,22 @@ router.get("/day", async (req, res) => {
         const result = countDepartments(data)
     
         return res.status(200).json(result) 
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+router.get("/date-range", async (req, res) => {
+    const { fromDate, toDate } = req.body
+    let dateNow = moment().format("L")
+
+    if(fromDate > toDate) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
+
+    try {
+        const data = await getHdfStatistics(fromDate, toDate, dateNow)
+        if(!data) return res.status(404).json({ errors:{ message:'not found' }})
+        const result = countDepartments(data)
+        return res.status(200).json(result)
     } catch (error) {
         return res.sendStatus(500)
     }

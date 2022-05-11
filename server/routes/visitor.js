@@ -57,23 +57,23 @@ router.post("/generate", async (req, res) => {
         diff_breathing,
         diarrhea,
         destination,
+        others,
+        pregnant,
         is_expired: true,
-        createdAt
+        createdAt,
     }
     try {
         const randomEmail = generateRandomKey(7)
         const user = new USERS({
-            first_name,
-            last_name,
-            age,
-            contact_number,
-            home_address,
+            first_name: first_name.trim(),
+            last_name: last_name.trim(),
+            age: age.trim(),
+            contact_number: contact_number.trim(),
+            home_address: home_address.trim(),
             email_address: randomEmail,
             user_type: "VISITOR",
             vaccination_details,
             hdf_data,
-            others,
-            pregnant
         })
         const result = await user.save()
 
