@@ -102,6 +102,7 @@ router.delete("/delete/:adminID", async(req, res) => {
 
     const admin = await ADMIN.findById(adminUid)
     if(!admin) return res.status(404).json({ errors:{ message:'admin not found' }})
+    if(admin.role === "SUPER-ADMIN") return res.status(403).json({ errors: { message: 'Action not allowed.' }})
 
     try {
         const deleteAdmin = await ADMIN.deleteOne({ _id: admin._id })
