@@ -1,19 +1,21 @@
 const mongoose = require('mongoose')
 
+const gateSchema = mongoose.Schema({
+    gate: {
+        type: String,
+        uppercase: true
+    },
+    raw_code: String,
+    generated_code: String
+})
+
 const schoolSchema = mongoose.Schema({
     school: {
-        type: String
-    },
-    gate: {
-        type: String
-    },
-    raw_code: {
         type: String,
-        unique: true
+        unique: true,
+        uppercase: true
     },
-    generated_code: {
-        type: String
-    }
+    gate_info: [gateSchema]
 })
 
 module.exports = school = mongoose.model('school', schoolSchema)

@@ -4,6 +4,7 @@ const moment = require('moment-timezone')
 
 // MODEL IMPORTS
 const USERS = require('../models/users')
+const SCHOOL = require('../models/school')
 const ADMIN = require('../models/admin')
 
 module.exports.hdfIfExist = async (userID, hdfID) => {
@@ -463,4 +464,54 @@ module.exports.getExpiredHDF = async(date) => {
             }
         }
     ])
+}
+
+module.exports.checkIfGateExist = async (schoolID, gate) => {
+    return await SCHOOL.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(schoolID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$gate_info"
+            }
+        },
+        {
+            $match: {
+                'gate_info.gate': gate.toUpperCase()
+            }
+        }
+    ]).then((payload) => {
+        if(payload.length === 0) return false
+        return true
+    })
+}
+
+module.exports.extractGateInfo = async (schoolID, gateID) => {
+    return await SCHOOL.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(schoolID)
+            }
+        },
+        {
+            $unwind: {
+                path: "$gate_info"
+            }
+        },
+        {
+            $match: {
+                'gate_info._id': mongoose.Types.ObjectId(gateID)
+            }
+        },
+        {
+            $replaceRoot: {
+                newRoot: "$gate_info"
+            }
+        }
+    ]).then((payload) => {
+        return payload[0]
+    })
 }

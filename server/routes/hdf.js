@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfNotAllowed, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf } = require('../utils/pipelines')
+const { hdfIfExist, hdfIfNotAllowed, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf, extractGateInfo } = require('../utils/pipelines')
 const { decryptJSON, countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const auth = require('../middleware/auth')
@@ -133,7 +133,7 @@ router.post("/scan", auth, async (req, res) => {
         return res.sendStatus(401)
     }
 
-    const { destination } = req.body
+    const { destination, qrCode } = req.body
 
     const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
@@ -180,7 +180,7 @@ router.post("/scan", auth, async (req, res) => {
             }
         }
     
-    const qrData = req.body.qrCode
+    const qrData = qrCode
     if(qrData === null) return res.status(400).json({ errors:{ message:'Provide the qr code data' }})
 
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
@@ -195,13 +195,15 @@ router.post("/scan", auth, async (req, res) => {
     const ifNotAllowed = await hdfIfNotAllowed(userUid, hdfUid)
     if(!ifNotAllowed) return res.status(400).json({ errors:{ message:'You are not allowed to scan qr code.' }})
 
-    let decrypted, school, gate, code = null
+    let school_id, gate_id = null
+    let decrypted, school, gate = null
 
     try{
         decrypted = decryptJSON(qrData)
-        if(decrypted.hasOwnProperty('raw_code')) school = decrypted.school, gate = decrypted.gate, code = decrypted.raw_code
-        let check = await SCHOOL.findOne({ generated_code: qrData })
-        if(!check) return res.status(404).json({ errors:{ message:'QR code information not found.' }})
+        if(decrypted.hasOwnProperty('raw_code')) school_id = decrypted.school_id, gate_id = decrypted.gate_id, school = decrypted.school
+        let check = await extractGateInfo(school_id, gate_id)
+        if(!check || check === undefined) return res.status(404).json({ errors:{ message:'QR code information not found.' }})
+        gate = check.gate
     } catch (error) {
         return res.status(400).json({ errors:{ message:'No QR signature found or invalid QR code.' }})
     }

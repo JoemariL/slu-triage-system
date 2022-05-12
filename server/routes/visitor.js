@@ -14,6 +14,7 @@ const { objectIDValidator } = require('../utils/validator')
 const { decryptJSON, generateRandomKey } = require('../utils/functions')
 const { generateVisitorToken } = require('../middleware/jwt-helper')
 const { extractID } = require('../middleware/jwt-helper')
+const { extractGateInfo } = require('../utils/pipelines')
 
 // FOR VISITORS
 router.post("/generate", async (req, res) => {
@@ -32,12 +33,14 @@ router.post("/generate", async (req, res) => {
         vaccine_serial_no
     }
 
+    let school_id, gate_id = null
     let decrypted, school, gate, code = null
     try {
         decrypted = decryptJSON(qrCode)
-        if(decrypted.hasOwnProperty('raw_code')) school = decrypted.school, gate = decrypted.gate, code = decrypted.raw_code
-        let check = await SCHOOL.findOne({ generated_code: qrCode})
-        if(!check) return res.status(404).json({ errors:{ message:'QR code information not found.' }})
+        if(decrypted.hasOwnProperty('raw_code')) school_id = decrypted.school_id, gate_id = decrypted.gate_id, school = decrypted.school
+        let check = await extractGateInfo(school_id, gate_id)
+        if(!check || check === undefined) return res.status(404).json({ errors:{ message:'QR code information not found.' }})
+        gate = check.gate
     } catch (error) {
         return res.status(400).json({ errors:{ message:'no QR signature found or invalid QR code.' }})
     }

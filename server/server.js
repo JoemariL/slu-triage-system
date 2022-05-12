@@ -40,6 +40,7 @@ app.use(compression({
 
 // ROUTERS.
 const adminRouter = require('./routes/admin')
+const schoolRouter = require('./routes/school')
 const userRouter = require('./routes/users')
 const userHdfRouter = require('./routes/hdf')
 const adminController = require('./controller/admin')
@@ -53,6 +54,7 @@ app.use("/visitor", visitorRouter)
 app.use("/admin", adminRouter)
 app.use("/user", userRouter)
 app.use("/hdf", userHdfRouter)
+app.use("/school", schoolRouter)
 
 // DATABASE CONNECTION AND SERVER INITIALIZATION.
 const port = process.env.PORT
