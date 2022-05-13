@@ -39,11 +39,11 @@ const autoDeleteHDF = async () => {
 }
 
 const autoGenerateReport = async () => {
-    let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
-    let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
+    let min = moment().tz('Asia/Manila').startOf('day').toDate()
+    let max = moment().tz('Asia/Manila').endOf('day').toDate()
     let dateNow = moment().tz('Asia/Manila').format("L")
 
-    const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
+    const data = await getHdfStatistics(min, max, dateNow)
     if(data.length != 0 || data != null) {
         const result = countDepartments(data)
         const stats = result.map(data => {

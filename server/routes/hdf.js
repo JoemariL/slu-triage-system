@@ -18,15 +18,22 @@ const adminAuth = require('../middleware/adminAuth')
 
 // GET HDF DATA FOR THE DAY.
 router.get("/day", async (req, res) => {
-    let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
-    let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
+    let min = moment().tz('Asia/Manila').startOf('day').toDate()
+    let max = moment().tz('Asia/Manila').endOf('day').toDate()
     let dateNow = moment().format("L")
 
     try {
-        const data = await getHdfStatistics(dateToday, dateTomorrow, dateNow)
+        const data = await getHdfStatistics(min, max, dateNow)
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
-        const result = countDepartments(data)
-    
+        const mapper = data.map((payload) => {
+            return {
+                ...payload,
+                _id: null,
+                school: payload._id.school,
+                gate: payload._id.gate
+            }
+        })
+        const result = countDepartments(mapper)
         return res.status(200).json(result) 
     } catch (error) {
         return res.sendStatus(500)
@@ -35,16 +42,27 @@ router.get("/day", async (req, res) => {
 
 router.get("/date-range", async (req, res) => {
     const { fromDate, toDate } = req.body
-    let dateNow = moment().format("L")
     
     try {
         if(fromDate > toDate) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
-        let lessDate = moment(fromDate).tz('Asia/Manila').startOf('day').toDate()
-        let greaterData = moment(toDate).tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
+        let min = moment(fromDate).tz('Asia/Manila').startOf('day').toDate()
+        let max = moment(toDate).tz('Asia/Manila').endOf('day').toDate()
 
-        const data = await getHdfStatistics(lessDate, greaterData, dateNow)
+        let formatMin = moment(min).format("L")
+        let formatMax = moment(max).format("L")
+        let dateRange = `${formatMin} - ${formatMax}`
+
+        const data = await getHdfStatistics(min, max, dateRange)
+        const mapper = data.map((payload) => {
+            return {
+                ...payload,
+                _id: null,
+                school: payload._id.school,
+                gate: payload._id.gate
+            }
+        })
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
-        const result = countDepartments(data)
+        const result = countDepartments(mapper)
         return res.status(200).json(result)
     } catch (error) {
         return res.sendStatus(500)
@@ -75,6 +93,7 @@ router.get("/day-user", auth, async (req, res) => {
         const hdf = userHdf.slice().sort((a, b) => b.createdAt - a.createdAt)
         return res.status(200).json(hdf)
     } catch (error) {
+        console.log(error)
         return res.sendStatus(500)
     }
 })
