@@ -21,6 +21,7 @@ router.get("/get/qr", async (req, res) => {
     }
 })
 
+// ADDS NEW SCHOOL DATA.
 router.post("/add-school", async (req, res) => {
     const { school } = req.body
     try {
@@ -37,6 +38,25 @@ router.post("/add-school", async (req, res) => {
         .catch(() => {
             return res.status(400).json({ errors:{ message:'New School info failed to add.' }})
         })
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+// DELETES SCHOOL DATA.
+router.delete("/delete-school/:schoolID", async (req, res) => {
+
+    const schoolID = req.params.schoolID
+    const idCheck = objectIDValidator(schoolID)
+    if (!idCheck) return res.status(400).json({ errors: { message:'Invalid school ID.' }})
+
+    const school = await SCHOOL.findById(schoolID)
+    if(!school) return res.status(400).json({ errors: { message:'School information not found.' }})
+
+    try {
+        const deleteSchool = await SCHOOL.deleteOne({ _id: school._id })
+        if(deleteSchool) return res.status(200).json({ success:{ message:'School successfully deleted.' }})
+        return res.status(400).json({ errors:{ message:'School Failed to delete.' }})
     } catch (error) {
         return res.sendStatus(500)
     }
@@ -85,7 +105,6 @@ router.post("/add-gate/:schoolID", async (req, res) => {
         ).then(() => {
             return res.status(201).json({ success:{ message: 'New gate info added.' }})
         }).catch((err) => {
-            console.log(err)
             return res.status(400).json({ errors:{ message: 'New gate info failed to add.' }})
         })
     } catch (error) {

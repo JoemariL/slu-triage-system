@@ -36,11 +36,13 @@ router.get("/day", async (req, res) => {
 router.get("/date-range", async (req, res) => {
     const { fromDate, toDate } = req.body
     let dateNow = moment().format("L")
-
-    if(fromDate > toDate) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
-
+    
     try {
-        const data = await getHdfStatistics(fromDate, toDate, dateNow)
+        if(fromDate > toDate) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
+        let lessDate = moment(fromDate).tz('Asia/Manila').startOf('day').toDate()
+        let greaterData = moment(toDate).tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
+
+        const data = await getHdfStatistics(lessDate, greaterData, dateNow)
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
         const result = countDepartments(data)
         return res.status(200).json(result)
