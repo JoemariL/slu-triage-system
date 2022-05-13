@@ -59,7 +59,7 @@ router.post("/generate", async (req, res) => {
         sore_throat,
         diff_breathing,
         diarrhea,
-        destination,
+        destination: destination.trim(),
         others,
         pregnant,
         is_expired: true,

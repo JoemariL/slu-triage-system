@@ -219,7 +219,7 @@ router.post("/scan", auth, async (req, res) => {
                     "hdf_data.$[element].entry_date": dateNow,
                     "hdf_data.$[element].entry_campus": school,
                     "hdf_data.$[element].gate_info": gate,
-                    "hdf_data.$[element].destination": destination,
+                    "hdf_data.$[element].destination": destination.trim(),
                     "hdf_data.$[element].is_expired": true
                 }
             },
