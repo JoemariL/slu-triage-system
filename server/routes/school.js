@@ -163,8 +163,7 @@ router.post("/refresh-qr/:schoolID/:gateID", async (req, res) => {
 })
 
 // DELETES THE QR CODE GENERATED
-router.delete("/removeQr/:schoolID/:qrID", async (req, res) => {
-
+router.post("/removeQr/:schoolID/:qrID", async (req, res) => {
     const schoolID = req.params.schoolID
     const schoolIdCheck = objectIDValidator(schoolID)
     if (!schoolIdCheck) return res.status(400).json({ errors: { message:'Invalid school ID.' }})
