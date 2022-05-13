@@ -271,7 +271,7 @@ module.exports.getUserDetails = async(userID) => {
     ])
 }
 
-module.exports.getHdfStatistics = async(fromDate, toDate, currentDate) => {
+module.exports.getHdfStatistics = async(fromDate, toDate, min, max) => {
     return await USERS.aggregate([
         {
             $unwind: {
@@ -298,8 +298,11 @@ module.exports.getHdfStatistics = async(fromDate, toDate, currentDate) => {
                     'school': '$hdf_data.entry_campus',
                     'gate': '$hdf_data.gate_info'
                 },
-                'date': {
-                    '$first': currentDate
+                'fromDate': {
+                    '$first': min
+                },
+                'toDate': {
+                    '$first': max
                 },
                 'allowed': {
                     '$sum': {

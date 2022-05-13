@@ -50,9 +50,8 @@ router.get("/date-range", async (req, res) => {
 
         let formatMin = moment(min).format("L")
         let formatMax = moment(max).format("L")
-        let dateRange = `${formatMin} - ${formatMax}`
 
-        const data = await getHdfStatistics(min, max, dateRange)
+        const data = await getHdfStatistics(min, max, formatMin, formatMax)
         const mapper = data.map((payload) => {
             return {
                 ...payload,
@@ -93,7 +92,6 @@ router.get("/day-user", auth, async (req, res) => {
         const hdf = userHdf.slice().sort((a, b) => b.createdAt - a.createdAt)
         return res.status(200).json(hdf)
     } catch (error) {
-        console.log(error)
         return res.sendStatus(500)
     }
 })
