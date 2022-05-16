@@ -42,11 +42,14 @@ router.get("/day", async (req, res) => {
 
 router.get("/date-range", async (req, res) => {
     const { fromDate, toDate } = req.body
+
+    const formatFrom = new Date(fromDate)
+    const formatTo = new Date(toDate)
     
     try {
-        if(fromDate > toDate) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
-        let min = moment(fromDate).tz('Asia/Manila').startOf('day').toDate()
-        let max = moment(toDate).tz('Asia/Manila').endOf('day').toDate()
+        if(formatFrom > formatTo) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
+        let min = moment(formatFrom).tz('Asia/Manila').startOf('day').toDate()
+        let max = moment(formatTo).tz('Asia/Manila').endOf('day').toDate()
 
         let formatMin = moment(min).format("L")
         let formatMax = moment(max).format("L")
