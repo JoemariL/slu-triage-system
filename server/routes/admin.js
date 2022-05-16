@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const mongoose = require("mongoose")
+const moment = require('moment-timezone')
 
 // MODEL IMPORT
 const ADMIN = require('../models/admin')
@@ -12,9 +13,9 @@ const STATISTICS = require('../models/statistics')
 
 // UTILS IMPORT
 const { objectIDValidator } = require('../utils/validator')
-const { encryptJSON } = require('../utils/functions')
+const { encryptJSON, countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
-const { getAllUsers } = require('../utils/pipelines')
+const { getAllUsers, getHdfStatistics } = require('../utils/pipelines')
 
 // GET ALL ADMIN INFO.
 router.get("/get-all-admin", async (req, res) => {
@@ -152,6 +153,42 @@ router.get("/daily-reports", async (req, res) => {
         const stats = await STATISTICS.find()
         if(!stats) return res.status(404).json({ errors: { message: 'empty' }})
         return res.status(200).json(stats)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+router.get("/report-range", async (req, res) => {
+    const { fromDate, toDate } = req.body
+
+    const formatFrom = new Date(fromDate)
+    const formatTo = new Date(toDate)
+    
+    try {
+        if(formatFrom > formatTo) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
+        let min = moment(formatFrom).tz('Asia/Manila').startOf('day').toDate()
+        let max = moment(formatTo).tz('Asia/Manila').endOf('day').toDate()
+
+        let formatMin = moment(min).format("L")
+        let formatMax = moment(max).format("L")
+
+        const data = await getHdfStatistics(min, max, formatMin, formatMax)
+        const result = countDepartments(data)
+        const reports = result.map(data => {
+            return {
+                school: data._id.school,
+                gate: data._id.gate,
+                allowed: data.allowed,
+                not_allowed: data.not_allowed,
+                total_entry: data.total_entry,
+                students: data.students,
+                employees: data.employees,
+                visitors: data.visitors,
+                department_list: data.department_list
+            }
+        })
+        if(!data) return res.status(404).json({ errors:{ message:'not found' }})
+        return res.status(200).json(reports)
     } catch (error) {
         return res.sendStatus(500)
     }

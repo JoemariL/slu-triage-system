@@ -40,7 +40,7 @@ router.get("/day", async (req, res) => {
     }
 })
 
-router.get("/date-range", async (req, res) => {
+router.post("/date-range", async (req, res) => {
     const { fromDate, toDate } = req.body
 
     const formatFrom = new Date(fromDate)
