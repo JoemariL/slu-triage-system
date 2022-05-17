@@ -6,40 +6,16 @@ const moment = require('moment-timezone')
 
 // MODEL IMPORT 
 const USERS = require('../models/users')
-const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
 const { hdfIfExist, getNotAllowedUsers, hdfIfNotAllowed, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf, extractGateInfo } = require('../utils/pipelines')
-const { decryptJSON, countDepartments } = require('../utils/functions')
+const { decryptJSON, countDepartments, extractRejected } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const auth = require('../middleware/auth')
 const adminAuth = require('../middleware/adminAuth')
 
-// GET HDF DATA FOR THE DAY.
-router.get("/day", async (req, res) => {
-    let min = moment().tz('Asia/Manila').startOf('day').toDate()
-    let max = moment().tz('Asia/Manila').endOf('day').toDate()
-    let dateNow = moment().format("L")
-
-    try {
-        const data = await getHdfStatistics(min, max, dateNow)
-        if(!data) return res.status(404).json({ errors:{ message:'not found' }})
-        const mapper = data.map((payload) => {
-            return {
-                ...payload,
-                _id: null,
-                school: payload._id.school,
-                gate: payload._id.gate
-            }
-        })
-        const result = countDepartments(mapper)
-        return res.status(200).json(result) 
-    } catch (error) {
-        return res.sendStatus(500)
-    }
-})
-
+// GET HDF ON A DATE RANGE.
 router.post("/date-range", async (req, res) => {
     const { fromDate, toDate } = req.body
 
@@ -71,6 +47,7 @@ router.post("/date-range", async (req, res) => {
     }
 })
 
+// GET THE REJECTED HDF ON A DATE RANGE.
 router.post("/rejected/date-range", async (req, res) => {
     const { fromDate, toDate } = req.body
 
@@ -83,8 +60,13 @@ router.post("/rejected/date-range", async (req, res) => {
         let max = moment(formatTo).tz('Asia/Manila').endOf('day').toDate()
 
         const data = await getNotAllowedUsers(min, max)
+        const sortedRejectedData = extractRejected(data)
+
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
-        return res.status(200).json(data)
+        return res.status(200).json({
+            ...sortedRejectedData,
+            users: data,
+        })
     } catch (error) {
         return res.sendStatus(500)
     }
@@ -92,9 +74,6 @@ router.post("/rejected/date-range", async (req, res) => {
 
 // GET HDF DATA FOR SPECIFIC USER WITH-IN A DAY
 router.get("/day-user", auth, async (req, res) => {
-    let dateToday = moment().tz('Asia/Manila').startOf('day').toDate()
-    let dateTomorrow = moment().tz('Asia/Manila').startOf('day').add(1, 'days').toDate()
-
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
@@ -105,10 +84,12 @@ router.get("/day-user", auth, async (req, res) => {
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
 
     try {
+        let min = moment().tz('Asia/Manila').startOf('day').toDate()
+        let max = moment().tz('Asia/Manila').endOf('day').toDate()
         const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
         if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
-        const userHdf = await getHdfTodayUser(user._id, dateToday, dateTomorrow)
+        const userHdf = await getHdfTodayUser(user._id, min, max)
         if(!userHdf) return res.status(404).json({ errors:{ message:'not found' }})
 
         const hdf = userHdf.slice().sort((a, b) => b.createdAt - a.createdAt)

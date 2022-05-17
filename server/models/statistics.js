@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 const statSchema = mongoose.Schema({
     date: String,
-    info: { type: Array, "default": []}
+    info: { type: Array, "default": []},
+    rejected: { type: Array, "default": []}
 })
 
 module.exports = statistics = mongoose.model('statistics', statSchema)

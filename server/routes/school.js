@@ -9,7 +9,6 @@ const { encryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const { extractGateInfo, checkIfGateExist } = require('../utils/pipelines')
 
-
 // GET LIST OF QR CODES.
 router.get("/get/qr", async (req, res) => {
     try {

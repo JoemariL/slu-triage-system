@@ -5,8 +5,8 @@ const moment = require('moment-timezone')
 const USERS = require('../models/users')
 const STATISTICS = require('../models/statistics')
 
-const { getVisitor, getExpiredHDF, getHdfStatistics } = require('./pipelines')
-const { countDepartments } = require('./functions')
+const { getVisitor, getExpiredHDF, getHdfStatistics, getNotAllowedUsers } = require('./pipelines')
+const { countDepartments, extractRejected } = require('./functions')
 
 require('dotenv').config({ path: '../.env'})
 const nodeInstance = process.env.NODE_APP_INSTANCE
@@ -44,6 +44,9 @@ const autoGenerateReport = async () => {
     let dateNow = moment().tz('Asia/Manila').format("L")
 
     const data = await getHdfStatistics(min, max, dateNow)
+    const rejectedData = await getNotAllowedUsers(min, max)
+    const sortedRejectedData = extractRejected(rejectedData)
+
     if(data.length != 0 || data != null) {
         const result = countDepartments(data)
         const stats = result.map(data => {
@@ -62,26 +65,36 @@ const autoGenerateReport = async () => {
 
         const newStats = new STATISTICS({
             date: dateNow,
-            info: stats
+            info: stats,
+            rejected: sortedRejectedData
         })
         await newStats.save()
     }
 }
 
 // This can be configured depending on the processing cores of the server.
-if(nodeInstance === '0') {
-    module.exports = () => {
-        schedule.scheduleJob('55 23 * * *', () => {
-            autoGenerateReport()
-            console.log('automated report generated.')
-        })
-    }
-} else {
-    module.exports = () => {
-    schedule.scheduleJob('55 23 * * *', () => {
+// if(nodeInstance === '0') {
+//     module.exports = () => {
+//         schedule.scheduleJob('55 23 * * *', () => {
+//             autoGenerateReport()
+//             console.log('automated report generated.')
+//         })
+//     }
+// } else {
+//     module.exports = () => {
+//     schedule.scheduleJob('55 23 * * *', () => {
+//         autoDeleteVisitor()
+//         autoDeleteHDF()
+//         console.log('automated system check run.')
+//         })
+//     }
+// }
+
+module.exports = () => {
+    schedule.scheduleJob('*/5 * * * * *', () => {
+        // autoGenerateReport()
         autoDeleteVisitor()
         autoDeleteHDF()
-        console.log('automated system check run.')
+        // console.log('automated system check run.')
         })
     }
-}

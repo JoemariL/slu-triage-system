@@ -28,7 +28,7 @@ module.exports.countDepartments = (data) => {
         })
 
         for (var i = 0; i < dept.length; i++) {
-            if (typeof departmentList[dept[i]] == "undefined") {
+            if (typeof departmentList[dept[i]] === "undefined") {
                 departmentList[dept[i]] = 1;
             } else {
                 departmentList[dept[i]]++;
@@ -50,4 +50,39 @@ module.exports.generateRandomKey = (length) => {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+module.exports.extractRejected = (data) => {
+    const total = data.reduce(function(s, o) {
+        if (o._id) s++;
+        return s;
+    }, 0);
+    const students = data.reduce(function(s, o) {
+        if (o.user_type === "STUDENT") s++;
+        return s;
+    }, 0);
+    const employees = data.reduce(function(s, o) {
+        if (o.user_type === "EMPLOYEE") s++;
+        return s;
+    }, 0);
+
+    let departmentList = {}
+    const dept = data.map((payload) => {
+        return payload.department
+    })
+
+    for (var i = 0; i < dept.length; i++) {
+        if (typeof departmentList[dept[i]] == "undefined") {
+            departmentList[dept[i]] = 1;
+        } else {
+            departmentList[dept[i]]++;
+        }
+    }
+
+    return {
+        total,
+        students,
+        employees,
+        department_list: departmentList
+    }
 }

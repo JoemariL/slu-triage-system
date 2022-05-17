@@ -8,12 +8,11 @@ const moment = require('moment-timezone')
 // MODEL IMPORT
 const ADMIN = require('../models/admin')
 const USERS = require('../models/users')
-const SCHOOL = require('../models/school')
 const STATISTICS = require('../models/statistics')
 
 // UTILS IMPORT
 const { objectIDValidator } = require('../utils/validator')
-const { encryptJSON, countDepartments } = require('../utils/functions')
+const { countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const { getAllUsers, getHdfStatistics, getAllAdmin } = require('../utils/pipelines')
 
@@ -148,7 +147,8 @@ router.get("/get-user/:userUid", async (req, res) => {
     }
 })
 
-router.get("/daily-reports", async (req, res) => {
+// GET THE FULL REPORT OF HDF FROM THE DATABASE.
+router.get("/hdf/full-report", async (req, res) => {
     try {
         const stats = await STATISTICS.find()
         if(!stats) return res.status(404).json({ errors: { message: 'empty' }})
@@ -220,15 +220,6 @@ router.delete("/hdf/:userUid/:hdfID", async (req, res) => {
 
         if(removedHdfData) return res.status(201).json({ success: { message:'user hdf detail deleted' }})
         return res.status(400).json({ errors:{ message:'user hdf detail failed to delete' }}) 
-    } catch (error) {
-        return res.sendStatus(500)
-    }
-})
-
-router.get("/hdf/reports", async (req, res) => {
-    try {
-        const stats = await STATISTICS.find()
-        return res.status(200).json(stats)
     } catch (error) {
         return res.sendStatus(500)
     }

@@ -14,7 +14,6 @@ const auth = require('../middleware/auth')
 
 // GET A USER PROFILE. 
 router.get("/get", auth, async (req, res) => {
-    //console.log(req.socket.remoteAddress)
     
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
