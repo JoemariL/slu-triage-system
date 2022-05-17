@@ -293,8 +293,8 @@ module.exports.getNotAllowedUsers = async (fromDate, toDate) => {
         }, 
         {
             $match: {
-                'hdf_data.entry_date': {
-                    '$eq': null
+                'hdf_data.allowed': {
+                    '$eq': false
                 }
             }
         },
@@ -332,6 +332,13 @@ module.exports.getHdfStatistics = async (fromDate, toDate, min, max) => {
             $match: {
                 'hdf_data.entry_date': {
                     $ne: null
+                }
+            }
+        },
+        {
+            $match: {
+                'hdf_data.allowed': {
+                    $eq: true
                 }
             }
         },
