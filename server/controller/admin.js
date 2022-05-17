@@ -62,7 +62,7 @@ router.post("/admin/register", async (req, res) => {
         if(roleAdmin !== "SUPER-ADMIN") return res.sendStatus(403)
         let hashedPassword = await bcrypt.hash(password, 12)
         newAdmin = new ADMIN({
-        username,
+        username: username.trim(),
         password: hashedPassword,
         role
         })
@@ -70,7 +70,7 @@ router.post("/admin/register", async (req, res) => {
         const { username, password, role } = req.body
         let hashedPassword = await bcrypt.hash(password, 12)
         newAdmin = new ADMIN({
-        username,
+        username: username.trim(),
         password: hashedPassword,
         role
         })

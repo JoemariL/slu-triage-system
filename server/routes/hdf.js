@@ -10,7 +10,7 @@ const SCHOOL = require('../models/school')
 
 // UTILS IMPORT 
 const { objectIDValidator } = require('../utils/validator')
-const { hdfIfExist, hdfIfNotAllowed, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf, extractGateInfo } = require('../utils/pipelines')
+const { hdfIfExist, getNotAllowedUsers, hdfIfNotAllowed, hdfIfExpired, getHdfTodayUser, getHdfStatistics, checkAvailableHdf, getRepeatableHdfInfo, checkTimeIntervalHdf, extractGateInfo } = require('../utils/pipelines')
 const { decryptJSON, countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const auth = require('../middleware/auth')
@@ -66,6 +66,25 @@ router.post("/date-range", async (req, res) => {
         if(!data) return res.status(404).json({ errors:{ message:'not found' }})
         const result = countDepartments(mapper)
         return res.status(200).json(result)
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+})
+
+router.post("/rejected/date-range", async (req, res) => {
+    const { fromDate, toDate } = req.body
+
+    const formatFrom = new Date(fromDate)
+    const formatTo = new Date(toDate)
+
+    try {
+        if(formatFrom > formatTo) return res.status(400).json({ errors: { message: 'Invalid date format.' }})
+        let min = moment(formatFrom).tz('Asia/Manila').startOf('day').toDate()
+        let max = moment(formatTo).tz('Asia/Manila').endOf('day').toDate()
+
+        const data = await getNotAllowedUsers(min, max)
+        if(!data) return res.status(404).json({ errors:{ message:'not found' }})
+        return res.status(200).json(data)
     } catch (error) {
         return res.sendStatus(500)
     }

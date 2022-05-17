@@ -15,12 +15,12 @@ const STATISTICS = require('../models/statistics')
 const { objectIDValidator } = require('../utils/validator')
 const { encryptJSON, countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
-const { getAllUsers, getHdfStatistics } = require('../utils/pipelines')
+const { getAllUsers, getHdfStatistics, getAllAdmin } = require('../utils/pipelines')
 
 // GET ALL ADMIN INFO.
 router.get("/get-all-admin", async (req, res) => {
     try {
-        const adminData = await ADMIN.find().select('-password -__v')
+        const adminData = await getAllAdmin()
         if(!adminData) return res.status(404).json({ errors:{ message: 'no data found' }})
         return res.status(200).json(adminData)
     } catch (error) {
@@ -158,7 +158,7 @@ router.get("/daily-reports", async (req, res) => {
     }
 })
 
-router.get("/report-range", async (req, res) => {
+router.post("/report-range", async (req, res) => {
     const { fromDate, toDate } = req.body
 
     const formatFrom = new Date(fromDate)

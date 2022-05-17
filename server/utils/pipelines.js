@@ -174,7 +174,7 @@ module.exports.getRepeatableHdfInfo = async (userID, fromDate, toDate) => {
     }).catch(() => { return false })
 }
 
-module.exports.getAllUsers = async() => {
+module.exports.getAllUsers = async () => {
     return await USERS.aggregate([
         {
             $match: {
@@ -192,6 +192,19 @@ module.exports.getAllUsers = async() => {
             }
         })
     })
+}
+
+module.exports.getAllAdmin = async () => {
+    return await ADMIN.aggregate([
+        {
+            $match: {
+                role: { $ne: "SUPER-ADMIN"}
+            },
+        },
+        {
+            $unset: ["password", "createdAt", "__v"]
+        }
+    ]).sort({ username: 1 })
 }
 
 module.exports.hdfIfExpired = async (userID, hdfID) => {
@@ -271,7 +284,44 @@ module.exports.getUserDetails = async(userID) => {
     ])
 }
 
-module.exports.getHdfStatistics = async(fromDate, toDate, min, max) => {
+module.exports.getNotAllowedUsers = async (fromDate, toDate) => {
+    return await USERS.aggregate([
+        {
+            $unwind: {
+                'path': '$hdf_data'
+            }
+        }, 
+        {
+            $match: {
+                'hdf_data.entry_date': {
+                    '$eq': null
+                }
+            }
+        },
+        {
+            $match: {
+                'hdf_data.createdAt': {
+                    $gt: fromDate, $lt: toDate
+                }
+            }
+        },
+        {
+            $group: {
+                _id: "$_id",
+                "first_name": { $first: "$first_name" },
+                "last_name": { $first: "$last_name"},
+                "age": { $first: "$age" },
+                "contact_number": { $first: "$contact_number" },
+                "email_address": { $first: "$email_address" },
+                "department": { $first: "$department" },
+                "user_type": { $first: "$user_type" },
+                "hdf_data": { $first: "$hdf_data" }
+            }
+        }
+    ])
+}
+
+module.exports.getHdfStatistics = async (fromDate, toDate, min, max) => {
     return await USERS.aggregate([
         {
             $unwind: {
