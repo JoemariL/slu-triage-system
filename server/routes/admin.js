@@ -158,7 +158,7 @@ router.get("/daily-reports", async (req, res) => {
     }
 })
 
-router.post("/report-range", async (req, res) => {
+router.post("/hdf/report-range", async (req, res) => {
     const { fromDate, toDate } = req.body
 
     const formatFrom = new Date(fromDate)
