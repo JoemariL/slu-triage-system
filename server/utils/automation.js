@@ -73,28 +73,28 @@ const autoGenerateReport = async () => {
 }
 
 // This can be configured depending on the processing cores of the server.
-// if(nodeInstance === '0') {
-//     module.exports = () => {
-//         schedule.scheduleJob('55 23 * * *', () => {
-//             autoGenerateReport()
-//             console.log('automated report generated.')
-//         })
-//     }
-// } else {
-//     module.exports = () => {
-//     schedule.scheduleJob('55 23 * * *', () => {
+if(nodeInstance === '0') {
+    module.exports = () => {
+        schedule.scheduleJob('55 23 * * *', () => {
+            autoGenerateReport()
+            console.log('automated report generated.')
+        })
+    }
+} else {
+    module.exports = () => {
+    schedule.scheduleJob('55 23 * * *', () => {
+        autoDeleteVisitor()
+        autoDeleteHDF()
+        console.log('automated system check run.')
+        })
+    }
+}
+
+// module.exports = () => {
+//     schedule.scheduleJob('*/5 * * * * *', () => {
+//         autoGenerateReport()
 //         autoDeleteVisitor()
 //         autoDeleteHDF()
 //         console.log('automated system check run.')
 //         })
-//     }
 // }
-
-module.exports = () => {
-    schedule.scheduleJob('*/5 * * * * *', () => {
-        // autoGenerateReport()
-        autoDeleteVisitor()
-        autoDeleteHDF()
-        // console.log('automated system check run.')
-        })
-    }
