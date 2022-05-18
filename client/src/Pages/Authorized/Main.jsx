@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ImCheckmark, ImCross } from "react-icons/im";
 import { MdQrCodeScanner } from "react-icons/md";
 import useAuth from "../../hooks/useAuth";
 import { logout } from "../../actions/authActions";
 import { getUserData, getHdfDay } from "../../actions/userActions";
 import { Appheader, Appmenu, Dashboard, Profile } from "../../Components/ui";
-import { Alert, Button } from "../../Components/commons";
+import { Alert, Button, Icon, List, ListItem } from "../../Components/commons";
 
 function Main() {
   const navigate = useNavigate();
@@ -104,18 +105,56 @@ function Main() {
           />
         </div>
 
-        <div className="flex flex-col space-y-16">
-          <Dashboard
-            loading={isLoading}
-            onClickHDF={(e) => {
-              e.preventDefault();
-              navigate("/hdf");
-            }}
-            onClickVacc={(e) => {
-              e.preventDefault();
-              navigate("/vaccine");
-            }}
-          />
+        <div
+          className={
+            isLoading ? "blur-sm animate-pulse" : "flex flex-col space-y-16"
+          }
+        >
+          <List position="vertical">
+            <div className="text-lg">
+              {allowed ? (
+                <ListItem
+                  className="select-none bg-blue-600"
+                  icon={
+                    <Icon
+                      roundedFull
+                      className="bg-blue-400 text-white"
+                      icon={<ImCheckmark className="h-4 w-4" />}
+                    />
+                  }
+                  label="ENTRY ALLOWED"
+                  subtitle="Entry status"
+                  textColor="white"
+                />
+              ) : (
+                <ListItem
+                  className="select-none  bg-red-600"
+                  icon={
+                    <Icon
+                      roundedFull
+                      className="bg-red-400 text-white"
+                      icon={<ImCross className="h-4 w-4" />}
+                    />
+                  }
+                  label="ENTRY NOT ALLOWED"
+                  subtitle="Entry status"
+                  textColor="white"
+                />
+              )}
+            </div>
+
+            <Dashboard
+              loading={isLoading}
+              onClickHDF={(e) => {
+                e.preventDefault();
+                navigate("/hdf");
+              }}
+              onClickVacc={(e) => {
+                e.preventDefault();
+                navigate("/vaccine");
+              }}
+            />
+          </List>
 
           {hasHDF && (
             <div className="flex flex-col space-y-10">
@@ -134,7 +173,7 @@ function Main() {
                 ) : (
                   <Button
                     className="bg-red-600"
-                    label="VIEW RESULT"
+                    label="VIEW ENTRY LOGS"
                     roundedFull
                     onClick={(e) => {
                       e.preventDefault();

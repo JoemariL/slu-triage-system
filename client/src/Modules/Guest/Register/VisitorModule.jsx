@@ -78,7 +78,7 @@ const VisitorModule = ({ onNext = () => {} }) => {
             ENTER YOUR CONTACT INFORMATION
           </span>
 
-          <div>
+          <div className="space-y-3">
             <Input
               label="Contact Number"
               placeholder="Enter your Contact Number"
@@ -89,8 +89,11 @@ const VisitorModule = ({ onNext = () => {} }) => {
                 formValues?.contact_number ? formValues.contact_number : ""
               }
               required
+              minLength={11}
+              maxLength={11}
               error={inputTouched.contact_number && formErrors.contact_number}
               onChange={changeHandler}
+              subtitle="Please start with 0. (e.g. 09—)"
             />
 
             <Input

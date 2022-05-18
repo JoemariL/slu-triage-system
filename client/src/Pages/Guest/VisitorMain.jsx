@@ -87,18 +87,20 @@ function VisitorMain() {
           dateMY={moment(entry_date).format("MMMM Do YYYY")}
         />
 
-        <div className="px-16">
-          <Button
-            icon={<MdQrCodeScanner className="h-6 w-6" />}
-            label="SCAN QR CODE"
-            roundedFull
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/visitor/qr-scanner");
-            }}
-            disabled={!allowed}
-          />
-        </div>
+        {!entry_date && (
+          <div className="px-16">
+            <Button
+              icon={<MdQrCodeScanner className="h-6 w-6" />}
+              label="SCAN QR CODE"
+              roundedFull
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/visitor/qr-scanner");
+              }}
+              disabled={!allowed}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

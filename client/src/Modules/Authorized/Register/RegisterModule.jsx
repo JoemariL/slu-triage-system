@@ -203,16 +203,19 @@ const RegisterModule = ({ onSuccess = () => {} }) => {
             BASIC CONTACT INFORMATION
           </span>
 
-          <div>
+          <div className="space-y-3">
             <Input
               label="Contact Number"
               placeholder="Enter your Contact Number"
               id="contactNumber"
               name="contactNumber"
               type="text"
+              subtitle="Please start with 0. (e.g. 09—)"
               required
               error={inputTouched.contactNumber && formErrors.contactNumber}
               onChange={changeHandler}
+              minLength={11}
+              maxLength={11}
             />
 
             <Input

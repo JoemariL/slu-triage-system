@@ -21,6 +21,10 @@ export const VisitorFormValidations = [
     isRequired(contact_number) || {
       contact_number: "Contact number is required.",
     },
+  // ({ contact_number }) =>
+  //   isValidContactNumber(contact_number) || {
+  //     contact_number: "The contact number should be 11-digits.",
+  //   },
   ({ home_address }) =>
     isRequired(home_address) || { home_address: "Local address is required." },
 ];
@@ -32,6 +36,10 @@ const isRequired = (value) => {
 const isValidAge = (value) => {
   return value < 5;
 };
+
+// const isValidContactNumber = (value) => {
+//   return value <= 11;
+// };
 
 const isValidNumber = (value) => {
   const pattern = /^[0-9 -]+$/;
