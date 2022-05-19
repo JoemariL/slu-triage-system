@@ -86,7 +86,7 @@ router.patch("/update", auth, async (req, res) => {
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
     const userDetails = {
-        age: age.trim(),
+        age,
         contact_number: contactNumber.trim(),
         home_address: homeAddress.trim(),
         department
