@@ -47,6 +47,8 @@ router.patch("/update/password", auth, async (req, res) => {
 
     const { oldPassword, newPassword, confirmNewPassword } = req.body 
 
+    if(newPassword.trim() === "" || confirmNewPassword.trim() === "") return res.status(400).json({ errors:{ message: 'New password field must not be empty.' }}) 
+
     const user = await USERS.findById(userUid)
     if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
 
@@ -83,16 +85,17 @@ router.patch("/update", auth, async (req, res) => {
 
     const { age, contactNumber, homeAddress, department } = req.body
     const user = await USERS.findById(userUid).select('-password -__v -createdAt -updatedAt')
-    if(!user) return res.status(404).json({ errors:{ message:'user not found' }})
+    if(!user) return res.status(404).json({ errors:{ message:'user not found' }}) 
 
-    const userDetails = {
-        age,
-        contact_number: contactNumber.trim(),
-        home_address: homeAddress.trim(),
-        department
-    }
-    const uid = user._id
     try {
+        const userDetails = {
+            age,
+            contact_number: contactNumber.trim(),
+            home_address: homeAddress.trim(),
+            department
+        }
+        const uid = user._id
+
         const updatedUser = await USERS.findByIdAndUpdate(
             uid,
             { $set: userDetails },
