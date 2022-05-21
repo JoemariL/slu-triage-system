@@ -8,9 +8,10 @@ const { objectIDValidator } = require('../utils/validator')
 const { encryptJSON } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const { extractGateInfo, checkIfGateExist } = require('../utils/pipelines')
+const adminAuth = require("../middleware/adminAuth")
 
 // GET LIST OF QR CODES.
-router.get("/get/qr", async (req, res) => {
+router.get("/get/qr", adminAuth, async (req, res) => {
     try {
         const qrData = await SCHOOL.find()
         if(!qrData) return res.status(404).json({ errors:{ message: 'no data found' }})
@@ -21,7 +22,7 @@ router.get("/get/qr", async (req, res) => {
 })
 
 // ADDS NEW SCHOOL DATA.
-router.post("/add-school", async (req, res) => {
+router.post("/add-school", adminAuth, async (req, res) => {
     const { school } = req.body
     try {
         const schoolInfo = school.trim()
@@ -43,7 +44,7 @@ router.post("/add-school", async (req, res) => {
 })
 
 // DELETES SCHOOL DATA.
-router.delete("/delete-school/:schoolID", async (req, res) => {
+router.delete("/delete-school/:schoolID", adminAuth, async (req, res) => {
 
     const schoolID = req.params.schoolID
     const idCheck = objectIDValidator(schoolID)
@@ -62,7 +63,7 @@ router.delete("/delete-school/:schoolID", async (req, res) => {
 })
 
 // ADD GATE FOR QR CODE GENERATION
-router.post("/add-gate/:schoolID", async (req, res) => {
+router.post("/add-gate/:schoolID", adminAuth, async (req, res) => {
     const { gate } = req.body
 
     const schoolID = req.params.schoolID
@@ -112,7 +113,7 @@ router.post("/add-gate/:schoolID", async (req, res) => {
 })
 
 // REFRESHES THE QR CODE.
-router.post("/refresh-qr/:schoolID/:gateID", async (req, res) => {
+router.post("/refresh-qr/:schoolID/:gateID", adminAuth, async (req, res) => {
     const schoolID = req.params.schoolID
     const schoolIdCheck = objectIDValidator(schoolID)
     if (!schoolIdCheck) return res.status(400).json({ errors: { message:'Invalid school ID.' }})
@@ -162,7 +163,7 @@ router.post("/refresh-qr/:schoolID/:gateID", async (req, res) => {
 })
 
 // DELETES THE QR CODE GENERATED
-router.post("/removeQr/:schoolID/:qrID", async (req, res) => {
+router.post("/removeQr/:schoolID/:qrID", adminAuth, async (req, res) => {
     const schoolID = req.params.schoolID
     const schoolIdCheck = objectIDValidator(schoolID)
     if (!schoolIdCheck) return res.status(400).json({ errors: { message:'Invalid school ID.' }})

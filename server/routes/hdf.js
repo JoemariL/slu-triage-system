@@ -16,7 +16,7 @@ const auth = require('../middleware/auth')
 const adminAuth = require('../middleware/adminAuth')
 
 // GET HDF ON A DATE RANGE.
-router.post("/date-range", async (req, res) => {
+router.post("/date-range", adminAuth, async (req, res) => {
     const { fromDate, toDate } = req.body
 
     const formatFrom = new Date(fromDate)
@@ -48,7 +48,7 @@ router.post("/date-range", async (req, res) => {
 })
 
 // GET THE REJECTED HDF ON A DATE RANGE.
-router.post("/rejected/date-range", async (req, res) => {
+router.post("/rejected/date-range", adminAuth, async (req, res) => {
     const { fromDate, toDate } = req.body
 
     const formatFrom = new Date(fromDate)

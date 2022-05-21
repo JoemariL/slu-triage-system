@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const statSchema = mongoose.Schema({
-    date: String,
+    date: Date,
     info: { type: Array, "default": []},
     rejected: { type: Array, "default": []}
 })

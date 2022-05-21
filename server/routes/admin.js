@@ -16,8 +16,10 @@ const { countDepartments } = require('../utils/functions')
 const { extractID } = require('../middleware/jwt-helper')
 const { getAllUsers, getHdfStatistics, getAllAdmin } = require('../utils/pipelines')
 
+const adminAuth = require('../middleware/adminAuth')
+
 // GET ALL ADMIN INFO.
-router.get("/get-all-admin", async (req, res) => {
+router.get("/get-all-admin", adminAuth, async (req, res) => {
     try {
         const adminData = await getAllAdmin()
         if(!adminData) return res.status(404).json({ errors:{ message: 'no data found' }})
@@ -28,7 +30,7 @@ router.get("/get-all-admin", async (req, res) => {
 })
 
 // GET ALL USERS
-router.get("/get-all-users", async (req, res) => {
+router.get("/get-all-users", adminAuth, async (req, res) => {
     try {
         const userData = await getAllUsers();
         if(!userData) return res.status(404).json({ errors:{ message: 'no data found'}})
@@ -39,7 +41,7 @@ router.get("/get-all-users", async (req, res) => {
 })
 
 // GET SPECIFIC ADMIN.
-router.get("/get", async (req, res) => {
+router.get("/get", adminAuth, async (req, res) => {
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
         return res.sendStatus(401)
@@ -59,7 +61,7 @@ router.get("/get", async (req, res) => {
 })
 
 // CHANGE PASSWORD FOR ADMIN.
-router.patch("/update/password", async(req, res) => {
+router.patch("/update/password", adminAuth, async(req, res) => {
 
     if(req.cookies.refreshToken === null || req.cookies.refreshToken === undefined) { 
         res.clearCookie('accessToken')
@@ -95,7 +97,7 @@ router.patch("/update/password", async(req, res) => {
 })
 
 // DELETES ADMIN.
-router.delete("/delete/:adminID", async(req, res) => {
+router.delete("/delete/:adminID", adminAuth, async(req, res) => {
     const adminUid = req.params.adminID
     const idCheck = objectIDValidator(adminUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid admin id' }})
@@ -115,7 +117,7 @@ router.delete("/delete/:adminID", async(req, res) => {
 })
 
 // DELETES USER.
-router.delete("/deleteUser/:userID", async (req, res) => {
+router.delete("/deleteUser/:userID", adminAuth, async (req, res) => {
     const userUid = req.params.userID
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors:{ message:'invalid user ID' }})
@@ -133,7 +135,7 @@ router.delete("/deleteUser/:userID", async (req, res) => {
 })
 
 // GET A FULL USER PROFILE.
-router.get("/get-user/:userUid", async (req, res) => {
+router.get("/get-user/:userUid", adminAuth, async (req, res) => {
     const userUid = req.params.userUid
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})
@@ -148,9 +150,9 @@ router.get("/get-user/:userUid", async (req, res) => {
 })
 
 // GET THE FULL REPORT OF HDF FROM THE DATABASE.
-router.get("/hdf/full-report", async (req, res) => {
+router.get("/hdf/full-report", adminAuth, async (req, res) => {
     try {
-        const stats = await STATISTICS.find()
+        const stats = await STATISTICS.find().sort({ date: -1 })
         if(!stats) return res.status(404).json({ errors: { message: 'empty' }})
         return res.status(200).json(stats)
     } catch (error) {
@@ -158,7 +160,7 @@ router.get("/hdf/full-report", async (req, res) => {
     }
 })
 
-router.post("/hdf/report-range", async (req, res) => {
+router.post("/hdf/report-range", adminAuth, async (req, res) => {
     const { fromDate, toDate } = req.body
 
     const formatFrom = new Date(fromDate)
@@ -195,7 +197,7 @@ router.post("/hdf/report-range", async (req, res) => {
 })
 
 // DELETE A HDF ON A USER
-router.delete("/hdf/:userUid/:hdfID", async (req, res) => {
+router.delete("/hdf/:userUid/:hdfID", adminAuth, async (req, res) => {
     const userUid = req.params.userUid
     const idCheck = objectIDValidator(userUid)
     if (!idCheck) return res.status(400).json({ errors: { message:'invalid user ID' }})

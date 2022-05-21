@@ -12,7 +12,7 @@ require('dotenv').config({ path: '../.env'})
 const nodeInstance = process.env.NODE_APP_INSTANCE
 
 const autoDeleteVisitor = async () => {
-    const date = moment().tz('Asia/Manila').startOf('day').add(-15, 'days').toDate()
+    const date = moment().tz('Asia/Manila').startOf('day').add(-31, 'days').toDate()
     const user = await getVisitor(date)
     if(user.length != 0 || user.length != null) {
         for(let i = 0; i < user.length; i++) {
@@ -22,7 +22,7 @@ const autoDeleteVisitor = async () => {
 }
 
 const autoDeleteHDF = async () => {
-    const date = moment().tz('Asia/Manila').startOf('day').add(-15, 'days').toDate()
+    const date = moment().tz('Asia/Manila').startOf('day').add(-31, 'days').toDate()
     const user = await getExpiredHDF(date)
     if(user.length != 0 || user.length != null) {
         for(let i = 0; i < user.length; i++) {
@@ -45,7 +45,7 @@ const autoGenerateReport = async () => {
 
     const data = await getHdfStatistics(min, max, dateNow)
     const rejectedData = await getNotAllowedUsers(min, max)
-    const sortedRejectedData = extractRejected(rejectedData)
+    let sortedRejectedData = extractRejected(rejectedData)
 
     if(data.length != 0 || data != null) {
         const result = countDepartments(data)
@@ -58,13 +58,13 @@ const autoGenerateReport = async () => {
                 total_entry: data.total_entry,
                 students: data.students,
                 employees: data.employees,
-                visitors: data.visitors,
-                department_list: data.department_list
+                visitors: data.visitors
             }
         })
 
+        delete sortedRejectedData.department_list
         const newStats = new STATISTICS({
-            date: dateNow,
+            date: min,
             info: stats,
             rejected: sortedRejectedData
         })
@@ -91,7 +91,7 @@ if(nodeInstance === '0') {
 }
 
 // module.exports = () => {
-//     schedule.scheduleJob('*/5 * * * * *', () => {
+//     schedule.scheduleJob('*/20 * * * * *', () => {
 //         autoGenerateReport()
 //         autoDeleteVisitor()
 //         autoDeleteHDF()
