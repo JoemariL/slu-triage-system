@@ -405,7 +405,7 @@ module.exports.getHdfStatistics = async (fromDate, toDate, min, max) => {
                 }
             }
         }
-    ]).sort({ createdAt: -1 })
+    ]).sort({ createdAt: 1 })
 }
 
 module.exports.getHdfTodayUser = async(userID, fromDate, toDate) => {
