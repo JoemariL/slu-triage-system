@@ -41,6 +41,8 @@ function Main() {
 
   const [selectRejects, setSelectRejects] = useState(false);
 
+  const [render, setRender] = useState(false);
+
   const renderSelectRejects = () => {
     setSelectRejects(!selectRejects);
   };
@@ -102,6 +104,7 @@ function Main() {
   const handleOnClickCampus = (data) => {
     setCampusName(data);
     setSelectedCampus(campus[data]);
+    setRender(true);
   };
 
   const overview = (
@@ -208,6 +211,7 @@ function Main() {
                       onChange={(e) => {
                         const date = convertDateFormat(e.target.value);
                         setFromDate(date);
+                        setRender(false);
                       }}
                     />
                     <span>to</span>
@@ -218,54 +222,59 @@ function Main() {
                       onChange={(e) => {
                         const date = convertDateFormat(e.target.value);
                         setToDate(date);
+                        setRender(false);
                       }}
                     />
                   </div>
                 </div>
               </div>
               <div className="px-6 pt-4 pb-48">
-                <GridItemLayout>
-                  {selectedCampus.length ? (
-                    selectedCampus.map((payload) => {
-                      return (
-                        <GateCard
-                          key={payload.gate}
-                          GATE_NAME={payload.gate}
-                          ALLOWED={payload.allowed}
-                          NOT_ALLOWED={payload.not_allowed}
-                          STUDENTS_NUM={payload.students}
-                          EMPLOYEES_NUM={payload.employees}
-                          VISITORS_NUM={payload.visitors}
-                          allowed={true}
-                          overviewOnClick={() => {
-                            overview(
-                              payload._id,
-                              payload.users,
-                              payload.department_list,
-                              payload.school,
-                              payload.gate,
-                              payload.allowed,
-                              payload.not_allowed,
-                              payload.students,
-                              payload.employees,
-                              payload.visitors,
-                              payload.department_list,
-                              payload.users
-                            );
-                          }}
+                {render ? (
+                  <GridItemLayout>
+                    {selectedCampus.length ? (
+                      selectedCampus.map((payload) => {
+                        return (
+                          <GateCard
+                            key={payload.gate}
+                            GATE_NAME={payload.gate}
+                            ALLOWED={payload.allowed}
+                            NOT_ALLOWED={payload.not_allowed}
+                            STUDENTS_NUM={payload.students}
+                            EMPLOYEES_NUM={payload.employees}
+                            VISITORS_NUM={payload.visitors}
+                            allowed={true}
+                            overviewOnClick={() => {
+                              overview(
+                                payload._id,
+                                payload.users,
+                                payload.department_list,
+                                payload.school,
+                                payload.gate,
+                                payload.allowed,
+                                payload.not_allowed,
+                                payload.students,
+                                payload.employees,
+                                payload.visitors,
+                                payload.department_list,
+                                payload.users
+                              );
+                            }}
+                          />
+                        );
+                      })
+                    ) : (
+                      <div className="w-full flex flex-col justify-center items-center">
+                        <img
+                          className="opacity-30 w-96"
+                          src={GateEmpty}
+                          alt="Triage Application Team Logo"
                         />
-                      );
-                    })
-                  ) : (
-                    <div className="w-full flex flex-col justify-center items-center">
-                      <img
-                        className="opacity-30 w-96"
-                        src={GateEmpty}
-                        alt="Triage Application Team Logo"
-                      />
-                    </div>
-                  )}
-                </GridItemLayout>
+                      </div>
+                    )}
+                  </GridItemLayout>
+                ) : (
+                  <> </>
+                )}
               </div>
             </>
           )}

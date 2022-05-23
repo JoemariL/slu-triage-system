@@ -18,6 +18,8 @@ function ReportsArchived() {
   const [date, setDate] = useState("");
   const [selected, setSelected] = useState(false);
 
+  const [render, setRender] = useState(false);
+
   useEffect(() => {
     (async function () {
       const response = await getReports();
@@ -44,7 +46,9 @@ function ReportsArchived() {
 
       <DualLayout>
         <div className="w-[28rem] border-r-2">
-          <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
+          <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm" onClick={() => {
+            setRender(false);
+          }}>
             <span className="text-blue-600 text-lg font-bold">
               ARCHIVED DATES
             </span>
@@ -62,6 +66,7 @@ function ReportsArchived() {
                       setSelectedArchive(payload);
                       setDate(convertedDate);
                       setSelected(true);
+                      setRender(true);
                     }}
                     ACTIVE={date === convertedDate}
                   />
@@ -71,15 +76,20 @@ function ReportsArchived() {
         </div>
 
         <div className="h-full w-full overflow-y-auto">
-          <div className="bg-slate-50 sticky top-0 w-full p-4 z-40 ... inline-flex items-center gap-3 shadow-sm">
-            <span className="px-4 text-lg"> {date} </span>
-          </div>
-
-          <div className="container mx-auto">
-            <div className="px-6 pt-4 pb-48 space-y-10">
-              {selected && <ArchivedReportsTable DATA={selectedArchive} />}
-            </div>
-          </div>
+          {render ? (
+            <>
+              <div className="bg-slate-50 sticky top-0 w-full p-4 z-40 ... inline-flex items-center gap-3 shadow-sm">
+                <span className="px-4 text-lg"> {date} </span>
+              </div>
+              <div className="container mx-auto">
+                <div className="px-6 pt-4 pb-48 space-y-10">
+                  {selected && <ArchivedReportsTable DATA={selectedArchive} />}
+                </div>
+              </div>
+            </>
+          ) : (
+            <> </>
+          )}
         </div>
       </DualLayout>
     </Background>

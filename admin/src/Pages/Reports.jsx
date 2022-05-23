@@ -44,6 +44,8 @@ function Reports() {
 
   const [selectRejects, setSelectRejects] = useState(false);
 
+  const [render, setRender] = useState(false);
+
   useEffect(() => {
     (async function () {
       setFromDate(moment().format("L"));
@@ -99,6 +101,7 @@ function Reports() {
   const handleOnClickCampus = (data) => {
     setCampusName(data);
     setSelectedCampus(campus[data]);
+    setRender(true);
   };
 
   return (
@@ -159,6 +162,7 @@ function Reports() {
                     onChange={(e) => {
                       const date = convertDateFormat(e.target.value);
                       setFromDate(date);
+                      setRender(false);
                     }}
                   />
                   <span>to</span>
@@ -169,6 +173,7 @@ function Reports() {
                     onChange={(e) => {
                       const date = convertDateFormat(e.target.value);
                       setToDate(date);
+                      setRender(false);
                     }}
                   />
 
@@ -185,6 +190,7 @@ function Reports() {
               </div>
             </div>
 
+          { render ?
             <div className="px-6 pt-4 pb-48 space-y-10">
               {selectedCampus.length ? (
                 <>
@@ -201,6 +207,8 @@ function Reports() {
                 </span>
               )}
             </div>
+          : <> </>}
+      
           </div>
         </DualLayout>
       </Background>
