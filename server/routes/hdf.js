@@ -155,7 +155,7 @@ router.post("/scan", auth, async (req, res) => {
         return res.sendStatus(401)
     }
 
-    const { destination, qrCode } = req.body
+    let { destination, qrCode } = req.body
 
     const userUid = await extractID(req.cookies.accessToken)
     const idCheck = objectIDValidator(userUid)
@@ -234,6 +234,7 @@ router.post("/scan", auth, async (req, res) => {
     const uid = user._id
     
     try {
+        if(destination) destination.trim()
         const newHdfData = await USERS.findByIdAndUpdate(
             uid,
             {
@@ -241,7 +242,7 @@ router.post("/scan", auth, async (req, res) => {
                     "hdf_data.$[element].entry_date": dateNow,
                     "hdf_data.$[element].entry_campus": school,
                     "hdf_data.$[element].gate_info": gate,
-                    "hdf_data.$[element].destination": destination.trim(),
+                    "hdf_data.$[element].destination": destination,
                     "hdf_data.$[element].is_expired": true
                 }
             },
