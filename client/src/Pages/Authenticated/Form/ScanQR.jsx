@@ -61,6 +61,49 @@ function ScanQR() {
     }
   };
 
+  // TODO: The part on the bottom has no destination input.
+  // return (
+  //   <div>
+  //     <div className="bg-white w-full sticky top-0 z-40">
+  //       <Formbar
+  //         header="QR Code Scanner"
+  //         onReturnClick={(e) => {
+  //           e.preventDefault();
+  //           navigate("/main");
+  //         }}
+  //       />
+  //     </div>
+
+  //     <MainLayout>
+  //       <div className="space-y-5">
+  //         <QrReader
+  //           scanDelay={500}
+  //           constraints={{ facingMode: "environment" }}
+  //           onResult={(result, error) => {
+  //             if (!!result) {
+  //               handleSubmitQR(result?.text);
+  //             }
+  //           }}
+  //         />
+
+  //         <div className="w-full inline-flex justify-center items-center">
+  //           <Button
+  //             className="px-16 bg-white border-2 border-blue-800 text-blue-800 rounded-full"
+  //             label="Cancel"
+  //             type="button"
+  //             onClick={(e) => {
+  //               e.preventDefault();
+  //               localStorage.removeItem("hdf");
+  //               navigate("/main");
+  //             }}
+  //             roundedFull
+  //           />
+  //         </div>
+  //       </div>
+  //     </MainLayout>
+  //   </div>
+  // );
+
   switch (step) {
     case 1:
       return (

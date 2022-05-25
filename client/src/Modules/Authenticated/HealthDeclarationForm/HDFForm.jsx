@@ -6,7 +6,12 @@ import { generateHdf } from "../../../actions/userActions";
 
 import { HDFormInitialState } from "./hdf_form";
 
-import { Button, RadioButton, Checkbox } from "../../../Components/commons";
+import {
+  Button,
+  RadioButton,
+  Checkbox,
+  Input,
+} from "../../../Components/commons";
 
 const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
   const navigate = useNavigate();
@@ -174,6 +179,18 @@ const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
           />
         </div>
       </div>
+
+      {/* TODO: Will ask for destination input. */}
+      {/* <div className="flex flex-col space-y-3">
+        <span className="text-lg">Where will you go within the campus?</span>
+        <Input
+          placeholder="Enter your Destination"
+          id="deptDestination"
+          name="deptDestination"
+          type="text"
+          subtitle="Registrar, etc."
+        />
+      </div> */}
 
       <Button
         className="bg-blue-900 text-white rounded"
