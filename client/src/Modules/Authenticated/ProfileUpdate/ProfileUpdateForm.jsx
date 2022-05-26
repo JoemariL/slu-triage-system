@@ -265,6 +265,7 @@ const ProfileUpdateForm = ({
         <div className="flex flex-col space-y-5">
           <span className="text-md font-bold text-gray-500">AGE</span>
           <Input
+            label="Age"
             id="age"
             name="age"
             type="number"
