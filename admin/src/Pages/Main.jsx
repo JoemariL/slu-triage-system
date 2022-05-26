@@ -22,7 +22,7 @@ import {
   GridItemLayout,
 } from "../Components/app_ui/Layout";
 import { CampusTab, GateCard, RejectedList } from "../Components/app_ui/Misc";
-import { Searchbar } from "../Components/app_ui";
+// import { Searchbar } from "../Components/app_ui";
 import { Checkbox, Input } from "../Components/common";
 
 import { CampusEmpty, GateEmpty } from "../Assets/Placeholders";
@@ -200,8 +200,8 @@ function Main() {
                 <span className="px-4 text-lg">{campusName}</span>
 
                 <div className="ml-auto inline-flex items-center gap-3">
-                  <Searchbar setPlaceholder="Search for a campus" />
-                  <div className="divider"></div>
+                  {/* <Searchbar setPlaceholder="Search for a campus" />
+                  <div className="divider"></div> */}
 
                   <div className="inline-flex items-center gap-3">
                     <Input
