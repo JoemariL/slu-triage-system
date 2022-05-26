@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BiLoaderAlt } from "react-icons/bi";
+import { MdQrCodeScanner } from "react-icons/md";
 import moment from "moment";
 
 import useAuth from "../../hooks/useAuth";
-import { getHdfDay } from "../../actions/userActions";
+import { getHdfDay, getUserData } from "../../actions/userActions";
 import { logout } from "../../actions/authActions";
 
 import { Background, MainLayout } from "../../Components/app_ui/Layouts";
@@ -13,11 +14,13 @@ import {
   ResultSummary,
 } from "../../Components/app_ui/Authenticated";
 import { Appbar } from "../../Components/app_ui";
+import { Button } from "../../Components/commons";
 
 function Results() {
   const navigate = useNavigate();
 
   const { auth, setAuth } = useAuth();
+  const [user, setUser] = useState({});
   const [hdf, setHdf] = useState({});
 
   const [drawer, setDrawer] = useState(false);
@@ -29,6 +32,17 @@ function Results() {
   const [allowed, setIsAllowed] = useState(false);
   const [hasHDF, setHasHDF] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      setIsLoading(true);
+      const user = await getUserData();
+      if (user) {
+        setUser(user);
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async function () {
@@ -65,6 +79,7 @@ function Results() {
     }
   };
 
+  const { first_name, last_name, user_type } = user;
   const { entry_date } = hdf;
 
   return (
@@ -91,6 +106,28 @@ function Results() {
 
       <MainLayout>
         <div className="space-y-10">
+          <div className="grid grid-cols-2">
+            <div className="w-3/4 overflow-x-auto">
+              <p className="text-lg font-bold whitespace-nowrap">
+                {first_name} {last_name}
+              </p>
+              <p className="w-64 text-lg text-blue-800 truncate">{user_type}</p>
+            </div>
+
+            {allowed && (
+              <Button
+                className="bg-indigo-600 rounded-full text-white"
+                icon={<MdQrCodeScanner className="h-6 w-6" />}
+                label="SCAN QR CODE"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/qr-scanner");
+                }}
+                disabled={isLoading}
+              />
+            )}
+          </div>
+
           <ResultSummary
             ENTRY_STATUS={allowed}
             DAY={moment(entry_date).format("dddd,")}

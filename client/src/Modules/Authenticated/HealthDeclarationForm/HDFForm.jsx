@@ -194,6 +194,7 @@ const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
           subtitle="Registrar, etc."
           value={destination}
           onChange={(e) => { setDestination(e.target.value)}}
+          required
         />
       </div>
 

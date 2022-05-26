@@ -198,13 +198,15 @@ function Main() {
                 />
               )}
             </div>
-
-            <div className="px-2">
-              <span>
-                After you scan a QR Code, there will be an interval of 1 hour
-                before you are able to scan again.
-              </span>
-            </div>
+            
+            {allowed && (
+              <div className="px-2">
+                <span>
+                  After you scan a QR Code, there will be an interval of 1 hour
+                  before you are able to scan again.
+                </span>
+              </div>
+            )}
           </div>
         )}
       </MainLayout>

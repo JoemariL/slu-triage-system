@@ -44,6 +44,7 @@ const GuestInfoForm = ({
             name="first_name"
             type="text"
             required
+            pattern="[a-zA-Z\s]+"
             error={inputTouched.first_name && formErrors.first_name}
             onChange={changeHandler}
           />
@@ -55,6 +56,7 @@ const GuestInfoForm = ({
             name="last_name"
             type="text"
             required
+            pattern="[a-zA-Z]+"
             error={inputTouched.last_name && formErrors.last_name}
             onChange={changeHandler}
           />
@@ -98,6 +100,7 @@ const GuestInfoForm = ({
             id="home_address"
             name="home_address"
             type="text"
+            minLength={4}
             required
             error={inputTouched.home_address && formErrors.home_address}
             onChange={changeHandler}
