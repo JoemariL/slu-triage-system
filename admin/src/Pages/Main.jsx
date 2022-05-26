@@ -138,7 +138,7 @@ function Main() {
   return (
     <Background>
       <DualLayout>
-        <div className="w-[28rem] border-r-2">
+        <div className="w-full border-2 lg:w-[28rem]">
           <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
             <span className="text-blue-600 text-lg font-bold">DASHBOARD</span>
           </div>

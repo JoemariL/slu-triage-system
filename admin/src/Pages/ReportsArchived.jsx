@@ -45,17 +45,20 @@ function ReportsArchived() {
       </div>
 
       <DualLayout>
-        <div className="w-[28rem] border-r-2">
-          <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm" onClick={() => {
-            setRender(false);
-          }}>
+        <div className="w-full border-2 lg:w-[28rem]">
+          <div
+            className="w-full p-2 ... inline-flex justify-between items-center shadow-sm"
+            onClick={() => {
+              setRender(false);
+            }}
+          >
             <span className="text-blue-600 text-lg font-bold">
               ARCHIVED DATES
             </span>
           </div>
 
           <div className="h-[80%] px-2 pt-4 pb-48 overflow-y-auto ...">
-            {archives.length &&
+            {archives.length ? (
               archives.map((payload) => {
                 const convertedDate = moment(payload.date).format("LL");
                 return (
@@ -71,7 +74,10 @@ function ReportsArchived() {
                     ACTIVE={date === convertedDate}
                   />
                 );
-              })}
+              })
+            ) : (
+              <span className="font-bold">NO DATA.</span>
+            )}
           </div>
         </div>
 

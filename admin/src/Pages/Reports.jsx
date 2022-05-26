@@ -108,14 +108,14 @@ function Reports() {
     <>
       <Background>
         <DualLayout>
-          <div className="w-[28rem] border-r-2">
+          <div className="w-full border-2 lg:w-[28rem]">
             <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
               <span className="text-blue-600 text-lg font-bold">REPORTS</span>
             </div>
 
             <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
               <Button
-                className="bg-orange-600 text-white w-full float-right ... rounded"
+                className="ml-auto bg-orange-600 text-white ... rounded lg:w-full"
                 label="GO TO ARCHIVED REPORTS"
                 type="button"
                 onClick={(e) => {
@@ -190,25 +190,27 @@ function Reports() {
               </div>
             </div>
 
-          { render ?
-            <div className="px-6 pt-4 pb-48 space-y-10">
-              {selectedCampus.length ? (
-                <>
-                  <ReportsTable LIST={selectedCampus} />
-                  <RejectedList
-                    TOTAL={selectRejects.total}
-                    STUDENTS={selectRejects.students}
-                    EMPLOYEE={selectRejects.employees}
-                  />
-                </>
-              ) : (
-                <span className="font-bold">
-                  CLICK A SPECIFIC CAMPUS ON THE LEFT-SIDE TO VIEW ITS REPORTS.
-                </span>
-              )}
-            </div>
-          : <> </>}
-      
+            {render ? (
+              <div className="px-6 pt-4 pb-48 space-y-10">
+                {selectedCampus.length ? (
+                  <>
+                    <ReportsTable LIST={selectedCampus} />
+                    <RejectedList
+                      TOTAL={selectRejects.total}
+                      STUDENTS={selectRejects.students}
+                      EMPLOYEE={selectRejects.employees}
+                    />
+                  </>
+                ) : (
+                  <span className="font-bold">
+                    CLICK A SPECIFIC CAMPUS ON THE LEFT-SIDE TO VIEW ITS
+                    REPORTS.
+                  </span>
+                )}
+              </div>
+            ) : (
+              <> </>
+            )}
           </div>
         </DualLayout>
       </Background>

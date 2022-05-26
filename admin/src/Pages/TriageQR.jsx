@@ -209,10 +209,14 @@ function TriageQR() {
 
       <Background>
         <DualLayout>
-          <div className="w-[28rem] border-r-2">
+          <div className="w-full border-2 lg:w-[28rem]">
+            <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
+              <span className="text-blue-600 text-lg font-bold">CAMPUS & GATE</span>
+            </div>
+
             <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
               <Button
-                className="bg-blue-600 text-white w-full float-right ... rounded"
+                className="ml-auto bg-blue-600 text-white ... rounded lg:w-full"
                 label="REGISTER CAMPUS"
                 type="button"
                 onClick={renderRegisterCampus}
@@ -275,7 +279,7 @@ function TriageQR() {
                   </div>
                 </div>
 
-                <div className="w-[68rem] px-6 pt-4 pb-48">
+                <div className="px-6 pt-4 pb-48 lg:w-[68rem]">
                   <ListItemLayout>
                     {QRCode.length ? (
                       QRCode.map((payload) => {
