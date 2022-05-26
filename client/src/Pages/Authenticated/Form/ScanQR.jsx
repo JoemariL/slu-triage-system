@@ -44,12 +44,12 @@ function ScanQR() {
         localStorage.setItem("hdf", user[0]._id);
       }
     })();
-    const temp = localStorage.getItem("destination")
-    setDestination(temp)
+    const temp = localStorage.getItem("destination");
+    setDestination(temp);
   }, []);
 
   const handleSubmitQR = async (qrCode) => {
-    const temp = localStorage.getItem("destination", destination)
+    const temp = localStorage.getItem("destination", destination);
     const payload = {
       destination: temp,
       qrCode,
@@ -152,7 +152,7 @@ function ScanQR() {
                   name="deptDestination"
                   type="text"
                   subtitle="Registrar, etc."
-                  value={destination}
+                  value={destination ? destination : ""}
                   onChange={(e) => {
                     setDestination(e.target.value);
                   }}
@@ -165,8 +165,8 @@ function ScanQR() {
                 type="button"
                 loading={isLoading}
                 onClick={() => {
-                  nextStep()
-                  localStorage.setItem("destination", destination)
+                  localStorage.setItem("destination", destination);
+                  prevStep();
                 }}
                 disabled={destination === "" && destination.trim().length <= 0}
               />
