@@ -77,20 +77,28 @@ function ScanQR() {
   //         </div>
 
   //         <MainLayout>
-  //           <div className="space-y-5">
-  //             <QrReader
-  //               scanDelay={500}
-  //               constraints={{ facingMode: "environment" }}
-  //               onResult={(result, error) => {
-  //                 if (!!result) {
-  //                   handleSubmitQR(result?.text);
-  //                 }
-  //               }}
-  //             />
+  //           <div className="space-y-10">
+  //             <div>
+  //               <QrReader
+  //                 scanDelay={500}
+  //                 constraints={{ facingMode: "environment" }}
+  //                 onResult={(result, error) => {
+  //                   if (!!result) {
+  //                     handleSubmitQR(result?.text);
+  //                   }
+  //                 }}
+  //               />
 
-  //             <div className="px-16 w-full grid grid-rows-2 gap-3 items-center">
+  //               <div className="p-4 bg-slate-100 text-center rounded">
+  //                 <span>
+  //                   <strong>Destination:</strong> No Destination?
+  //                 </span>
+  //               </div>
+  //             </div>
+
+  //             <div className="px-16 w-full grid grid-rows-3 gap-3 items-center">
   //               <Button
-  //                 className="bg-white border-2 border-blue-800 text-blue-800 rounded-full"
+  //                 className="bg-blue-600 text-white rounded-full"
   //                 label="Edit Destination"
   //                 type="button"
   //                 onClick={(e) => {
