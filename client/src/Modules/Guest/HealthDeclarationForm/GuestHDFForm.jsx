@@ -221,8 +221,8 @@ const GuestHDFForm = ({
 
       <div className="flex flex-col space-y-3">
         <Input
-          label="What is your department or destination?"
-          placeholder="Please enter your department or destination"
+          label="Where is your destination?"
+          placeholder="Please enter your destination"
           id="destination"
           name="destination"
           type="text"

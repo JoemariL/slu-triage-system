@@ -107,7 +107,7 @@ const GuestInfoForm = ({
 
       <Button
         className="bg-blue-900 text-white  rounded"
-        label="Register"
+        label="Next"
         type="submit"
         disabled={!isFormValid}
       />

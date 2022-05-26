@@ -126,7 +126,7 @@ const GuestVaccineForm = ({
 
       <Button
         className="bg-blue-900 text-white rounded"
-        label="Submit"
+        label="Next"
         type="submit"
       />
     </form>

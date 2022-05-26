@@ -95,6 +95,13 @@ function RegisterGuest() {
           </div>
           <MainLayout>
             <GuestInfoForm SWITCH_NEXT={nextStep} />
+
+            <div className="p-10 flex flex-col gap-5 text-center">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="bg-blue-600 h-2.5 rounded-full w-[33.33%]"></div>
+              </div>
+              <span>1 of 3</span>
+            </div>
           </MainLayout>
         </div>
       );
@@ -113,6 +120,13 @@ function RegisterGuest() {
           </div>
           <MainLayout>
             <GuestVaccineForm SWITCH_NEXT={nextStep} />
+
+            <div className="p-10 flex flex-col gap-5 text-center">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="bg-blue-600 h-2.5 rounded-full w-[66.66%]"></div>
+              </div>
+              <span>2 of 3</span>
+            </div>
           </MainLayout>
         </div>
       );
@@ -131,6 +145,13 @@ function RegisterGuest() {
           </div>
           <MainLayout>
             <GuestHDFForm SWITCH_NEXT={nextStep} />
+
+            <div className="p-10 flex flex-col gap-5 text-center">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="bg-blue-600 h-2.5 rounded-full w-[100%]"></div>
+              </div>
+              <span>3 of 3</span>
+            </div>
           </MainLayout>
         </div>
       );
