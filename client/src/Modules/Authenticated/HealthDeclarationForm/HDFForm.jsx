@@ -16,6 +16,8 @@ import {
 const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
   const navigate = useNavigate();
 
+  const [destination, setDestination] = useState("");
+
   const { changeHandler, formValues, isFormValid } =
     useForm(HDFormInitialState);
 
@@ -50,6 +52,7 @@ const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
       setIsLoading(false);
     } else {
       setIsLoading(false);
+      localStorage.setItem("destination", destination);
       navigate("/hdf/result", { replace: true });
     }
   };
@@ -181,7 +184,7 @@ const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
       </div>
 
       {/* TODO: Will ask for destination input. */}
-      {/* <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-3">
         <span className="text-lg">Where will you go within the campus?</span>
         <Input
           placeholder="Enter your Destination"
@@ -189,8 +192,10 @@ const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
           name="deptDestination"
           type="text"
           subtitle="Registrar, etc."
+          value={destination}
+          onChange={(e) => { setDestination(e.target.value)}}
         />
-      </div> */}
+      </div>
 
       <Button
         className="bg-blue-900 text-white rounded"

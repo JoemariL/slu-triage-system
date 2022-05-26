@@ -44,11 +44,14 @@ function ScanQR() {
         localStorage.setItem("hdf", user[0]._id);
       }
     })();
+    const temp = localStorage.getItem("destination")
+    setDestination(temp)
   }, []);
 
   const handleSubmitQR = async (qrCode) => {
+    const temp = localStorage.getItem("destination", destination)
     const payload = {
-      destination,
+      destination: temp,
       qrCode,
     };
 
@@ -62,70 +65,122 @@ function ScanQR() {
   };
 
   // TODO: UI Changes on the destination input.
+  switch (step) {
+    case 1:
+      return (
+        <div>
+          <div className="bg-white w-full sticky top-0 z-40">
+            <Formbar
+              header="QR Code Scanner"
+              onReturnClick={(e) => {
+                e.preventDefault();
+                navigate("/main");
+              }}
+            />
+          </div>
+
+          <MainLayout>
+            <div className="space-y-10">
+              <div>
+                <QrReader
+                  scanDelay={500}
+                  constraints={{ facingMode: "environment" }}
+                  onResult={(result, error) => {
+                    if (!!result) {
+                      handleSubmitQR(result?.text);
+                    }
+                  }}
+                />
+
+                <div className="p-4 bg-slate-100 text-center rounded">
+                  <span>
+                    <strong>Destination:</strong> {destination}
+                  </span>
+                </div>
+              </div>
+
+              <div className="px-16 w-full grid grid-rows-3 gap-3 items-center">
+                <Button
+                  className="bg-blue-600 text-white rounded-full"
+                  label="Edit Destination"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    nextStep();
+                  }}
+                  roundedFull
+                />
+
+                <Button
+                  className="bg-white border-2 border-blue-800 text-blue-800 rounded-full"
+                  label="Cancel"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    localStorage.removeItem("hdf");
+                    navigate("/main");
+                  }}
+                  roundedFull
+                />
+              </div>
+            </div>
+          </MainLayout>
+        </div>
+      );
+
+    case 2:
+      return (
+        <div>
+          <div className="bg-white w-full sticky top-0 z-40">
+            <Formbar
+              header="Your Destination"
+              onReturnClick={(e) => {
+                e.preventDefault();
+                navigate("/main");
+              }}
+            />
+          </div>
+          <MainLayout>
+            <div className="flex flex-col space-y-5">
+              <div>
+                <span className="text-lg">
+                  Where will you go within the campus?
+                </span>
+                <Input
+                  placeholder="Enter your Destination"
+                  id="deptDestination"
+                  name="deptDestination"
+                  type="text"
+                  subtitle="Registrar, etc."
+                  value={destination}
+                  onChange={(e) => {
+                    setDestination(e.target.value);
+                  }}
+                />
+              </div>
+
+              <Button
+                className="bg-blue-900 text-white rounded"
+                label="Confirm Destination"
+                type="button"
+                loading={isLoading}
+                onClick={() => {
+                  nextStep()
+                  localStorage.setItem("destination", destination)
+                }}
+                disabled={destination === "" && destination.trim().length <= 0}
+              />
+            </div>
+          </MainLayout>
+        </div>
+      );
+
+    default:
+      return <div></div>;
+  }
+
   // switch (step) {
   //   case 1:
-  //     return (
-  //       <div>
-  //         <div className="bg-white w-full sticky top-0 z-40">
-  //           <Formbar
-  //             header="QR Code Scanner"
-  //             onReturnClick={(e) => {
-  //               e.preventDefault();
-  //               navigate("/main");
-  //             }}
-  //           />
-  //         </div>
-
-  //         <MainLayout>
-  //           <div className="space-y-10">
-  //             <div>
-  //               <QrReader
-  //                 scanDelay={500}
-  //                 constraints={{ facingMode: "environment" }}
-  //                 onResult={(result, error) => {
-  //                   if (!!result) {
-  //                     handleSubmitQR(result?.text);
-  //                   }
-  //                 }}
-  //               />
-
-  //               <div className="p-4 bg-slate-100 text-center rounded">
-  //                 <span>
-  //                   <strong>Destination:</strong> No Destination?
-  //                 </span>
-  //               </div>
-  //             </div>
-
-  //             <div className="px-16 w-full grid grid-rows-3 gap-3 items-center">
-  //               <Button
-  //                 className="bg-blue-600 text-white rounded-full"
-  //                 label="Edit Destination"
-  //                 type="button"
-  //                 onClick={(e) => {
-  //                   e.preventDefault();
-  //                   nextStep();
-  //                 }}
-  //                 roundedFull
-  //               />
-
-  //               <Button
-  //                 className="bg-white border-2 border-blue-800 text-blue-800 rounded-full"
-  //                 label="Cancel"
-  //                 type="button"
-  //                 onClick={(e) => {
-  //                   e.preventDefault();
-  //                   localStorage.removeItem("hdf");
-  //                   navigate("/main");
-  //                 }}
-  //                 roundedFull
-  //               />
-  //             </div>
-  //           </div>
-  //         </MainLayout>
-  //       </div>
-  //     );
-
-  //   case 2:
   //     return (
   //       <div>
   //         <div className="bg-white w-full sticky top-0 z-40">
@@ -169,101 +224,52 @@ function ScanQR() {
   //       </div>
   //     );
 
+  //   case 2:
+  //     return (
+  //       <div>
+  //         <div className="bg-white w-full sticky top-0 z-40">
+  //           <Formbar
+  //             header="QR Code Scanner"
+  //             onReturnClick={(e) => {
+  //               e.preventDefault();
+  //               prevStep();
+  //             }}
+  //           />
+  //         </div>
+
+  //         <MainLayout>
+  //           <div className="space-y-5">
+  //             <QrReader
+  //               scanDelay={500}
+  //               constraints={{ facingMode: "environment" }}
+  //               onResult={(result, error) => {
+  //                 if (!!result) {
+  //                   handleSubmitQR(result?.text);
+  //                 }
+  //               }}
+  //             />
+
+  //             <div className="w-full inline-flex justify-center items-center">
+  //               <Button
+  //                 className="px-16 bg-white border-2 border-blue-800 text-blue-800 rounded-full"
+  //                 label="Cancel"
+  //                 type="button"
+  //                 onClick={(e) => {
+  //                   e.preventDefault();
+  //                   localStorage.removeItem("hdf");
+  //                   navigate("/main");
+  //                 }}
+  //                 roundedFull
+  //               />
+  //             </div>
+  //           </div>
+  //         </MainLayout>
+  //       </div>
+  //     );
+
   //   default:
   //     return <div></div>;
   // }
-
-  switch (step) {
-    case 1:
-      return (
-        <div>
-          <div className="bg-white w-full sticky top-0 z-40">
-            <Formbar
-              header="Your Destination"
-              onReturnClick={(e) => {
-                e.preventDefault();
-                navigate("/main");
-              }}
-            />
-          </div>
-          <MainLayout>
-            <div className="flex flex-col space-y-5">
-              <div>
-                <span className="text-lg">
-                  Where will you go within the campus?
-                </span>
-                <Input
-                  placeholder="Enter your Destination"
-                  id="deptDestination"
-                  name="deptDestination"
-                  type="text"
-                  subtitle="Registrar, etc."
-                  value={destination}
-                  onChange={(e) => {
-                    setDestination(e.target.value);
-                  }}
-                />
-              </div>
-
-              <Button
-                className="bg-blue-900 text-white rounded"
-                label="Confirm Destination"
-                type="button"
-                loading={isLoading}
-                onClick={nextStep}
-                disabled={destination === "" && destination.trim().length <= 0}
-              />
-            </div>
-          </MainLayout>
-        </div>
-      );
-
-    case 2:
-      return (
-        <div>
-          <div className="bg-white w-full sticky top-0 z-40">
-            <Formbar
-              header="QR Code Scanner"
-              onReturnClick={(e) => {
-                e.preventDefault();
-                prevStep();
-              }}
-            />
-          </div>
-
-          <MainLayout>
-            <div className="space-y-5">
-              <QrReader
-                scanDelay={500}
-                constraints={{ facingMode: "environment" }}
-                onResult={(result, error) => {
-                  if (!!result) {
-                    handleSubmitQR(result?.text);
-                  }
-                }}
-              />
-
-              <div className="w-full inline-flex justify-center items-center">
-                <Button
-                  className="px-16 bg-white border-2 border-blue-800 text-blue-800 rounded-full"
-                  label="Cancel"
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    localStorage.removeItem("hdf");
-                    navigate("/main");
-                  }}
-                  roundedFull
-                />
-              </div>
-            </div>
-          </MainLayout>
-        </div>
-      );
-
-    default:
-      return <div></div>;
-  }
 }
 
 export default ScanQR;
