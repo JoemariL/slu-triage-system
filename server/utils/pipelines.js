@@ -315,6 +315,7 @@ module.exports.getNotAllowedUsers = async (fromDate, toDate) => {
                 "email_address": { $first: "$email_address" },
                 "department": { $first: "$department" },
                 "user_type": { $first: "$user_type" },
+                "home_address": { $first: "$home_address"},
                 "hdf_data": { $first: "$hdf_data" }
             }
         }

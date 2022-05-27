@@ -197,7 +197,11 @@ function Main() {
           {!selectRejects && (
             <>
               <div className="bg-slate-100 sticky top-0 w-full p-4 z-40 ... inline-flex items-center gap-3 shadow-sm">
-                <span className="px-4 text-lg">{campusName}</span>
+                {render ? (
+                  <span className="px-4 text-lg">{campusName}</span>
+                ) : (
+                  <></>
+                )}
 
                 <div className="ml-auto inline-flex items-center gap-3">
                   {/* <Searchbar setPlaceholder="Search for a campus" />
@@ -286,8 +290,9 @@ function Main() {
                 STUDENTS={rejected.students}
                 EMPLOYEE={rejected.employees}
               />
-
-              <div className="mx-16">{/* <RejectedEntriesTable /> */}</div>
+              <div className="mx-16">
+                <RejectedEntriesTable USERS={rejected} />
+              </div>
             </div>
           )}
         </div>

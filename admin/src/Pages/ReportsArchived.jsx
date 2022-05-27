@@ -46,12 +46,7 @@ function ReportsArchived() {
 
       <DualLayout>
         <div className="w-full border-2 lg:w-[28rem]">
-          <div
-            className="w-full p-2 ... inline-flex justify-between items-center shadow-sm"
-            onClick={() => {
-              setRender(false);
-            }}
-          >
+          <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
             <span className="text-blue-600 text-lg font-bold">
               ARCHIVED DATES
             </span>
@@ -66,10 +61,13 @@ function ReportsArchived() {
                     key={payload._id}
                     DATE={convertedDate}
                     onClick={() => {
+                      setRender(false);
                       setSelectedArchive(payload);
                       setDate(convertedDate);
                       setSelected(true);
-                      setRender(true);
+                      setTimeout(() => {
+                        setRender(true);
+                      }, 10);
                     }}
                     ACTIVE={date === convertedDate}
                   />

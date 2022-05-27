@@ -151,7 +151,11 @@ function Reports() {
 
           <div className="h-full w-full overflow-y-auto">
             <div className="bg-slate-100 sticky top-0 w-full p-4 z-40 ... inline-flex items-center gap-3 shadow-sm">
-              <span className="px-4 text-lg"> {campusName} </span>
+              {render ? (
+                <span className="px-4 text-lg">{campusName}</span>
+              ) : (
+                <></>
+              )}
 
               <div className="ml-auto inline-flex items-center gap-3">
                 <div className="inline-flex items-center gap-3">
