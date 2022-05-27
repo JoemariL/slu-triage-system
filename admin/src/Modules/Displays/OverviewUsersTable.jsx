@@ -16,7 +16,7 @@ const OverviewUsersTable = ({ USERS }) => {
   const [userData, setUserData] = useState({});
   const [userID, setUserID] = useState("");
 
-  const [userHdf, setUserHdf] = useState({})
+  const [userHdf, setUserHdf] = useState({});
 
   const [viewUser, setViewUser] = useState(false);
 
@@ -78,7 +78,7 @@ const OverviewUsersTable = ({ USERS }) => {
       accessor: "hdf_data",
       Cell: ({ row }) => (
         <span
-          className="font-bold text-blue-900 cursor-pointer hover:text-blue-800 hover:underline hover:underline-offset-2 hover:decoration-blue-800"
+          className="p-2 bg-blue-900 text-white cursor-pointer rounded hover:opacity-70"
           onClick={() => {
             renderViewUser(row.values.id, row.values, row.values.hdf_data);
           }}
@@ -100,7 +100,11 @@ const OverviewUsersTable = ({ USERS }) => {
                 FIRST_NAME={userData.first_name}
                 LAST_NAME={userData.last_name}
                 DEPARTMENT={userData.department}
-                EMAIL={userData.user_type === "VISITOR" ? "--" : userData.email_address}
+                EMAIL={
+                  userData.user_type === "VISITOR"
+                    ? "--"
+                    : userData.email_address
+                }
                 CONTACT={userData.contact_number}
                 ADDRESS={userData.home_address}
                 TYPE={userData.user_type}
@@ -124,8 +128,8 @@ const OverviewUsersTable = ({ USERS }) => {
                   DIFF_BREATHING={userHdf.diff_breathing}
                   DIARRHEA={userHdf.diarrhea}
                   PREGNANT={userHdf.pregnant}
-                  CLOSE={renderViewUser} 
-                  />
+                  CLOSE={renderViewUser}
+                />
               </ModalContent>
               <ModalFooter>
                 <Button

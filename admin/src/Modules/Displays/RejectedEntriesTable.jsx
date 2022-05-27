@@ -144,7 +144,7 @@ const RejectedEntriesTable = ({ USERS }) => {
           )}
         </Modal>
       )}
-      {users.length && <div className="relative overflow-x-auto"><Table COLUMNS={columns} DATA={users} /></div>}
+      {users.length && <div className="relative overflow-x-auto"><Table COLUMNS={columns} DATA={users} NEGATIVE /></div>}
     </>
   );
 };

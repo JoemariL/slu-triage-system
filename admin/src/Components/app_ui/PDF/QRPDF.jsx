@@ -6,7 +6,7 @@ class QRPDF extends React.PureComponent {
     const stylePDF = () => {
       return `@page {
                 size: portrait;
-                size: 7in 9.25in;
+                size: letter;
                 margin: 27mm 16mm 27mm 16mm;
               }`;
     };
@@ -16,25 +16,25 @@ class QRPDF extends React.PureComponent {
         <style>{stylePDF()}</style>
 
         <div className="flex flex-col items-center space-y-10">
-          <div className="space-y-2 text-2xl text-center font-bold">
+          {/* <div className="space-y-2 text-2xl text-center font-bold">
             <p> {this.props.CAMPUS}</p>
             <p> {this.props.GATE}</p>
-          </div>
+          </div> */}
 
           <br />
 
-          <QRCode size={320} value={this.props.QRCODE} />
+          <QRCode size={576} value={this.props.QRCODE} />
 
           <br />
 
-          <footer className="footer ... text-center">
+          {/* <footer className="footer ... text-center">
             <p className="text-gray-600">
               Saint Louis University Triage Application
             </p>
             <p className="block text-sm text-gray-600">
               Copyright © Saint Louis University. All Rights Reserved.
             </p>
-          </footer>
+          </footer> */}
         </div>
       </div>
     );

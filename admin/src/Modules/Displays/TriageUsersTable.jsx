@@ -101,7 +101,7 @@ const TriageUsersTable = () => {
       accessor: "_id",
       Cell: ({ row }) => (
         <span
-          className="font-bold text-blue-900 cursor-pointer hover:text-blue-800 hover:underline hover:underline-offset-2 hover:decoration-blue-800"
+          className="p-2 bg-blue-900 text-white cursor-pointer rounded hover:opacity-70"
           onClick={() => {
             renderManageUser(row.values._id, row.values);
           }}

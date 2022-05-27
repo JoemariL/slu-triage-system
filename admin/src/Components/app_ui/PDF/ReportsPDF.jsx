@@ -20,8 +20,17 @@ class ReportsPDF extends React.PureComponent {
 
             <br />
 
-            <span className="text-2xl font-bold">{this.props.CAMPUS}</span>
-            <span className="text-gray-600">Campus name</span>
+            <div className="inline-flex items-center">
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold">{this.props.CAMPUS}</span>
+                <span className="text-gray-600">Campus name</span>
+              </div>
+
+              <div className="ml-auto flex flex-col">
+                <span>From: {this.props.FROM}</span>
+                <span>To: {this.props.TO}</span>
+              </div>
+            </div>
           </div>
 
           <div className="container mx-auto flex flex-col gap-5">

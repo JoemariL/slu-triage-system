@@ -223,6 +223,8 @@ function Reports() {
         <ReportsPDF
           ref={componentRef}
           CAMPUS={campusName}
+          FROM={fromDate}
+          TO={toDate}
           REPORTS_TABLE={
             <>
               <ReportsTable
@@ -230,11 +232,11 @@ function Reports() {
                 NOT_SEARCHABLE
                 REMOVE_PAGE_CONTROL
               />
-              {/* <RejectedList
+              <RejectedList
                 TOTAL={selectRejects.total}
                 STUDENTS={selectRejects.students}
                 EMPLOYEE={selectRejects.employees}
-              /> */}
+              />
             </>
           }
         />

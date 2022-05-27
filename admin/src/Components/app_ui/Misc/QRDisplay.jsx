@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import html2canvas from "html2canvas";
 import QRCode from "react-qr-code";
 
 import { QRPDF } from "../PDF";
@@ -29,6 +30,10 @@ const QRDisplay = ({
   const toggleIsChecked = () => {
     setIsChecked(!isChecked);
   };
+
+  // const toImage = () => {
+  //   html2canvas(document.body).then((canvas) => canvas.toDataURL());
+  // };
 
   return (
     <>

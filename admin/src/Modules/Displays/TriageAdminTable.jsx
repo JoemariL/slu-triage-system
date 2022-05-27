@@ -68,7 +68,7 @@ const TriageAdminTable = () => {
       Cell: ({ row }) => (
         <>
           <span
-            className="font-bold text-red-900 cursor-pointer hover:text-red-800 hover:underline hover:underline-offset-2 hover:decoration-red-800"
+            className="p-2 bg-red-900 text-white cursor-pointer rounded hover:opacity-70"
             onClick={() =>
               renderConfirmDelete(row.values._id, row.values.username)
             }
