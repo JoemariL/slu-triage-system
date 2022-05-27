@@ -11,12 +11,6 @@ const Navbar = () => {
 
   const { setAuth } = useAuth();
 
-  const [isActive, setIsActive] = useState(1);
-
-  const toggleIsActive = (index) => {
-    setIsActive(index);
-  };
-
   const logoutUser = async (e) => {
     e.preventDefault();
     const response = await logout();
@@ -33,14 +27,13 @@ const Navbar = () => {
         <ul className="w-full ... inline-flex items-center gap-x-3">
           <NavLink
             to="/main"
-            style={({ isActive }) => {
-              if (isActive) toggleIsActive(1);
-            }}
+            className={({ isActive }) =>
+              isActive ? "bg-slate-100 text-black rounded" : ""
+            }
           >
             <li
               className={classnames(
-                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black",
-                isActive === 1 && "bg-slate-100 text-black"
+                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black"
               )}
             >
               DASHBOARD
@@ -49,14 +42,13 @@ const Navbar = () => {
 
           <NavLink
             to="/triageapp-qrcodes"
-            style={({ isActive }) => {
-              if (isActive) toggleIsActive(2);
-            }}
+            className={({ isActive }) =>
+              isActive ? "bg-slate-100 text-black rounded" : ""
+            }
           >
             <li
               className={classnames(
-                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black",
-                isActive === 2 && "bg-slate-100 text-black"
+                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black"
               )}
             >
               CAMPUS & GATE
@@ -65,14 +57,13 @@ const Navbar = () => {
 
           <NavLink
             to="/reports"
-            style={({ isActive }) => {
-              if (isActive) toggleIsActive(3);
-            }}
+            className={({ isActive }) =>
+              isActive ? "bg-slate-100 text-black rounded" : ""
+            }
           >
             <li
               className={classnames(
-                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black",
-                isActive === 3 && "bg-slate-100 text-black"
+                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black"
               )}
             >
               REPORTS
@@ -81,14 +72,13 @@ const Navbar = () => {
 
           <NavLink
             to="/triageapp-users"
-            style={({ isActive }) => {
-              if (isActive) toggleIsActive(4);
-            }}
+            className={({ isActive }) =>
+              isActive ? "bg-slate-100 text-black rounded" : ""
+            }
           >
             <li
               className={classnames(
-                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black",
-                isActive === 4 && "bg-slate-100 text-black"
+                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black"
               )}
             >
               TRIAGE USERS
@@ -97,14 +87,13 @@ const Navbar = () => {
 
           <NavLink
             to="/triageapp-administrators"
-            style={({ isActive }) => {
-              if (isActive) toggleIsActive(5);
-            }}
+            className={({ isActive }) =>
+              isActive ? "bg-slate-100 text-black rounded" : ""
+            }
           >
             <li
               className={classnames(
-                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black",
-                isActive === 5 && "bg-slate-100 text-black"
+                "py-2 px-3 rounded cursor-pointer hover:bg-slate-100 hover:text-black"
               )}
             >
               TRIAGE TEAM
