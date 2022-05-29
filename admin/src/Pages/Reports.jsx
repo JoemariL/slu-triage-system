@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import moment from "moment";
@@ -28,6 +29,11 @@ function Reports() {
   const navigate = useNavigate();
 
   const componentRef = useRef();
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -111,6 +117,32 @@ function Reports() {
           <div className="w-full border-2 lg:w-[28rem]">
             <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
               <span className="text-blue-600 text-lg font-bold">REPORTS</span>
+
+              {isTabletOrMobile && (
+                <div className="ml-auto inline-flex items-center gap-3">
+                  <Input
+                    type="date"
+                    max={new Date().toISOString().slice(0, 10)}
+                    defaultValue={getCurrentDate()}
+                    onChange={(e) => {
+                      const date = convertDateFormat(e.target.value);
+                      setFromDate(date);
+                      setRender(false);
+                    }}
+                  />
+                  <span>to</span>
+                  <Input
+                    type="date"
+                    max={new Date().toISOString().slice(0, 10)}
+                    defaultValue={getCurrentDate()}
+                    onChange={(e) => {
+                      const date = convertDateFormat(e.target.value);
+                      setToDate(date);
+                      setRender(false);
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
@@ -159,29 +191,33 @@ function Reports() {
 
               <div className="ml-auto inline-flex items-center gap-3">
                 <div className="inline-flex items-center gap-3">
-                  <Input
-                    type="date"
-                    max={new Date().toISOString().slice(0, 10)}
-                    defaultValue={getCurrentDate()}
-                    onChange={(e) => {
-                      const date = convertDateFormat(e.target.value);
-                      setFromDate(date);
-                      setRender(false);
-                    }}
-                  />
-                  <span>to</span>
-                  <Input
-                    type="date"
-                    max={new Date().toISOString().slice(0, 10)}
-                    defaultValue={getCurrentDate()}
-                    onChange={(e) => {
-                      const date = convertDateFormat(e.target.value);
-                      setToDate(date);
-                      setRender(false);
-                    }}
-                  />
+                  {isDesktopOrLaptop && (
+                    <>
+                      <Input
+                        type="date"
+                        max={new Date().toISOString().slice(0, 10)}
+                        defaultValue={getCurrentDate()}
+                        onChange={(e) => {
+                          const date = convertDateFormat(e.target.value);
+                          setFromDate(date);
+                          setRender(false);
+                        }}
+                      />
+                      <span>to</span>
+                      <Input
+                        type="date"
+                        max={new Date().toISOString().slice(0, 10)}
+                        defaultValue={getCurrentDate()}
+                        onChange={(e) => {
+                          const date = convertDateFormat(e.target.value);
+                          setToDate(date);
+                          setRender(false);
+                        }}
+                      />
 
-                  <div className="divider"></div>
+                      <div className="divider"></div>
+                    </>
+                  )}
 
                   <Button
                     className="bg-blue-600 text-white w-48 ... rounded"

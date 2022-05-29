@@ -13,7 +13,7 @@ function TriageUsers() {
         </span>
       </div>
 
-      <div className="w-[81rem] mx-auto pt-16 pb-48">
+      <div className="mx-4 pt-16 pb-48 lg:w-[81rem]">
         <TriageUsersTable />
       </div>
     </Background>

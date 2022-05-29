@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import classNames from "classnames";
 import moment from "moment";
 
@@ -29,6 +30,11 @@ import { CampusEmpty, GateEmpty } from "../Assets/Placeholders";
 
 function Main() {
   const navigate = useNavigate();
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const [selectedCampus, setSelectedCampus] = useState({});
   const [campusData, setCampusData] = useState({});
@@ -141,6 +147,32 @@ function Main() {
         <div className="w-full border-2 lg:w-[28rem]">
           <div className="w-full p-2 ... inline-flex justify-between items-center shadow-sm">
             <span className="text-blue-600 text-lg font-bold">DASHBOARD</span>
+
+            {isTabletOrMobile && (
+              <div className="ml-auto inline-flex items-center gap-3">
+                <Input
+                  type="date"
+                  max={new Date().toISOString().slice(0, 10)}
+                  defaultValue={getCurrentDate()}
+                  onChange={(e) => {
+                    const date = convertDateFormat(e.target.value);
+                    setFromDate(date);
+                    setRender(false);
+                  }}
+                />
+                <span>to</span>
+                <Input
+                  type="date"
+                  max={new Date().toISOString().slice(0, 10)}
+                  defaultValue={getCurrentDate()}
+                  onChange={(e) => {
+                    const date = convertDateFormat(e.target.value);
+                    setToDate(date);
+                    setRender(false);
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div
@@ -207,29 +239,31 @@ function Main() {
                   {/* <Searchbar setPlaceholder="Search for a campus" />
                   <div className="divider"></div> */}
 
-                  <div className="inline-flex items-center gap-3">
-                    <Input
-                      type="date"
-                      max={new Date().toISOString().slice(0, 10)}
-                      defaultValue={getCurrentDate()}
-                      onChange={(e) => {
-                        const date = convertDateFormat(e.target.value);
-                        setFromDate(date);
-                        setRender(false);
-                      }}
-                    />
-                    <span>to</span>
-                    <Input
-                      type="date"
-                      max={new Date().toISOString().slice(0, 10)}
-                      defaultValue={getCurrentDate()}
-                      onChange={(e) => {
-                        const date = convertDateFormat(e.target.value);
-                        setToDate(date);
-                        setRender(false);
-                      }}
-                    />
-                  </div>
+                  {isDesktopOrLaptop && (
+                    <div className="inline-flex items-center gap-3">
+                      <Input
+                        type="date"
+                        max={new Date().toISOString().slice(0, 10)}
+                        defaultValue={getCurrentDate()}
+                        onChange={(e) => {
+                          const date = convertDateFormat(e.target.value);
+                          setFromDate(date);
+                          setRender(false);
+                        }}
+                      />
+                      <span>to</span>
+                      <Input
+                        type="date"
+                        max={new Date().toISOString().slice(0, 10)}
+                        defaultValue={getCurrentDate()}
+                        onChange={(e) => {
+                          const date = convertDateFormat(e.target.value);
+                          setToDate(date);
+                          setRender(false);
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="px-6 pt-4 pb-48">

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 import { OverviewUsersTable, OverviewSummaryTable } from "../Modules/Displays";
 
@@ -9,6 +10,11 @@ import { Button, Checkbox, Input, Alert } from "../Components/common";
 function MainOverview() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   const [payload, setPayload] = useState(location.state);
   const [users, userList] = useState(location.state.userList);
@@ -48,7 +54,7 @@ function MainOverview() {
 
       <DualLayout>
         {isHidden && (
-          <div className="w-[28rem] border-r-2">
+          <div className="border-r-2 w-full lg:w-[28rem]">
             <div className="bg-blue-600 text-white p-10 ... flex flex-col items-center text-center">
               <span className="text-2xl font-bold">{payload.allowed}</span>
               <span className="text-sm">ALLLOWED</span>
