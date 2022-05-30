@@ -134,49 +134,53 @@ function Results() {
             MONTH_YEAR={moment(entry_date).format("MMMM Do YYYY")}
           />
 
-          <div className="relative overflow-x-auto shadow-sm">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs uppercase bg-slate-100">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Time
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Campus & Gate
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Destination
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {hdf.length &&
-                  hdf.map((payload) => (
-                    <tr key={payload.id}>
-                      <td className="px-6 py-4">
-                        {payload.entry_date
-                          ? moment(payload.entry_date).format("h:mm:ss a")
-                          : ""}
-                      </td>
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium whitespace-nowrap"
-                      >
-                        <div className="flex flex-col">
-                          <span className="font-bold truncate">
-                            {payload.entry_campus}
-                          </span>
-                          <span className="truncate">{payload.gate_info}</span>
-                        </div>
-                      </th>
-                      <td className="px-6 py-4 truncate">
-                        {payload.destination}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
+          {allowed && (
+            <div className="relative overflow-x-auto shadow-sm">
+              <table className="w-full text-sm text-left">
+                <thead className="text-xs uppercase bg-slate-100">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      Time
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Campus & Gate
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Destination
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {hdf.length &&
+                    hdf.map((payload) => (
+                      <tr key={payload.id}>
+                        <td className="px-6 py-4">
+                          {payload.entry_date
+                            ? moment(payload.entry_date).format("h:mm:ss a")
+                            : ""}
+                        </td>
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium whitespace-nowrap"
+                        >
+                          <div className="flex flex-col">
+                            <span className="font-bold truncate">
+                              {payload.entry_campus}
+                            </span>
+                            <span className="truncate">
+                              {payload.gate_info}
+                            </span>
+                          </div>
+                        </th>
+                        <td className="px-6 py-4 truncate">
+                          {payload.destination}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </MainLayout>
     </Background>
