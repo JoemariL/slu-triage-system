@@ -185,8 +185,8 @@ const HDFForm = ({ HDF_SUCCESS = () => {}, HDF_ERROR = () => {} }) => {
 
       {/* TODO: Will ask for destination input. */}
       <div className="flex flex-col space-y-3">
-        <span className="text-lg">Where will you go within the campus?</span>
         <Input
+          label="Where will you go within the campus?"
           placeholder="Enter your Destination"
           id="deptDestination"
           name="deptDestination"
