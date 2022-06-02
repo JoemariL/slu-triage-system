@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Aos from "aos";
+import {
+  Animator,
+  ScrollContainer,
+  ScrollPage,
+  batch,
+  Fade,
+  FadeIn,
+  Move,
+  MoveIn,
+  MoveOut,
+  Sticky,
+  StickyIn,
+  ZoomIn,
+} from "react-scroll-motion";
+import { FaUserTie } from "react-icons/fa";
 import Cookies from "js-cookie";
+import { MainLayout } from "../Components/app_ui/Layouts";
 import { Disclaimer } from "../Components/app_ui/Articles";
 import { Button } from "../Components/commons";
 import { School } from "../Assets";
@@ -21,22 +36,18 @@ function Introduction() {
     setDisclaimer(!disclaimer);
   };
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState("login");
 
   const homePage = () => {
-    setPage(page - 1);
+    setPage("login");
   };
 
-  const developersPage = () => {
-    setPage(page + 1);
+  const aboutPage = () => {
+    setPage("about");
   };
-
-  useEffect(() => {
-    Aos.init({ duration: 2000 });
-  }, []);
 
   switch (page) {
-    case 1:
+    case "login":
       return (
         <div className="h-screen w-full">
           {!disclaimer && (
@@ -62,17 +73,17 @@ function Introduction() {
                     className="text-xl font-bold cursor-pointer"
                     onClick={homePage}
                   >
-                    Home
+                    Login
                   </li>
-                  <li className="cursor-pointer" onClick={developersPage}>
-                    Developers
+                  <li className="cursor-pointer" onClick={aboutPage}>
+                    About Us
                   </li>
                 </div>
               </ul>
             </nav>
           </div>
 
-          <div className="p-5 h-full ... flex flex-col justify-center items-center gap-5">
+          <div className="py-24 px-5 ... flex flex-col justify-center items-center gap-5">
             <img
               className="h-auto w-32"
               src={School}
@@ -109,55 +120,99 @@ function Introduction() {
         </div>
       );
 
-    case 2:
+    case "about":
       return (
-        <div className="h-screen w-full">
+        <div className="w-full">
           <div className="... sticky top-0 py-5 px-3 z-40">
             <nav>
               <ul className="px-3 w-full inline-flex items-center gap-5">
                 <li className="font-bold">SLU TRIAGE</li>
                 <div className="ml-auto inline-flex items-center gap-5">
                   <li className="cursor-pointer" onClick={homePage}>
-                    Home
+                    Login
                   </li>
                   <li
                     className="text-xl font-bold cursor-pointer"
-                    onClick={developersPage}
+                    onClick={aboutPage}
                   >
-                    Developers
+                    About Us
                   </li>
                 </div>
               </ul>
             </nav>
           </div>
 
-          <div className="py-16 p-5 space-y-5">
-            <div>
-              <p className="font-bold">THE DEVELOPERS</p>
-            </div>
+          <ScrollContainer>
+            <ScrollPage page={0}>
+              <Animator animation={batch(Fade(), Move(), Sticky())}>
+                <div className="w-[18rem] pace-y-3">
+                  <div>
+                    <p className="font-bold text-2xl">
+                      THE SLU TRIAGE APPLICATION
+                    </p>
+                  </div>
+                </div>
+              </Animator>
+            </ScrollPage>
 
-            <div className="grid grid-cols-2 gap-8 ">
-              <div className="flex flex-col">
-                <p className="font-bold">Kristian Harrel J. Zuniga</p>
-                <p className="text-xs">Front-end Developer, UI/UX Designer</p>
-              </div>
+            {/* <div className="bg-blue-400"> */}
+            <ScrollPage page={1}>
+              <Animator animation={batch(StickyIn(), FadeIn(), ZoomIn())}>
+                <div className="w-[18rem] py-16 space-y-10">
+                  <div>
+                    <p className="font-bold text-2xl">THE DEVELOPERS</p>
+                  </div>
 
-              <div className="flex flex-col">
-                <p className="font-bold">Joemari M. Lopez</p>
-                <p className="text-xs">Back-end Developer</p>
-              </div>
+                  <div className="grid grid-cols-2 gap-10">
+                    <div className="flex flex-col gap-3">
+                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                        <FaUserTie className="h-8 w-8" />
+                      </div>
+                      <div>
+                        <p className="font-bold">Kristian Harrel J. Zuniga</p>
+                        <p className="text-xs">
+                          Front-end Developer, UI/UX Designer
+                        </p>
+                      </div>
+                    </div>
 
-              <div className="flex flex-col">
-                <p className="font-bold">Ervin Joshua T. Fernandez</p>
-                <p className="text-xs">Front-end Developer</p>
-              </div>
+                    <div className="flex flex-col gap-3">
+                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                        <FaUserTie className="h-8 w-8" />
+                      </div>
+                      <div>
+                        <p className="font-bold">Joemari M. Lopez</p>
+                        <p className="text-xs">Back-end Developer</p>
+                      </div>
+                    </div>
 
-              <div className="flex flex-col">
-                <p className="font-bold">Athenie Andrei E. Marzan</p>
-                <p className="text-xs">Graphic Designer, UI/UX Designer</p>
-              </div>
-            </div>
-          </div>
+                    <div className="flex flex-col gap-3">
+                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                        <FaUserTie className="h-8 w-8" />
+                      </div>
+                      <div>
+                        <p className="font-bold">Ervin Joshua T. Fernandez</p>
+                        <p className="text-xs">Front-end Developer</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                        <FaUserTie className="h-8 w-8" />
+                      </div>
+                      <div>
+                        <p className="font-bold">Athenie Andrei E. Marzan</p>
+                        <p className="text-xs">
+                          Graphic Designer, UI/UX Designer
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Animator>
+            </ScrollPage>
+            {/* </div> */}
+          </ScrollContainer>
         </div>
       );
 
