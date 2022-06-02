@@ -73,7 +73,7 @@ function Introduction() {
                     className="text-xl font-bold cursor-pointer"
                     onClick={homePage}
                   >
-                    Login
+                    Lo<span className="underline underline-offset-8 decoration-4 decoration-blue-900">gi</span>n
                   </li>
                   <li className="cursor-pointer" onClick={aboutPage}>
                     About Us
@@ -135,7 +135,7 @@ function Introduction() {
                     className="text-xl font-bold cursor-pointer"
                     onClick={aboutPage}
                   >
-                    About Us
+                    Abo<span className="underline underline-offset-8 decoration-4 decoration-blue-900">ut</span> Us
                   </li>
                 </div>
               </ul>
