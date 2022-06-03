@@ -205,7 +205,9 @@ const ProfileUpdateForm = ({
 
       <form className="flex flex-col space-y-5" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-3">
-          <span className="text-md font-bold text-gray-500">DEPARTMENT</span>
+          <span className="text-md font-bold text-gray-500">
+            DEPARTMENT / SCHOOL / OFFICE
+          </span>
           {updateDept ? (
             <div className="space-y-5">
               {user.user_type === "STUDENT" && (
@@ -214,7 +216,7 @@ const ProfileUpdateForm = ({
                     name="department"
                     asFormInput
                     items={STUDENT_DEPTS}
-                    subtitle="Select your new department here to update."
+                    subtitle="Select your new school here to update."
                     onChange={(e) => setDepartment(e.target.value)}
                   />
                   <Button
