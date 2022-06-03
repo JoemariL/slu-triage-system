@@ -76,7 +76,7 @@ function Introduction() {
                     Login
                   </li>
                   <li className="cursor-pointer" onClick={aboutPage}>
-                    About Us
+                    About
                   </li>
                 </div>
               </ul>
@@ -135,7 +135,7 @@ function Introduction() {
                     className="text-xl font-bold cursor-pointer"
                     onClick={aboutPage}
                   >
-                    About Us
+                    About
                   </li>
                 </div>
               </ul>
@@ -146,9 +146,18 @@ function Introduction() {
             <ScrollPage page={0}>
               <Animator animation={batch(Fade(), Move(), Sticky())}>
                 <div className="w-[18rem] pace-y-3">
-                  <div>
+                  <div className="flex flex-col gap-5">
                     <p className="font-bold text-2xl">
                       THE SLU TRIAGE APPLICATION
+                    </p>
+                    <p className="text-lg">
+                      Online Triage System is a web application where it
+                      digitalized the health declaration form for students,
+                      employees and visitors that are coming inside the
+                      University. This web application tracks who entered the
+                      school and it also notifies the person if he or she is
+                      allowed to enter the University according to their filled
+                      Health Declaration Form.
                     </p>
                   </div>
                 </div>
