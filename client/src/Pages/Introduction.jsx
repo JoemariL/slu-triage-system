@@ -155,63 +155,63 @@ function Introduction() {
               </Animator>
             </ScrollPage>
 
-            {/* <div className="bg-blue-400"> */}
-            <ScrollPage page={1}>
-              <Animator animation={batch(StickyIn(), FadeIn(), ZoomIn())}>
-                <div className="w-[18rem] py-16 space-y-10">
-                  <div>
-                    <p className="font-bold text-2xl">THE DEVELOPERS</p>
+            <div>
+              <ScrollPage page={1}>
+                <Animator animation={batch(StickyIn(), FadeIn(), ZoomIn())}>
+                  <div className="w-[18rem] py-16 space-y-10">
+                    <div>
+                      <p className="font-bold text-2xl">THE DEVELOPERS</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-10">
+                      <div className="flex flex-col gap-3">
+                        <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
+                          <FaUserTie className="h-8 w-8" />
+                        </div>
+                        <div>
+                          <p className="font-bold">Kristian Harrel J. Zuniga</p>
+                          <p className="text-xs">
+                            Front-end Developer, UI/UX Designer
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-3">
+                        <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
+                          <FaUserTie className="h-8 w-8" />
+                        </div>
+                        <div>
+                          <p className="font-bold">Joemari M. Lopez</p>
+                          <p className="text-xs">Back-end Developer</p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-3">
+                        <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
+                          <FaUserTie className="h-8 w-8" />
+                        </div>
+                        <div>
+                          <p className="font-bold">Ervin Joshua T. Fernandez</p>
+                          <p className="text-xs">Front-end Developer</p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-3">
+                        <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
+                          <FaUserTie className="h-8 w-8" />
+                        </div>
+                        <div>
+                          <p className="font-bold">Athenie Andrei E. Marzan</p>
+                          <p className="text-xs">
+                            Graphic Designer, UI/UX Designer
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-
-                  <div className="grid grid-cols-2 gap-10">
-                    <div className="flex flex-col gap-3">
-                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
-                        <FaUserTie className="h-8 w-8" />
-                      </div>
-                      <div>
-                        <p className="font-bold">Kristian Harrel J. Zuniga</p>
-                        <p className="text-xs">
-                          Front-end Developer, UI/UX Designer
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-3">
-                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
-                        <FaUserTie className="h-8 w-8" />
-                      </div>
-                      <div>
-                        <p className="font-bold">Joemari M. Lopez</p>
-                        <p className="text-xs">Back-end Developer</p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-3">
-                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
-                        <FaUserTie className="h-8 w-8" />
-                      </div>
-                      <div>
-                        <p className="font-bold">Ervin Joshua T. Fernandez</p>
-                        <p className="text-xs">Front-end Developer</p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-3">
-                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
-                        <FaUserTie className="h-8 w-8" />
-                      </div>
-                      <div>
-                        <p className="font-bold">Athenie Andrei E. Marzan</p>
-                        <p className="text-xs">
-                          Graphic Designer, UI/UX Designer
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Animator>
-            </ScrollPage>
-            {/* </div> */}
+                </Animator>
+              </ScrollPage>
+            </div>
           </ScrollContainer>
         </div>
       );

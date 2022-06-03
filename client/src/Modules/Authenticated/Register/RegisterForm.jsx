@@ -78,7 +78,7 @@ const RegisterForm = ({
   REGISTER_SUCCESS = () => {},
   REGISTER_ERROR = () => {},
 }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     changeHandler,
@@ -128,8 +128,8 @@ const RegisterForm = ({
       {formValues.userType === "STUDENT" && (
         <div className="flex flex-col space-y-3">
           <p className="text-lg">
-            Select your Department (Student)
-            <span className="text-red-600">*</span>
+            Select your School (Student)
+            <span className="text-red-600"> *</span>
           </p>
           <Select
             name="department"
@@ -144,7 +144,7 @@ const RegisterForm = ({
         <div className="flex flex-col space-y-3">
           <p className="text-lg">
             Select your Office (Employee)
-            <span className="text-red-600">*</span>
+            <span className="text-red-600"> *</span>
           </p>
           <Select
             name="department"
