@@ -165,7 +165,7 @@ function Introduction() {
 
                   <div className="grid grid-cols-2 gap-10">
                     <div className="flex flex-col gap-3">
-                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
                         <FaUserTie className="h-8 w-8" />
                       </div>
                       <div>
@@ -177,7 +177,7 @@ function Introduction() {
                     </div>
 
                     <div className="flex flex-col gap-3">
-                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
                         <FaUserTie className="h-8 w-8" />
                       </div>
                       <div>
@@ -187,7 +187,7 @@ function Introduction() {
                     </div>
 
                     <div className="flex flex-col gap-3">
-                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
                         <FaUserTie className="h-8 w-8" />
                       </div>
                       <div>
@@ -197,7 +197,7 @@ function Introduction() {
                     </div>
 
                     <div className="flex flex-col gap-3">
-                      <div className="p-2 shadow-sm bg-slate-100 rounded">
+                      <div className="p-2 flex flex-col items-center shadow-sm bg-slate-100 rounded">
                         <FaUserTie className="h-8 w-8" />
                       </div>
                       <div>
