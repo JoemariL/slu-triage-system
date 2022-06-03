@@ -67,7 +67,7 @@ function Introduction() {
           <div className="... sticky top-0 py-5 px-3 z-40">
             <nav>
               <ul className="px-3 w-full inline-flex items-center gap-5">
-                <li className="font-bold">SLU TRIAGE</li>
+                <li className="font-bold text-blue-900">SLU TRIAGE</li>
                 <div className="ml-auto inline-flex items-center gap-5">
                   <li
                     className="text-xl font-bold cursor-pointer"
@@ -126,7 +126,7 @@ function Introduction() {
           <div className="... sticky top-0 py-5 px-3 z-40">
             <nav>
               <ul className="px-3 w-full inline-flex items-center gap-5">
-                <li className="font-bold">SLU TRIAGE</li>
+                <li className="font-bold text-blue-900">SLU TRIAGE</li>
                 <div className="ml-auto inline-flex items-center gap-5">
                   <li className="cursor-pointer" onClick={homePage}>
                     Login
@@ -145,10 +145,10 @@ function Introduction() {
           <ScrollContainer>
             <ScrollPage page={0}>
               <Animator animation={batch(Fade(), Move(), Sticky())}>
-                <div className="w-[18rem] pace-y-3">
+                <div className="w-[18rem] space-y-3">
                   <div className="flex flex-col gap-5">
-                    <p className="font-bold text-2xl">
-                      THE SLU TRIAGE APPLICATION
+                    <p className="font-bold text-2xl text-blue-900">
+                      SAINT LOUIS UNIVERSITY TRIAGE APPLICATION
                     </p>
                     <p className="text-lg">
                       Online Triage System is a web application where it
@@ -159,6 +159,9 @@ function Introduction() {
                       allowed to enter the University according to their filled
                       Health Declaration Form.
                     </p>
+                    {/* <div className="p-2 w-full inline-flex items-center justify-center bg-black text-white">
+                      <p>Scroll down to see the developers</p>
+                    </div> */}
                   </div>
                 </div>
               </Animator>
