@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { ImCheckmark, ImCross } from "react-icons/im";
-import { MdQrCodeScanner } from "react-icons/md";
+import { MdQrCodeScanner, MdPending } from "react-icons/md";
 
 import useAuth from "../../hooks/useAuth";
 
@@ -69,7 +69,7 @@ function Main() {
   };
 
   const { first_name, last_name, email_address } = user;
-  const { allowed } = hdf;
+  const { allowed, entry_date } = hdf;
 
   return (
     <Background>
@@ -114,22 +114,40 @@ function Main() {
               />
             )}
 
-            {hasHDF && (
+            {entry_date ? (
               <>
-                {allowed && (
-                  <Icon
-                    roundedFull
-                    className="bg-blue-600 text-white"
-                    icon={<ImCheckmark className="h-4 w-4" />}
-                  />
-                )}
+                {hasHDF && (
+                  <>
+                    {allowed && (
+                      <Icon
+                        roundedFull
+                        className="bg-blue-600 text-white"
+                        icon={<ImCheckmark className="h-4 w-4" />}
+                      />
+                    )}
 
-                {!allowed && (
-                  <Icon
-                    roundedFull
-                    className="bg-red-600 text-white"
-                    icon={<ImCross className="h-4 w-4" />}
-                  />
+                    {!allowed && (
+                      <Icon
+                        roundedFull
+                        className="bg-red-600 text-white"
+                        icon={<ImCross className="h-4 w-4" />}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                {hasHDF && (
+                  <>
+                    {allowed && (
+                      <Icon
+                        roundedFull
+                        className="bg-yellow-600 text-white"
+                        icon={<MdPending className="h-4 w-4" />}
+                      />
+                    )}
+                  </>
                 )}
               </>
             )}
@@ -161,16 +179,34 @@ function Main() {
         {hasHDF && (
           <div className="flex flex-col space-y-10">
             <div className="bottom-0 grid grid-cols-2 gap-x-3">
-              {allowed && (
-                <Button
-                  className="rounded-full bg-blue-600 text-white"
-                  label="VIEW RESULT"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/hdf/result");
-                  }}
-                  disabled={isLoading}
-                />
+              {entry_date ? (
+                <>
+                  {allowed && (
+                    <Button
+                      className="rounded-full bg-blue-600 text-white"
+                      label="VIEW RESULT"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/hdf/result");
+                      }}
+                      disabled={isLoading}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  {allowed && (
+                    <Button
+                      className="rounded-full bg-yellow-600 text-white"
+                      label="VIEW RESULT"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/hdf/result");
+                      }}
+                      disabled={isLoading}
+                    />
+                  )}
+                </>
               )}
 
               {!allowed && (
@@ -198,7 +234,7 @@ function Main() {
                 />
               )}
             </div>
-            
+
             {allowed && (
               <div className="px-2">
                 <span>

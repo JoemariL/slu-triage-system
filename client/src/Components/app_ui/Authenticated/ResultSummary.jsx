@@ -1,4 +1,5 @@
 import { ImCheckmark, ImCross } from "react-icons/im";
+import classNames from "classnames";
 
 import { Button, Icon, List, ListItem } from "../../commons";
 import { Approved, Disapproved } from "../../../Assets";
@@ -7,7 +8,7 @@ const ResultSummary = ({
   ENTRY_STATUS = false,
   DAY = "",
   MONTH_YEAR = "",
-  FULL_DATE = "",
+  ENTRY_DATE = "",
 }) => {
   return (
     <div className="flex flex-col space-y-10">
@@ -15,13 +16,19 @@ const ResultSummary = ({
         <div className="text-lg">
           {ENTRY_STATUS && (
             <ListItem
-              className="w-full rounded-t select-none bg-blue-600 text-white"
+              className={classNames(
+                ENTRY_DATE
+                  ? "w-full rounded-t select-none bg-blue-600 text-white"
+                  : "w-full rounded-t select-none bg-yellow-600 text-white"
+              )}
               icon={
-                <Icon
-                  roundedFull
-                  className="bg-blue-400 text-white"
-                  icon={<ImCheckmark className="h-4 w-4" />}
-                />
+                ENTRY_DATE && (
+                  <Icon
+                    roundedFull
+                    className="bg-blue-400 text-white"
+                    icon={<ImCheckmark className="h-4 w-4" />}
+                  />
+                )
               }
               label="ENTRY ALLOWED"
               subtitle="Entry status"
@@ -55,7 +62,13 @@ const ResultSummary = ({
             {ENTRY_STATUS ? (
               <>
                 <p>YOU ARE ALLOWED TO ENTER THE CAMPUS.</p>
-                <div className="w-fit p-3 flex flex-col bg-blue-600 text-white rounded md:flex-row md:space-x-1">
+                <div
+                  className={classNames(
+                    ENTRY_DATE
+                      ? "w-fit p-3 flex flex-col bg-blue-600 text-white rounded md:flex-row md:space-x-1"
+                      : "w-fit p-3 flex flex-col bg-yellow-600 text-white rounded md:flex-row md:space-x-1"
+                  )}
+                >
                   <p className="text-xl font-bold">{DAY}</p>
                   <p className="text-xl font-bold">{MONTH_YEAR}</p>
                 </div>

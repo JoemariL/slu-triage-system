@@ -132,6 +132,7 @@ function Results() {
             ENTRY_STATUS={allowed}
             DAY={moment(entry_date).format("dddd,")}
             MONTH_YEAR={moment(entry_date).format("MMMM Do YYYY")}
+            ENTRY_DATE={entry_date}
           />
 
           {allowed && (

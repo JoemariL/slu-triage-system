@@ -173,6 +173,10 @@ function Introduction() {
                   <div className="w-[18rem] py-16 space-y-10">
                     <div>
                       <p className="font-bold text-2xl">THE DEVELOPERS</p>
+                      <p>
+                        In cooperation with TMDD, SLU TRIAGE TEAM and The
+                        DEVELOPERS BSIT BATCH 2022.
+                      </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-10">
