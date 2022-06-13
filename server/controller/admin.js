@@ -37,17 +37,10 @@ router.post("/admin/login", async (req, res) => {
             token: refreshToken
         })
         await saveToken.save()
-        if (process.env.NODE_ENV === "PRODUCTION"){
-            return res.status(200)
-            .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 86000 * 1000), secure: true })
-            .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 86000 * 1000) , httpOnly: true, secure: true})
-            .send('Cookies registered')
-        } else {
             return res.status(200)
             .cookie("accessToken", accessToken, { expires: new Date(new Date().getTime() + 86000 * 1000) })
             .cookie("refreshToken", refreshToken, { expires: new Date(new Date().getTime() + 86000 * 1000) })
             .send('Cookies registered')
-        }
     } catch (error) {
         return res.status(200).json({ errors: { message:'error occurred'}})
     }
