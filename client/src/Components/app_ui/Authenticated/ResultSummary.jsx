@@ -9,6 +9,7 @@ const ResultSummary = ({
   DAY = "",
   MONTH_YEAR = "",
   ENTRY_DATE = "",
+  HDF = {}
 }) => {
   return (
     <div className="flex flex-col space-y-10">
@@ -17,7 +18,7 @@ const ResultSummary = ({
           {ENTRY_STATUS && (
             <ListItem
               className={classNames(
-                ENTRY_DATE
+                HDF.entry_date
                   ? "w-full rounded-t select-none bg-blue-600 text-white"
                   : "w-full rounded-t select-none bg-yellow-600 text-white"
               )}
@@ -64,7 +65,7 @@ const ResultSummary = ({
                 <p>YOU ARE ALLOWED TO ENTER THE CAMPUS.</p>
                 <div
                   className={classNames(
-                    ENTRY_DATE
+                    HDF.entry_date
                       ? "w-fit p-3 flex flex-col bg-blue-600 text-white rounded md:flex-row md:space-x-1"
                       : "w-fit p-3 flex flex-col bg-yellow-600 text-white rounded md:flex-row md:space-x-1"
                   )}

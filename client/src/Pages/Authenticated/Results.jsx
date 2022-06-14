@@ -133,6 +133,7 @@ function Results() {
             DAY={moment(entry_date).format("dddd,")}
             MONTH_YEAR={moment(entry_date).format("MMMM Do YYYY")}
             ENTRY_DATE={entry_date}
+            HDF={hdf[0]}
           />
 
           {allowed && (
