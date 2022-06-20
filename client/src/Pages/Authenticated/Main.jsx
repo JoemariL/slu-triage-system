@@ -125,14 +125,6 @@ function Main() {
                         icon={<ImCheckmark className="h-4 w-4" />}
                       />
                     )}
-
-                    {!allowed && (
-                      <Icon
-                        roundedFull
-                        className="bg-red-600 text-white"
-                        icon={<ImCross className="h-4 w-4" />}
-                      />
-                    )}
                   </>
                 )}
               </>
@@ -150,6 +142,14 @@ function Main() {
                   </>
                 )}
               </>
+            )}
+
+            {!allowed && (
+              <Icon
+                roundedFull
+                className="bg-red-600 text-white"
+                icon={<ImCross className="h-4 w-4" />}
+              />
             )}
           </div>
         </div>
