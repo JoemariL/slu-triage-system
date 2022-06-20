@@ -89,7 +89,7 @@ function TriageQR() {
     } else {
       alert("CAMPUS DELETED SUCCESSFULLY!");
       setIsLoading(false);
-      renderRemoveGate();
+      renderRemoveCampus();
     }
     setController(!controller);
   };
