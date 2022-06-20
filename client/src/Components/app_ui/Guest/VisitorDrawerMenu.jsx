@@ -20,7 +20,6 @@ const VisitorDrawerMenu = ({
             className="ml-auto rounded-full bg-slate-100 focus:outline-none hover:bg-white"
             type="button"
             onClick={RETURN}
-            disabled={disabled}
           >
             <Icon icon={<IoReturnDownBackOutline className="h-6 w-6" />} />
           </button>
@@ -47,14 +46,16 @@ const VisitorDrawerMenu = ({
             />
           </Menu>
 
-          <Menu position="vertical">
-            <MenuItem
-              className="bg-slate-100"
-              label="DELETE ALL OF MY INFORMATION"
-              subtitle="Click this option if you wish to renew your Health Declaration Form or delete all your information."
-              onClick={RESET}
-            />
-          </Menu>
+          {!disabled && (
+            <Menu position="vertical">
+              <MenuItem
+                className="bg-slate-100"
+                label="DELETE ALL OF MY INFORMATION"
+                subtitle="Click this option if you wish to renew your Health Declaration Form or delete all your information."
+                onClick={RESET}
+              />
+            </Menu>
+          )}
         </div>
       </div>
     </div>
